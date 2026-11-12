@@ -324,6 +324,45 @@ html,body{max-width:100%;overflow-x:clip}
 .faq summary{padding:10px 11px}
 .footer{padding-bottom:16px}
 }
+
+/* Balance the two hero cards as one visual pair; leave content and links intact */
+.hero{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:10px;align-items:stretch}
+.hero .offer,.hero .legend{align-self:stretch;min-height:225px;border-radius:22px;box-shadow:0 4px 15px #173b2919}
+.hero .offer{display:flex;flex-direction:column;justify-content:space-between;padding:15px 13px 13px!important}
+.hero .offer h2{font-size:clamp(15px,3.7vw,18px);font-weight:850;line-height:1.2;margin:0}
+.hero .offer .big{margin:8px 0;gap:0}
+.hero .offer .big span{font-size:clamp(20px,4.8vw,24px);line-height:1.1}
+.hero .offer .big strong{font-size:clamp(38px,9.8vw,46px);letter-spacing:-1px;line-height:1.04}
+.hero .offer p{font-size:9px;line-height:1.4;margin:0}
+.hero .legend{display:flex;flex-direction:column;justify-content:space-between;padding:13px 12px!important;gap:0}
+.hero .legend strong{font-size:clamp(15px,3.7vw,18px);line-height:1.2;margin:0 0 4px;color:#065139}
+.hero .legend-summary{flex:1;display:flex;align-items:center;padding:8px 0;border-top:1px solid #e0ece4;font-size:clamp(10px,2.55vw,12px);line-height:1.3;font-weight:700;gap:7px}
+.hero .legend-summary:first-of-type{border-top:0}
+.hero .legend-summary .hero-benefit-icon{width:20px;height:20px;flex:0 0 20px}
+@media(max-width:374px) and (min-width:340px){
+.hero{column-gap:8px}
+.hero .offer,.hero .legend{min-height:218px;border-radius:18px}
+.hero .offer{padding:11px 10px!important}
+.hero .legend{padding:10px 9px!important}
+.hero .offer h2{font-size:14px}
+.hero .offer .big strong{font-size:37px}
+.hero .offer p{font-size:8.5px}
+.hero .legend strong{font-size:14px}
+.hero .legend-summary{font-size:9px;padding:7px 0;gap:5px}
+.hero .legend-summary .hero-benefit-icon{width:17px;height:17px;flex-basis:17px}
+}
+@media(max-width:339px){
+.hero{grid-template-columns:1fr}
+.hero .offer,.hero .legend{min-height:0;border-radius:19px}
+.hero .offer{gap:9px;padding:12px!important}
+.hero .offer .big{flex-direction:row;align-items:baseline;gap:9px;margin:0}
+.hero .offer .big strong{font-size:43px}
+.hero .offer p{font-size:10px}
+.hero .legend{gap:8px;padding:12px!important}
+.hero .legend strong{margin:0}
+.hero .legend-summary{border:0;padding:0;font-size:10px}
+.hero .legend-summary:last-child{grid-column:auto}
+}
 </style></head><body><main class="site"><section class="hero"><div class="station"></div><header class="header"><div class="brand"><img class="appicon" src="./fuelgo-logo.svg" alt="FuelGo" width="51" height="51"><div><strong>FuelGo</strong><small>Tu app de combustible</small></div></div><span class="wallet-pill">Nequi · DaviPlata · más</span></header><div class="offer"><h2>Ahorra en tu tanqueada</h2><div class="big"><span>Hasta</span><strong>50%*</strong></div><p>*Consulta las promociones vigentes en la app FuelGo.</p></div><aside class="legend" lang="es-CO" aria-label="Beneficios FuelGo"><strong>Tus beneficios</strong><span class="legend-summary"><svg class="hero-benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-3a2 2 0 0 0 0-4z"/><path d="M12 5v14" stroke-dasharray="2 3"/></svg><span>Cupones de combustible</span></span><span class="legend-summary"><svg class="hero-benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h14v4M3 7h18v14H5a2 2 0 0 1-2-2V7z"/><path d="M16 12h5v5h-5a2.5 2.5 0 0 1 0-5z"/></svg><span>Cashback en tu cuenta</span></span><span class="legend-summary"><svg class="hero-benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Estaciones participantes</span></span></aside><div class="hero-action"><a class="download" data-download href="#descarga"><svg class="hero-download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4"/><path d="M5 17v3h14v-3"/></svg><span>Descargar FuelGo</span><svg class="hero-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a></div></section><div class="hero-trust" aria-label="Ventajas de FuelGo"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3zM7 10l4-7a2 2 0 0 1 3 2v5h6a2 2 0 0 1 2 2l-1 7a2 2 0 0 1-2 2H7"/></svg><span>Ahorro real</span></div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg><span>Seguro y confiable</span></div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 10-12h-7l0-8z"/></svg><span>Fácil de usar</span></div></div>
 <section class="section intro"><h1>Ahorra más en cada tanqueada.</h1><p>Consulta descuentos en gasolina y diésel, cupones y beneficios en FuelGo. Revisa los requisitos y la vigencia de cada promoción en la app.</p><div class="fuelgrid"><article class="fuel"><header>⛽ Gasolina</header><main><strong class="offer-status">Descuentos y cashback</strong><p>Hasta un 50 % de descuento o cashback en promociones seleccionadas.*</p><small>*Consulta las condiciones vigentes de cada promoción en FuelGo.</small></main></article><article class="fuel"><header>⛽ Diésel</header><main><strong class="offer-status">Descuentos y cashback</strong><p>Hasta un 50 % de descuento o cashback en promociones seleccionadas.*</p><small>*Consulta las condiciones vigentes de cada promoción en FuelGo.</small></main></article></div></section>
 <section class="section steps"><h2>¡Obtén tus descuentos en combustible en solo 2 pasos!</h2><ol><li><span class="num">1</span><span class="step-icon"><svg class="step-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4M12 6v8m-3-3 3 3 3-3"/></svg></span><span class="step-content"><strong>Descarga FuelGo</strong><span>Descarga la app y consulta las ofertas disponibles.</span></span></li><li><span class="num">2</span><span class="step-icon"><svg class="step-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-3a2 2 0 0 0 0-4V7z"/><path d="M12 5v14" stroke-dasharray="2 3"/></svg></span><span class="step-content"><strong>Disfruta tu descuento</strong><span>Elige tu oferta, visita la estación participante y presenta tu código QR.</span></span></li></ol><a class="download" data-download href="#descarga">Descargar FuelGo</a></section>
