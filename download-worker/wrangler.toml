@@ -1,0 +1,16 @@
+name = "fuelgo-apk-router"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+workers_dev = false
+
+[[durable_objects.bindings]]
+name = "ROUTER"
+class_name = "DownloadRouter"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["DownloadRouter"]
+
+# Place DOWNLOAD_POOL in Cloudflare Worker secrets, never in GitHub or page HTML.
+# Cloudflare Pages requires a separate Durable Object binding:
+# FUELGO_ROUTER -> DownloadRouter in worker fuelgo-apk-router.
