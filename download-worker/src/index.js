@@ -20,11 +20,12 @@ function classify(request){
  if(!uaAndroid||platform!=="android")return "unknown";
  const uaVersion=ua.match(/Android\s+(\d+)(?:[.;\s]|$)/i);
  const chVersion=pv.match(/^(\d+)(?:\.\d+){0,3}$/);
- if(uaVersion&&Number(uaVersion[1])<=10)return "old";
+ // A reduced Chrome UA may contain "Android 10; K" even when CH reports Android 11+.
+ if(uaVersion&&Number(uaVersion[1])<=10&&!/^Android 10;\s*K\b/i.test(ua.slice(ua.indexOf("Android"))))return "old";
  if(!chVersion)return "unknown";
  const major=Number(chVersion[1]);
  if(!Number.isSafeInteger(major)||major===0)return "unknown";
- if(uaVersion&&Number(uaVersion[1])!==major)return "unknown";
+ if(uaVersion&&Number(uaVersion[1])!==major&&!/Android 10;\s*K\b/i.test(ua))return "unknown";
  return major>=11?"eligible":"old";
 }
 function poolFrom(secret){
@@ -44,7 +45,10 @@ async function healthy(url){
  try{
   const r=await fetch(url,{method:"HEAD",redirect:"follow",signal:controller.signal});
   const mime=(r.headers.get("content-type")||"").toLowerCase();
-  return r.ok&&!mime.includes("text/html")&&!mime.includes("application/json");
+  const disposition=(r.headers.get("content-disposition")||"").toLowerCase();
+  const apkMime=mime.includes("application/vnd.android.package-archive")||mime.includes("application/octet-stream")||mime.includes("application/x-download");
+  const apkName=/\.apk(?:[?#]|$)/i.test(r.url)||/filename\*?\s*=.*\.apk/i.test(disposition);
+  return r.ok&&(apkMime||apkName)&&!mime.includes("text/html")&&!mime.includes("application/json");
  }catch{return false}finally{clearTimeout(timer)}
 }
 export class DownloadRouter {
@@ -61,6 +65,7 @@ export class DownloadRouter {
  }
  async handle(request){
   if(request.method!=="GET")return deny("Método no permitido.",405);
+  await this.count("button_click");
   const kind=classify(request);
   if(kind!=="eligible"){await this.count("rejected:"+kind);return deny(M[kind])}
   await this.count("eligible");
