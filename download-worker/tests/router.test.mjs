@@ -6,7 +6,8 @@ function state(){
  const data=new Map();
  return {data,storage:{
   get:async k=>data.get(k),
-  put:async(k,v)=>{data.set(k,v)}
+  put:async(k,v)=>{data.set(k,v)},
+  list:async({prefix}={})=>new Map([...data].filter(([k])=>!prefix||k.startsWith(prefix)))
  }};
 }
 function request(ua,platform,version){
