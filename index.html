@@ -539,6 +539,14 @@ html,body{max-width:100%;overflow-x:clip}
   if(adId)target.searchParams.set("ad_id",adId);
   link.href=target.pathname+target.search;
  });
+ // fuelgo-first-party-metrics-v1: aggregate events, no personal identifiers.
+ function countSiteEvent(eventName){
+  try{
+   fetch("/api/metric",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event:eventName,ad_id:adId||"unattributed"}),credentials:"same-origin",keepalive:true,cache:"no-store"}).catch(()=>{});
+  }catch(e){}
+ }
+ countSiteEvent("PageView");
+ document.querySelectorAll("a[data-download]").forEach(link=>link.addEventListener("click",()=>countSiteEvent("DownloadClick")));
  const pixelId="190746353614212";
  const storageKey="fuelgo_meta_measurement_consent_v1";
  const banner=document.getElementById("fg-consent");
