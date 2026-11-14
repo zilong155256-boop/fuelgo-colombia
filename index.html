@@ -530,6 +530,15 @@ html,body{max-width:100%;overflow-x:clip}
 <div class="fg-consent" id="fg-consent" role="dialog" aria-label="Preferencias de medición" hidden><p>¿Aceptas cookies de medición de Meta para analizar visitas y clics de descarga? Puedes rechazar sin afectar el uso del sitio. <a href="./privacidad.html">Política de privacidad</a>.</p><div class="fg-consent-actions"><button type="button" class="fg-decline" id="fg-decline">Rechazar</button><button type="button" class="fg-accept" id="fg-accept">Aceptar</button></div></div>
 <script>
 (function(){
+ // Forward only the campaign ad ID to the download endpoint.
+ const landingParams=new URLSearchParams(window.location.search);
+ const rawAdId=landingParams.get("utm_content")||landingParams.get("ad_id")||"";
+ const adId=/^[A-Za-z0-9_-]{1,64}$/.test(rawAdId)?rawAdId:"";
+ document.querySelectorAll("a[data-download]").forEach(link=>{
+  const target=new URL(link.getAttribute("href"),window.location.origin);
+  if(adId)target.searchParams.set("ad_id",adId);
+  link.href=target.pathname+target.search;
+ });
  const pixelId="190746353614212";
  const storageKey="fuelgo_meta_measurement_consent_v1";
  const banner=document.getElementById("fg-consent");
@@ -550,7 +559,7 @@ html,body{max-width:100%;overflow-x:clip}
  document.getElementById("fg-decline").addEventListener("click",()=>setPreference("no"));
  document.querySelectorAll("a[data-download]").forEach((link,index)=>{
   link.addEventListener("click",()=>{
-   if(granted&&typeof fbq==="function")fbq("trackCustom","DownloadClick",{button_position:index+1});
+   if(granted&&typeof fbq==="function")fbq("trackCustom","DownloadClick",{button_position:index+1,ad_id:adId||"unattributed"});
   });
  });
 })();
