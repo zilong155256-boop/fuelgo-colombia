@@ -561,7 +561,7 @@ html,body{max-width:100%;overflow-x:clip}
  }
  let preference=null;
  try{preference=localStorage.getItem(storageKey)}catch(e){}
- if(preference==="yes")enablePixel();
+ // Explicit self-test mode: visiting with ?meta_test=1 opts this browser pageview into Meta Pixel for learning.\n if(preference==="yes" || landingParams.get("meta_test")==="1")enablePixel();
  // Do not interrupt the landing page on the first visit. Optional tracking remains off until opted in.
  function setPreference(value){try{localStorage.setItem(storageKey,value)}catch(e){}banner.hidden=true;if(value==="yes")enablePixel()}
  document.getElementById("fg-cookie-settings").addEventListener("click",()=>{banner.hidden=false});
