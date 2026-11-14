@@ -82,7 +82,7 @@ export class DownloadRouter {
      const m=name.match(/^ad:([A-Za-z0-9_-]{1,64}):(page_view|download_click|allocation_succeeded)$/);
      if(m){const row=data.byAd[m[1]]||(data.byAd[m[1]]={pageView:0,downloadClick:0,downloadAssigned:0});row[m[2]==="page_view"?"pageView":m[2]==="download_click"?"downloadClick":"downloadAssigned"]=n}
     }else if(name.startsWith("link:")){
-     const m=name.match(/^link:([-\\w]{1,48}):allocated$/);
+     const m=name.match(/^link:([A-Za-z0-9_-]{1,48}):allocated$/);
      if(m)data.byLink[m[1]]=n;
     }
    }
