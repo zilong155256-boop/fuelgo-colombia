@@ -21,25 +21,15 @@ const pool=JSON.stringify([{id:"a",url:"https://apk.example/a.apk",enabled:true,
 const originalFetch=globalThis.fetch;
 globalThis.fetch=async url=>new Response(null,{status:200,headers:{"content-type":"application/vnd.android.package-archive"}});
 
-test("all unsupported and unknown devices fail without consuming round-robin index",async()=>{
+test("all devices can request the shared rotation",async()=>{
  const st=state();const router=new DownloadRouter(st,{DOWNLOAD_POOL:pool});
- const cases=[
-  [android(10),403,"Android 11"],
-  [request("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)","iOS","17.0.0"),403,"únicamente"],
-  [request("Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X)","iOS","17.0.0"),403,"únicamente"],
-  [request("Mozilla/5.0 (Macintosh; Intel Mac OS X)","macOS","14.0.0"),403,"únicamente"],
-  [request("Mozilla/5.0 (Windows NT 10.0)","Windows","10.0.0"),403,"únicamente"],
-  [request("Mozilla/5.0 (Linux; Android 14; Pixel)",null,null),403,"No pudimos verificar"],
-  [request("Mozilla/5.0 (Linux; Android 14; Pixel)","Android",null),403,"No pudimos verificar"],
-  [request("Mozilla/5.0 (Linux; Android 13; Pixel)","Android","14.0.0"),403,"No pudimos verificar"]
- ];
- for(const [req,status,body] of cases){
-  const res=await router.fetch(req);
-  assert.equal(res.status,status);
-  assert.ok((await res.text()).includes(body));
+ const requests=[android(10),request("Mozilla/5.0 (iPhone)","iOS","17.0.0"),request("Mozilla/5.0 (Windows NT 10.0)","Windows","10.0.0")];
+ for(let i=0;i<requests.length;i++){
+  const res=await router.fetch(requests[i]);
+  assert.equal(res.status,302);
+  assert.equal(res.headers.get("location"),i%2===0?"https://apk.example/a.apk":"https://apk.example/b.apk");
  }
- assert.equal(st.data.get("round_robin_position"),undefined);
- assert.equal(st.data.get("count:allocation_succeeded"),undefined);
+ assert.equal(st.data.get("count:allocation_succeeded"),3);
 });
 test("eligible Android 11-16 rotates without link duplication errors",async()=>{
  const st=state();const router=new DownloadRouter(st,{DOWNLOAD_POOL:pool});
@@ -54,10 +44,13 @@ test("eligible Android 11-16 rotates without link duplication errors",async()=>{
  assert.equal(st.data.get("count:button_click"),6);
  assert.equal(st.data.get("round_robin_position"),0);
 });
-test("reduced Android 10; K UA is resolved via Android Client Hints",async()=>{
- const router=new DownloadRouter(state(),{DOWNLOAD_POOL:pool});
- assert.equal((await router.fetch(reduced(14))).status,302);
- assert.equal((await router.fetch(reduced(10))).status,403);
+test("ad ID is counted only after a successful assignment",async()=>{
+ const st=state();const router=new DownloadRouter(st,{DOWNLOAD_POOL:pool});
+ const req=new Request("https://fuelgo.example/api/download?ad_id=123456",{headers:{"User-Agent":"Mozilla/5.0 (iPhone)"}});
+ const res=await router.fetch(req);
+ assert.equal(res.status,302);
+ assert.equal(st.data.get("count:ad:123456:allocation_succeeded"),1);
+ assert.equal(st.data.get("latest_assignment").ad_id,"123456");
 });
 test("unconfigured pool fails closed",async()=>{
  const st=state();const router=new DownloadRouter(st,{});
