@@ -1,6 +1,6 @@
 // First-party aggregate counters only: no identity, IP, user agent or cookie data saved.
 export async function onRequestPost({request,env}){
- const headers={"Cache-Control":"no-store","X-Content-Type-Options":"nosniff","Access-Control-Allow-Origin":"null"};
+ const headers={"Cache-Control":"no-store","X-Content-Type-Options":"nosniff"};
  if(!env.FUELGO_ROUTER)return new Response(null,{status:503,headers});
  const url=new URL(request.url);
  const origin=request.headers.get("Origin");
