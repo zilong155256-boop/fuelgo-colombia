@@ -63,6 +63,43 @@ export class DownloadRouter {
   await this.state.storage.put(key,Number(await this.state.storage.get(key)||0)+1);
  }
  async handle(request){
+  const path=new URL(request.url).pathname;
+  if(path==="/__internal/stats"){
+   if(request.method!=="GET")return new Response("Method not allowed",{status:405});
+   const token=this.env.STATS_TOKEN||"";
+   const received=request.headers.get("Authorization")||"";
+   // A secret configured on the Worker is required; no public dashboard by default.
+   if(!token||received!==("Bearer "+token))return new Response("Unauthorized",{status:401,headers:{"Cache-Control":"no-store"}});
+   const counters=await this.state.storage.list({prefix:"count:"});
+   const data={pageView:0,downloadClick:0,downloadAssigned:0,downloadComplete:null,allocationFailed:0,byAd:{},byLink:{},updatedAt:new Date().toISOString()};
+   for(const [key,value] of counters){
+    const name=key.slice(6),n=Number(value)||0;
+    if(name==="page_view")data.pageView=n;
+    else if(name==="download_click")data.downloadClick=n;
+    else if(name==="allocation_succeeded")data.downloadAssigned=n;
+    else if(name==="allocation_failed")data.allocationFailed=n;
+    else if(name.startsWith("ad:")){
+     const m=name.match(/^ad:([A-Za-z0-9_-]{1,64}):(page_view|download_click|allocation_succeeded)$/);
+     if(m){const row=data.byAd[m[1]]||(data.byAd[m[1]]={pageView:0,downloadClick:0,downloadAssigned:0});row[m[2]==="page_view"?"pageView":m[2]==="download_click"?"downloadClick":"downloadAssigned"]=n}
+    }else if(name.startsWith("link:")){
+     const m=name.match(/^link:([-\\w]{1,48}):allocated$/);
+     if(m)data.byLink[m[1]]=n;
+    }
+   }
+   return Response.json(data,{headers:{"Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}});
+  }
+  if(path==="/__internal/metric"){
+   if(request.method!=="POST")return new Response("Method not allowed",{status:405});
+   if((request.headers.get("content-type")||"").split(";")[0].trim()!=="application/json")return new Response("Unsupported media type",{status:415});
+   let payload;
+   try{payload=await request.json()}catch{return new Response("Invalid JSON",{status:400})}
+   if(!payload||!["PageView","DownloadClick"].includes(payload.event))return new Response("Invalid event",{status:400});
+   const adId=typeof payload.ad_id==="string"&&/^[A-Za-z0-9_-]{1,64}$/.test(payload.ad_id)?payload.ad_id:"unattributed";
+   const metric=payload.event==="PageView"?"page_view":"download_click";
+   await this.count(metric);
+   await this.count("ad:"+adId+":"+metric);
+   return new Response(null,{status:204,headers:{"Cache-Control":"no-store"}});
+  }
   if(request.method!=="GET")return deny("Método no permitido.",405);
   await this.count("button_click");
   await this.count("eligible");
