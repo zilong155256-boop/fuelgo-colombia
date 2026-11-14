@@ -68,3 +68,27 @@ test("unhealthy link is paused; next healthy link is used",async()=>{
   assert.equal(st.data.get("count:link_health_failed"),1);
  }finally{globalThis.fetch=originalFetch}
 });
+
+test("stats API rejects unauthenticated access",async()=>{
+ const st=state();
+ const router=new DownloadRouter(st,{DOWNLOAD_POOL:pool,STATS_TOKEN:"unit-test-secret-with-32-characters"});
+ const r=await router.fetch(new Request("https://fuelgo.example/__internal/stats"));
+ assert.equal(r.status,401);
+});
+test("first-party counters and ad-level stats are readable only with token",async()=>{
+ const st=state();
+ const router=new DownloadRouter(st,{DOWNLOAD_POOL:pool,STATS_TOKEN:"unit-test-secret-with-32-characters"});
+ for(const event of ["PageView","DownloadClick"]){
+  const r=await router.fetch(new Request("https://fuelgo.example/__internal/metric",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event,ad_id:"123456"})}));
+  assert.equal(r.status,204);
+ }
+ const auth={"Authorization":"Bearer unit-test-secret-with-32-characters"};
+ const r=await router.fetch(new Request("https://fuelgo.example/__internal/stats",{headers:auth}));
+ assert.equal(r.status,200);
+ const json=await r.json();
+ assert.equal(json.pageView,1);
+ assert.equal(json.downloadClick,1);
+ assert.equal(json.downloadAssigned,0);
+ assert.equal(json.downloadComplete,null);
+ assert.deepEqual(json.byAd["123456"],{pageView:1,downloadClick:1,downloadAssigned:0});
+});
