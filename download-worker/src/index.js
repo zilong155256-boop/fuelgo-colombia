@@ -1,5 +1,4 @@
-// Server-only Android 11+ check and sequential Durable Object allocation.
-// User-Agent and Client Hints are spoofable: this is best-effort, not cryptographic attestation.
+// Sequential Durable Object allocation, with aggregate per-ad-ID counts.
 const M={
  old:"Tu dispositivo necesita Android 11 o una versión superior para descargar esta aplicación.",
  other:"Esta aplicación está disponible únicamente para dispositivos Android.",
@@ -66,9 +65,9 @@ export class DownloadRouter {
  async handle(request){
   if(request.method!=="GET")return deny("Método no permitido.",405);
   await this.count("button_click");
-  const kind=classify(request);
-  if(kind!=="eligible"){await this.count("rejected:"+kind);return deny(M[kind])}
   await this.count("eligible");
+  const rawAdId=new URL(request.url).searchParams.get("ad_id")||"";
+  const adId=/^[A-Za-z0-9_-]{1,64}$/.test(rawAdId)?rawAdId:"unattributed";
   const pool=poolFrom(this.env.DOWNLOAD_POOL);
   if(pool.length===0){await this.count("allocation_failed");return deny(M.unavailable,503)}
   const cursor=Number(await this.state.storage.get("round_robin_position")||0);
@@ -82,8 +81,9 @@ export class DownloadRouter {
    }
    await this.state.storage.put("round_robin_position",(i+1)%pool.length);
    await this.count("allocation_succeeded");
+   await this.count("ad:"+adId+":allocation_succeeded");
    await this.count("link:"+link.id+":allocated");
-   await this.state.storage.put("latest_assignment",{id:link.id,at:new Date().toISOString(),result:"redirect_issued"});
+   await this.state.storage.put("latest_assignment",{id:link.id,ad_id:adId,at:new Date().toISOString(),result:"redirect_issued"});
    return new Response(null,{status:302,headers:{"Location":link.url,"Cache-Control":"no-store","Referrer-Policy":"no-referrer","X-Robots-Tag":"noindex"}});
   }
   await this.count("allocation_failed");
