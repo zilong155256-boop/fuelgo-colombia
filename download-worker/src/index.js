@@ -124,11 +124,11 @@ export class DownloadRouter {
  }
  // Keep the most recent 200 aggregate event records, not visitors or personal data.
  // Existing historical counters are preserved; older individual events were never stored.
- async recordEvent(event,adId,linkId=null){
+ async recordEvent(event,adId,linkId=null,sourceType="unknown"){
   const key="recent:events:v1";
   const prior=await this.state.storage.get(key);
   const events=Array.isArray(prior)?prior:[];
-  events.unshift({at:new Date().toISOString(),event,adId,linkId});
+  events.unshift({at:new Date().toISOString(),event,adId,linkId,sourceType});
   if(events.length>200)events.length=200;
   await this.state.storage.put(key,events);
  }
@@ -175,15 +175,18 @@ export class DownloadRouter {
    if(!payload||!["PageView","DownloadClick"].includes(payload.event))return new Response("Invalid event",{status:400});
    const adId=typeof payload.ad_id==="string"&&/^[A-Za-z0-9_-]{1,64}$/.test(payload.ad_id)?payload.ad_id:"unattributed";
    const metric=payload.event==="PageView"?"page_view":"download_click";
+   const sourceType=["ad_tag","google_search","other_referral","direct_or_shared"].includes(payload.source_type)?payload.source_type:"unknown";
    await this.count(metric);
    await this.count("ad:"+adId+":"+metric);
-   await this.recordEvent(payload.event,adId);
+   await this.recordEvent(payload.event,adId,null,sourceType);
    return new Response(null,{status:204,headers:{"Cache-Control":"no-store"}});
   }
   if(request.method!=="GET")return deny("Método no permitido.",405);
   // Do not write redundant legacy button_click/eligible counts.
   const rawAdId=new URL(request.url).searchParams.get("ad_id")||"";
   const adId=/^[A-Za-z0-9_-]{1,64}$/.test(rawAdId)?rawAdId:"unattributed";
+  const rawSource=new URL(request.url).searchParams.get("source_type");
+  const sourceType=["ad_tag","google_search","other_referral","direct_or_shared"].includes(rawSource)?rawSource:"unknown";
   const pool=poolFrom(this.env.DOWNLOAD_POOL);
   if(pool.length===0){await this.count("allocation_failed");return deny(M.unavailable,503)}
   const cursor=Number(await this.state.storage.get("round_robin_position")||0);
@@ -200,7 +203,7 @@ export class DownloadRouter {
    await this.count("ad:"+adId+":allocation_succeeded");
    await this.count("link:"+link.id+":allocated");
    await this.state.storage.put("latest_assignment",{id:link.id,ad_id:adId,at:new Date().toISOString(),result:"redirect_issued"});
-   await this.recordEvent("DownloadAssigned",adId,link.id);
+   await this.recordEvent("DownloadAssigned",adId,link.id,sourceType);
    const metaResult=await reportMetaAssignment(this.env,request,adId,link.id);
    await this.count("meta_capi:"+metaResult.status);
    if(metaResult.status==="failed"&&metaResult.diagnostic){
