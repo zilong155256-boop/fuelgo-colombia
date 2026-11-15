@@ -68,7 +68,8 @@ function metaMatchCookies(request){
 // Send only after explicit tracking consent. The event means a redirect was issued,
 // not that an APK download or installation completed.
 async function reportMetaAssignment(env,request,adId,linkId){
- const token=env.META_CAPI_TOKEN;
+ // New Pixel uses a separate CAPI secret; the old dataset token must never be reused.
+ const token=env.META_CAPI_TOKEN_NEW_PIXEL;
  if(!token)return {status:"not_configured"};
  const incoming=new URL(request.url);
  if(incoming.searchParams.get("meta_consent")!=="1")return {status:"not_consented"};
