@@ -584,8 +584,14 @@ html,body{max-width:100%;overflow-x:clip}
  document.getElementById("fg-accept").addEventListener("click",()=>setPreference("yes"));
  document.getElementById("fg-decline").addEventListener("click",()=>setPreference("no"));
  document.querySelectorAll("a[data-download]").forEach((link,index)=>{
-  link.addEventListener("click",()=>{
-   if(granted&&typeof fbq==="function")fbq("trackCustom","DownloadClick",{button_position:index+1,ad_id:adId||"unattributed"});
+  link.addEventListener("click",(event)=>{
+   if(!granted||typeof fbq!=="function")return;
+   // Briefly retain the page to allow the browser to dispatch the pixel event.
+   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||link.target==="_blank")return;
+   event.preventDefault();
+   fbq("trackCustom","DownloadClick",{button_position:index+1,ad_id:adId||"unattributed"});
+   const destination=link.href;
+   window.setTimeout(()=>{window.location.assign(destination)},350);
   });
  });
 })();
