@@ -40,9 +40,9 @@ test("eligible Android 11-16 rotates without link duplication errors",async()=>{
  assert.deepEqual(responses.map(r=>r.headers.get("location")),[
  "https://apk.example/a.apk","https://apk.example/b.apk","https://apk.example/a.apk",
  "https://apk.example/b.apk","https://apk.example/a.apk","https://apk.example/b.apk"]);
- assert.equal(st.data.get("count:eligible"),6);
  assert.equal(st.data.get("count:allocation_succeeded"),6);
- assert.equal(st.data.get("count:button_click"),6);
+ assert.equal(st.data.has("count:eligible"),false);
+ assert.equal(st.data.has("count:button_click"),false);
  assert.equal(st.data.get("round_robin_position"),0);
 });
 test("ad ID is counted only after a successful assignment",async()=>{
@@ -128,5 +128,26 @@ test("consented successful assignment sends one DownloadAssigned server event",a
   assert.equal(posted[0].payload.test_event_code,"TESTONLY");
   assert.equal(posted[0].headers.Authorization,"Bearer test-token");
   assert.equal(st.data.get("count:meta_capi:sent"),1);
+ }finally{globalThis.fetch=prior}
+});
+
+test("Meta API error records only sanitized codes without leaking credentials",async()=>{
+ const st=state();const prior=globalThis.fetch;
+ globalThis.fetch=async(input)=>{
+  if(String(input).includes("graph.facebook.com")){
+   return Response.json({error:{message:"sensitive error details",code:190,error_subcode:463}},{status:401});
+  }
+  return new Response(null,{status:200,headers:{"content-type":"application/vnd.android.package-archive"}});
+ };
+ try{
+  const router=new DownloadRouter(st,{DOWNLOAD_POOL:pool,META_CAPI_TOKEN:"private-test-token",STATS_TOKEN:"unit-test-secret-with-32-characters"});
+  const result=await router.fetch(new Request("https://fuelgo.example/api/download?meta_consent=1",{headers:{"CF-Connecting-IP":"192.0.2.6","User-Agent":"test-agent"}}));
+  assert.equal(result.status,302);
+  assert.equal(st.data.get("count:meta_capi:failed"),1);
+  const stats=await router.fetch(new Request("https://fuelgo.example/__internal/stats",{headers:{"Authorization":"Bearer unit-test-secret-with-32-characters"}}));
+  const data=await stats.json();
+  assert.deepEqual({kind:data.metaCapi.lastError.kind,httpStatus:data.metaCapi.lastError.httpStatus,metaCode:data.metaCapi.lastError.metaCode,metaSubcode:data.metaCapi.lastError.metaSubcode},{kind:"meta_http",httpStatus:401,metaCode:190,metaSubcode:463});
+  assert.equal(JSON.stringify(data).includes("private-test-token"),false);
+  assert.equal(JSON.stringify(data).includes("sensitive error details"),false);
  }finally{globalThis.fetch=prior}
 });
