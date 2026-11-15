@@ -20,7 +20,8 @@ const android=n=>request("Mozilla/5.0 (Linux; Android "+n+"; Pixel) AppleWebKit/
 const reduced=n=>request("Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 Chrome/122 Mobile Safari/537.36","Android",n+".0.0");
 const pool=JSON.stringify([{id:"a",url:"https://apk.example/a.apk",enabled:true,verified:true},{id:"b",url:"https://apk.example/b.apk",enabled:true,verified:true}]);
 const originalFetch=globalThis.fetch;
-globalThis.fetch=async url=>new Response(null,{status:200,headers:{"content-type":"application/vnd.android.package-archive"}});
+const healthyFetchMock=async url=>new Response(null,{status:200,headers:{"content-type":"application/vnd.android.package-archive"}});
+globalThis.fetch=healthyFetchMock;
 
 test("all devices can request the shared rotation",async()=>{
  const st=state();const router=new DownloadRouter(st,{DOWNLOAD_POOL:pool});
@@ -67,7 +68,7 @@ test("unhealthy link is paused; next healthy link is used",async()=>{
   assert.equal(r.headers.get("location"),"https://apk.example/b.apk");
   assert.equal(st.data.get("paused:a").reason,"health_check_failed");
   assert.equal(st.data.get("count:link_health_failed"),1);
- }finally{globalThis.fetch=originalFetch}
+ }finally{globalThis.fetch=healthyFetchMock}
 });
 
 test("stats API rejects unauthenticated access",async()=>{
