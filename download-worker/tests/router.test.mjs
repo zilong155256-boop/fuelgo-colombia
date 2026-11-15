@@ -93,3 +93,40 @@ test("first-party counters and ad-level stats are readable only with token",asyn
  assert.equal(json.downloadComplete,null);
  assert.deepEqual(json.byAd["123456"],{pageView:1,downloadClick:1,downloadAssigned:0});
 });
+
+test("no consent means no Meta CAPI event, even with a token",async()=>{
+ const st=state();const calls=[];
+ const prior=globalThis.fetch;
+ globalThis.fetch=async(input,init)=>{
+  calls.push({url:String(input),method:init?.method});
+  return new Response(null,{status:200,headers:{"content-type":"application/vnd.android.package-archive"}});
+ };
+ try{
+  const router=new DownloadRouter(st,{DOWNLOAD_POOL:pool,META_CAPI_TOKEN:"test-token"});
+  const result=await router.fetch(new Request("https://fuelgo.example/api/download",{headers:{"CF-Connecting-IP":"192.0.2.5","User-Agent":"test-agent"}}));
+  assert.equal(result.status,302);
+  assert.equal(st.data.get("count:meta_capi:not_consented"),1);
+  assert.equal(calls.filter(x=>x.url.includes("graph.facebook.com")).length,0);
+ }finally{globalThis.fetch=prior}
+});
+test("consented successful assignment sends one DownloadAssigned server event",async()=>{
+ const st=state();const posted=[];const prior=globalThis.fetch;
+ globalThis.fetch=async(input,init)=>{
+  if(String(input).includes("graph.facebook.com")){
+   posted.push({url:String(input),headers:init.headers,payload:JSON.parse(init.body)});
+   return Response.json({events_received:1});
+  }
+  return new Response(null,{status:200,headers:{"content-type":"application/vnd.android.package-archive"}});
+ };
+ try{
+  const router=new DownloadRouter(st,{DOWNLOAD_POOL:pool,META_CAPI_TOKEN:"test-token",META_TEST_EVENT_CODE:"TESTONLY"});
+  const result=await router.fetch(new Request("https://fuelgo.example/api/download?ad_id=ad123&meta_consent=1",{headers:{"CF-Connecting-IP":"192.0.2.5","User-Agent":"test-agent"}}));
+  assert.equal(result.status,302);
+  assert.equal(posted.length,1);
+  assert.equal(posted[0].payload.data[0].event_name,"DownloadAssigned");
+  assert.equal(posted[0].payload.data[0].custom_data.ad_id,"ad123");
+  assert.equal(posted[0].payload.test_event_code,"TESTONLY");
+  assert.equal(posted[0].headers.Authorization,"Bearer test-token");
+  assert.equal(st.data.get("count:meta_capi:sent"),1);
+ }finally{globalThis.fetch=prior}
+});
