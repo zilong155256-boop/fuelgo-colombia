@@ -119,8 +119,9 @@ export class DownloadRouter {
   try{return await this.handle(request)}finally{release()}
  }
  async count(name){
-  const key="count:"+name;
-  await this.state.storage.put(key,Number(await this.state.storage.get(key)||0)+1);
+  for(const key of ["count:"+name,"newpixel2340834176774035:"+name]){
+   await this.state.storage.put(key,Number(await this.state.storage.get(key)||0)+1);
+  }
  }
  // Keep the most recent 200 aggregate event records, not visitors or personal data.
  // Existing historical counters are preserved; older individual events were never stored.
@@ -131,6 +132,12 @@ export class DownloadRouter {
   events.unshift({at:new Date().toISOString(),event,adId,linkId,sourceType,metaStatus});
   if(events.length>200)events.length=200;
   await this.state.storage.put(key,events);
+  const freshKey="newpixel2340834176774035:recent";
+  const recent=await this.state.storage.get(freshKey);
+  const fresh=Array.isArray(recent)?recent:[];
+  fresh.unshift(events[0]);
+  if(fresh.length>200)fresh.length=200;
+  await this.state.storage.put(freshKey,fresh);
  }
  async handle(request){
   const path=new URL(request.url).pathname;
@@ -165,6 +172,41 @@ export class DownloadRouter {
    const recent=await this.state.storage.get("recent:events:v1");
    data.recentEvents=Array.isArray(recent)?recent:[];
    data.recentEventsLimit=200;
+   const freshCounters=await this.state.storage.list({prefix:"newpixel2340834176774035:"});
+   const freshData={pageView:0,downloadClick:0,downloadAssigned:0,downloadComplete:null,allocationFailed:0,metaCapi:{sent:0,failed:0,notConsented:0,notConfigured:0,missingMatchingData:0},byAd:{},byLink:{}};
+   for(const [key,value] of freshCounters){
+    const name=key.slice("newpixel2340834176774035:".length),n=Number(value)||0;
+    if(name==="page_view")freshData.pageView=n;
+    else if(name==="download_click")freshData.downloadClick=n;
+    else if(name==="allocation_succeeded")freshData.downloadAssigned=n;
+    else if(name==="allocation_failed")freshData.allocationFailed=n;
+    else if(name.startsWith("meta_capi:")){
+     const k={sent:"sent",failed:"failed",not_consented:"notConsented",not_configured:"notConfigured",missing_matching_data:"missingMatchingData"}[name.slice(10)];
+     if(k)freshData.metaCapi[k]=n;
+    }else if(name.startsWith("ad:")){
+     const m=name.match(/^ad:([A-Za-z0-9_-]{1,64}):(page_view|download_click|allocation_succeeded)$/);
+     if(m){const row=freshData.byAd[m[1]]||(freshData.byAd[m[1]]={pageView:0,downloadClick:0,downloadAssigned:0});row[m[2]==="page_view"?"pageView":m[2]==="download_click"?"downloadClick":"downloadAssigned"]=n}
+    }else if(name.startsWith("link:")){
+     const m=name.match(/^link:([A-Za-z0-9_-]{1,48}):allocated$/);
+     if(m)freshData.byLink[m[1]]=n;
+    }
+   }
+   const freshRecent=await this.state.storage.get("newpixel2340834176774035:recent");
+   freshData.recentEvents=Array.isArray(freshRecent)?freshRecent:[];
+   freshData.recentEventsLimit=200;
+   freshData.pixelId="2340834176774035";
+   data.newPixel=freshData;
+   data.oldPeriod={
+    label:"切换前历史统计（按累计总数减新 Pixel 期间计数计算）",
+    pageView:Math.max(0,data.pageView-freshData.pageView),
+    downloadClick:Math.max(0,data.downloadClick-freshData.downloadClick),
+    downloadAssigned:Math.max(0,data.downloadAssigned-freshData.downloadAssigned),
+    metaCapi:{
+     sent:Math.max(0,data.metaCapi.sent-freshData.metaCapi.sent),
+     failed:Math.max(0,data.metaCapi.failed-freshData.metaCapi.failed),
+     notConsented:Math.max(0,data.metaCapi.notConsented-freshData.metaCapi.notConsented)
+    }
+   };
    return Response.json(data,{headers:{"Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}});
   }
   if(path==="/__internal/metric"){
