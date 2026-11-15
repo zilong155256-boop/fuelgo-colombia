@@ -592,12 +592,19 @@ html,body{max-width:100%;overflow-x:clip}
  // Run measurement for ordinary visits unless this browser opted out.
  // Respect browser global privacy signals and previously stored rejection.
  const globalOptOut=navigator.globalPrivacyControl===true || navigator.doNotTrack==="1";
- if(preference!=="no" && !globalOptOut)enablePixel();
+ // Keep the diagnostic cookie synchronized on return visits without assuming consent.
+ if(preference==="yes"||preference==="no")document.cookie="meta_consent="+(preference==="yes"&&!globalOptOut?"1":"0")+"; Path=/; Max-Age=15552000; SameSite=Lax; Secure";
+ if(preference==="yes" && !globalOptOut)enablePixel();
+ // A missing preference is not affirmative consent. Let visitors choose.
+ if(preference!=="yes" && preference!=="no")banner.hidden=false;
  function setPreference(value){
   try{localStorage.setItem(storageKey,value)}catch(e){}
+  const allowed=value==="yes" && !globalOptOut;
+  // This first-party cookie mirrors an actual choice; it does not grant Meta permission itself.
+  document.cookie="meta_consent="+(allowed?"1":"0")+"; Path=/; Max-Age=15552000; SameSite=Lax; Secure";
   banner.hidden=true;
   updateDownloadLinks();
-  if(value==="yes")enablePixel();
+  if(allowed)enablePixel();
   else if(granted&&typeof fbq==="function"){
    fbq("consent","revoke");
    granted=false;
