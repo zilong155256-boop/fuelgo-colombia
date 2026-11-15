@@ -542,6 +542,16 @@ html,body{max-width:100%;overflow-x:clip}
  const landingParams=new URLSearchParams(window.location.search);
  const rawAdId=landingParams.get("utm_content")||landingParams.get("ad_id")||"";
  const adId=/^[A-Za-z0-9_-]{1,64}$/.test(rawAdId)?rawAdId:"";
+ const sourceType=(()=>{
+  if(adId)return "ad_tag";
+  // Google Search referrer is distinct from using Google Chrome as a browser.
+  try{
+   const host=new URL(document.referrer).hostname.toLowerCase();
+   if(host==="google.com"||/^google\.[a-z.]+$/.test(host)||host==="www.google.com"||/^www\.google\.[a-z.]+$/.test(host))return "google_search";
+   if(host&&host!==window.location.hostname)return "other_referral";
+  }catch(e){}
+  return "direct_or_shared";
+ })();
  // Carry ad attribution and affirmative Meta consent only when present.
  const metaConsentKey="fuelgo_meta_measurement_consent_v1";
  function updateDownloadLinks(){
@@ -551,6 +561,7 @@ html,body{max-width:100%;overflow-x:clip}
   document.querySelectorAll("a[data-download]").forEach(link=>{
    const target=new URL(link.getAttribute("href"),window.location.origin);
    if(adId)target.searchParams.set("ad_id",adId);
+   target.searchParams.set("source_type",sourceType);
    if(affirmative&&!privacySignal)target.searchParams.set("meta_consent","1");
    else target.searchParams.delete("meta_consent");
    link.href=target.pathname+target.search;
@@ -560,7 +571,7 @@ html,body{max-width:100%;overflow-x:clip}
  // fuelgo-first-party-metrics-v1: aggregate events, no personal identifiers.
  function countSiteEvent(eventName){
   try{
-   fetch("/api/metric",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event:eventName,ad_id:adId||"unattributed"}),credentials:"same-origin",keepalive:true,cache:"no-store"}).catch(()=>{});
+   fetch("/api/metric",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event:eventName,ad_id:adId||"unattributed",source_type:sourceType}),credentials:"same-origin",keepalive:true,cache:"no-store"}).catch(()=>{});
   }catch(e){}
  }
  countSiteEvent("PageView");
