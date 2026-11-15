@@ -105,13 +105,18 @@ export class DownloadRouter {
    // A secret configured on the Worker is required; no public dashboard by default.
    if(!token||received!==("Bearer "+token))return new Response("Unauthorized",{status:401,headers:{"Cache-Control":"no-store"}});
    const counters=await this.state.storage.list({prefix:"count:"});
-   const data={pageView:0,downloadClick:0,downloadAssigned:0,downloadComplete:null,allocationFailed:0,byAd:{},byLink:{},updatedAt:new Date().toISOString()};
+   const data={pageView:0,downloadClick:0,downloadAssigned:0,downloadComplete:null,allocationFailed:0,metaCapi:{sent:0,failed:0,notConsented:0,notConfigured:0,missingMatchingData:0},byAd:{},byLink:{},updatedAt:new Date().toISOString()};
    for(const [key,value] of counters){
     const name=key.slice(6),n=Number(value)||0;
     if(name==="page_view")data.pageView=n;
     else if(name==="download_click")data.downloadClick=n;
     else if(name==="allocation_succeeded")data.downloadAssigned=n;
     else if(name==="allocation_failed")data.allocationFailed=n;
+    else if(name==="meta_capi:sent")data.metaCapi.sent=n;
+    else if(name==="meta_capi:failed")data.metaCapi.failed=n;
+    else if(name==="meta_capi:not_consented")data.metaCapi.notConsented=n;
+    else if(name==="meta_capi:not_configured")data.metaCapi.notConfigured=n;
+    else if(name==="meta_capi:missing_matching_data")data.metaCapi.missingMatchingData=n;
     else if(name.startsWith("ad:")){
      const m=name.match(/^ad:([A-Za-z0-9_-]{1,64}):(page_view|download_click|allocation_succeeded)$/);
      if(m){const row=data.byAd[m[1]]||(data.byAd[m[1]]={pageView:0,downloadClick:0,downloadAssigned:0});row[m[2]==="page_view"?"pageView":m[2]==="download_click"?"downloadClick":"downloadAssigned"]=n}
