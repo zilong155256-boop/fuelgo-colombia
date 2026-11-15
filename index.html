@@ -575,7 +575,7 @@ html,body{max-width:100%;overflow-x:clip}
   }catch(e){}
  }
  countSiteEvent("PageView");
- document.querySelectorAll("a[data-download]").forEach(link=>link.addEventListener("click",()=>countSiteEvent("DownloadClick")));
+
  const pixelId="1907463533614212";
  const storageKey="fuelgo_meta_measurement_consent_v1";
  const banner=document.getElementById("fg-consent");
@@ -615,13 +615,17 @@ html,body{max-width:100%;overflow-x:clip}
  document.getElementById("fg-decline").addEventListener("click",()=>setPreference("no"));
  document.querySelectorAll("a[data-download]").forEach((link,index)=>{
   link.addEventListener("click",(event)=>{
+   // Count an actual primary-button or keyboard download activation, not a canceled click.
+   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+   countSiteEvent("DownloadClick");
+   // Meta receives the same named custom event only when measurement is permitted.
    if(!granted||typeof fbq!=="function")return;
-   // Briefly retain the page to allow the browser to dispatch the pixel event.
-   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||link.target==="_blank")return;
-   event.preventDefault();
    fbq("trackCustom","DownloadClick",{button_position:index+1,ad_id:adId||"unattributed"});
+   if(link.target==="_blank")return;
+   // Give the browser a short opportunity to send the Pixel event before navigating.
+   event.preventDefault();
    const destination=link.href;
-   window.setTimeout(()=>{window.location.assign(destination)},350);
+   window.setTimeout(()=>window.location.assign(destination),350);
   });
  });
 })();
