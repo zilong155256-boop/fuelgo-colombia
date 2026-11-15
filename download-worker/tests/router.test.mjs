@@ -157,6 +157,38 @@ test("consented successful assignment sends one DownloadAssigned server event",a
  }finally{globalThis.fetch=prior}
 });
 
+test("consented CAPI forwards valid existing Meta cookies without rewriting them",async()=>{
+ const st=state();const posted=[];const prior=globalThis.fetch;
+ globalThis.fetch=async(input,init)=>{
+  if(String(input).includes("graph.facebook.com")){posted.push(JSON.parse(init.body));return Response.json({events_received:1})}
+  return new Response(null,{status:200,headers:{"content-type":"application/vnd.android.package-archive"}});
+ };
+ try{
+  const router=new DownloadRouter(st,{DOWNLOAD_POOL:pool,META_CAPI_TOKEN:"test-token"});
+  const fbc="fb.1.1763150000000.AbCdEfGh123";
+  const fbp="fb.1.1763150000000.123456789";
+  const request=new Request("https://fuelgo.example/api/download?meta_consent=1",{headers:{"CF-Connecting-IP":"192.0.2.55","User-Agent":"test-agent","Cookie":"_fbc="+fbc+"; _fbp="+fbp+"; unrelated=secret"}});
+  assert.equal((await router.fetch(request)).status,302);
+  assert.equal(posted.length,1);
+  assert.equal(posted[0].data[0].user_data.fbc,fbc);
+  assert.equal(posted[0].data[0].user_data.fbp,fbp);
+  assert.equal(JSON.stringify(posted[0]).includes("unrelated"),false);
+ }finally{globalThis.fetch=prior}
+});
+test("invalid Meta cookies are omitted rather than synthesized",async()=>{
+ const st=state();const posted=[];const prior=globalThis.fetch;
+ globalThis.fetch=async(input,init)=>{
+  if(String(input).includes("graph.facebook.com")){posted.push(JSON.parse(init.body));return Response.json({events_received:1})}
+  return new Response(null,{status:200,headers:{"content-type":"application/vnd.android.package-archive"}});
+ };
+ try{
+  const router=new DownloadRouter(st,{DOWNLOAD_POOL:pool,META_CAPI_TOKEN:"test-token"});
+  const request=new Request("https://fuelgo.example/api/download?meta_consent=1",{headers:{"CF-Connecting-IP":"192.0.2.55","User-Agent":"test-agent","Cookie":"_fbc=invalid; _fbp=invalid"}});
+  assert.equal((await router.fetch(request)).status,302);
+  assert.equal(posted[0].data[0].user_data.fbc,undefined);
+  assert.equal(posted[0].data[0].user_data.fbp,undefined);
+ }finally{globalThis.fetch=prior}
+});
 test("Meta API error records only sanitized codes without leaking credentials",async()=>{
  const st=state();const prior=globalThis.fetch;
  globalThis.fetch=async(input)=>{
