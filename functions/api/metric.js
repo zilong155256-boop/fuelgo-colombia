@@ -14,10 +14,11 @@ export async function onRequestPost({request,env}){
  if(!payload||!["PageView","DownloadClick"].includes(payload.event))return new Response(null,{status:400,headers});
  const raw=typeof payload.ad_id==="string"?payload.ad_id:"";
  const ad_id=/^[A-Za-z0-9_-]{1,64}$/.test(raw)?raw:"unattributed";
+ const source_type=["ad_tag","google_search","other_referral","direct_or_shared"].includes(payload.source_type)?payload.source_type:"unknown";
  try{
   const id=env.FUELGO_ROUTER.idFromName("fuelgo-colombia-apk");
   const upstream=new URL("/__internal/metric",request.url);
-  const result=await env.FUELGO_ROUTER.get(id).fetch(new Request(upstream,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event:payload.event,ad_id})}));
+  const result=await env.FUELGO_ROUTER.get(id).fetch(new Request(upstream,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event:payload.event,ad_id,source_type})}));
   return new Response(null,{status:result.status,headers});
  }catch{return new Response(null,{status:503,headers})}
 }
