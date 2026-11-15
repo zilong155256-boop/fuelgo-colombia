@@ -94,6 +94,31 @@ test("first-party counters and ad-level stats are readable only with token",asyn
  assert.deepEqual(json.byAd["123456"],{pageView:1,downloadClick:1,downloadAssigned:0});
 });
 
+test("recent events store their own timestamps, ad IDs and no personal data",async()=>{
+ const st=state();const router=new DownloadRouter(st,{DOWNLOAD_POOL:pool,STATS_TOKEN:"unit-test-secret-with-32-characters"});
+ const metric=new Request("https://fuelgo.example/__internal/metric",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event:"DownloadClick",ad_id:"ad123"})});
+ assert.equal((await router.fetch(metric)).status,204);
+ assert.equal((await router.fetch(new Request("https://fuelgo.example/api/download?ad_id=ad123",{headers:{"User-Agent":"Mozilla/5.0 (iPhone)"}}))).status,302);
+ const result=await router.fetch(new Request("https://fuelgo.example/__internal/stats",{headers:{"Authorization":"Bearer unit-test-secret-with-32-characters"}}));
+ const data=await result.json();
+ assert.equal(data.recentEventsLimit,200);
+ assert.deepEqual(data.recentEvents.map(x=>x.event),["DownloadAssigned","DownloadClick"]);
+ assert.equal(data.recentEvents[0].adId,"ad123");
+ assert.equal(data.recentEvents[0].linkId,"a");
+ assert.equal(data.recentEvents[1].linkId,null);
+ assert.ok(data.recentEvents.every(x=>!Number.isNaN(Date.parse(x.at))));
+ assert.equal(JSON.stringify(data.recentEvents).includes("User-Agent"),false);
+ assert.equal(JSON.stringify(data.recentEvents).includes("CF-Connecting-IP"),false);
+});
+test("recent events are capped at 200 while aggregate counters remain unchanged",async()=>{
+ const st=state();const router=new DownloadRouter(st,{STATS_TOKEN:"unit-test-secret-with-32-characters"});
+ for(let i=0;i<205;i++)await router.fetch(new Request("https://fuelgo.example/__internal/metric",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event:"PageView",ad_id:"TEST001"})}));
+ const result=await router.fetch(new Request("https://fuelgo.example/__internal/stats",{headers:{"Authorization":"Bearer unit-test-secret-with-32-characters"}}));
+ const data=await result.json();
+ assert.equal(data.pageView,205);
+ assert.equal(data.recentEvents.length,200);
+ assert.equal(data.recentEvents[0].event,"PageView");
+});
 test("no consent means no Meta CAPI event, even with a token",async()=>{
  const st=state();const calls=[];
  const prior=globalThis.fetch;
