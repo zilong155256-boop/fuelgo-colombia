@@ -124,11 +124,11 @@ export class DownloadRouter {
  }
  // Keep the most recent 200 aggregate event records, not visitors or personal data.
  // Existing historical counters are preserved; older individual events were never stored.
- async recordEvent(event,adId,linkId=null,sourceType="unknown"){
+ async recordEvent(event,adId,linkId=null,sourceType="unknown",metaStatus=null){
   const key="recent:events:v1";
   const prior=await this.state.storage.get(key);
   const events=Array.isArray(prior)?prior:[];
-  events.unshift({at:new Date().toISOString(),event,adId,linkId,sourceType});
+  events.unshift({at:new Date().toISOString(),event,adId,linkId,sourceType,metaStatus});
   if(events.length>200)events.length=200;
   await this.state.storage.put(key,events);
  }
@@ -203,9 +203,10 @@ export class DownloadRouter {
    await this.count("ad:"+adId+":allocation_succeeded");
    await this.count("link:"+link.id+":allocated");
    await this.state.storage.put("latest_assignment",{id:link.id,ad_id:adId,at:new Date().toISOString(),result:"redirect_issued"});
-   await this.recordEvent("DownloadAssigned",adId,link.id,sourceType);
    const metaResult=await reportMetaAssignment(this.env,request,adId,link.id);
    await this.count("meta_capi:"+metaResult.status);
+   // Record only the sanitized result status; no raw matching data, IP, cookies or credentials.
+   await this.recordEvent("DownloadAssigned",adId,link.id,sourceType,metaResult.status);
    if(metaResult.status==="failed"&&metaResult.diagnostic){
     // Only status/error codes: no tokens, IPs, or raw API responses.
     await this.state.storage.put("meta:last_error",{...metaResult.diagnostic,at:new Date().toISOString()});
