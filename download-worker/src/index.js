@@ -50,6 +50,40 @@ async function healthy(url){
   return r.ok&&(apkMime||apkName)&&!mime.includes("text/html")&&!mime.includes("application/json");
  }catch{return false}finally{clearTimeout(timer)}
 }
+// Send only after explicit tracking consent. The event means a redirect was issued,
+// not that an APK download or installation completed.
+async function reportMetaAssignment(env,request,adId,linkId){
+ const token=env.META_CAPI_TOKEN;
+ if(!token)return "not_configured";
+ const incoming=new URL(request.url);
+ if(incoming.searchParams.get("meta_consent")!=="1")return "not_consented";
+ const ua=request.headers.get("User-Agent")||"";
+ const ip=request.headers.get("CF-Connecting-IP")||"";
+ if(!ua||!ip)return "missing_matching_data";
+ const event={
+  event_name:"DownloadAssigned",
+  event_time:Math.floor(Date.now()/1000),
+  event_id:crypto.randomUUID(),
+  action_source:"website",
+  event_source_url:"https://fuelgo-colombia1.pages.dev/",
+  user_data:{client_ip_address:ip,client_user_agent:ua},
+  custom_data:{ad_id:adId,link_id:linkId}
+ };
+ const payload={data:[event]};
+ if(env.META_TEST_EVENT_CODE)payload.test_event_code=env.META_TEST_EVENT_CODE;
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),1800);
+ try{
+  const response=await fetch("https://graph.facebook.com/v27.0/190746353614212/events",{
+   method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},
+   body:JSON.stringify(payload),signal:controller.signal
+  });
+  if(!response.ok)return "failed";
+  const result=await response.json();
+  return result.events_received===1?"sent":"failed";
+ }catch{return "failed"}finally{clearTimeout(timer)}
+}
+
 export class DownloadRouter {
  constructor(state,env){this.state=state;this.env=env;this.queue=Promise.resolve()}
  async fetch(request){
@@ -121,6 +155,8 @@ export class DownloadRouter {
    await this.count("ad:"+adId+":allocation_succeeded");
    await this.count("link:"+link.id+":allocated");
    await this.state.storage.put("latest_assignment",{id:link.id,ad_id:adId,at:new Date().toISOString(),result:"redirect_issued"});
+   const metaResult=await reportMetaAssignment(this.env,request,adId,link.id);
+   await this.count("meta_capi:"+metaResult);
    return new Response(null,{status:302,headers:{"Location":link.url,"Cache-Control":"no-store","Referrer-Policy":"no-referrer","X-Robots-Tag":"noindex"}});
   }
   await this.count("allocation_failed");
