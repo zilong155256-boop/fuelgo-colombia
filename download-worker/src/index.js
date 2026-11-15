@@ -104,6 +104,16 @@ export class DownloadRouter {
   const key="count:"+name;
   await this.state.storage.put(key,Number(await this.state.storage.get(key)||0)+1);
  }
+ // Keep the most recent 200 aggregate event records, not visitors or personal data.
+ // Existing historical counters are preserved; older individual events were never stored.
+ async recordEvent(event,adId,linkId=null){
+  const key="recent:events:v1";
+  const prior=await this.state.storage.get(key);
+  const events=Array.isArray(prior)?prior:[];
+  events.unshift({at:new Date().toISOString(),event,adId,linkId});
+  if(events.length>200)events.length=200;
+  await this.state.storage.put(key,events);
+ }
  async handle(request){
   const path=new URL(request.url).pathname;
   if(path==="/__internal/stats"){
@@ -134,6 +144,9 @@ export class DownloadRouter {
     }
    }
    data.metaCapi.lastError=await this.state.storage.get("meta:last_error")||null;
+   const recent=await this.state.storage.get("recent:events:v1");
+   data.recentEvents=Array.isArray(recent)?recent:[];
+   data.recentEventsLimit=200;
    return Response.json(data,{headers:{"Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}});
   }
   if(path==="/__internal/metric"){
@@ -146,6 +159,7 @@ export class DownloadRouter {
    const metric=payload.event==="PageView"?"page_view":"download_click";
    await this.count(metric);
    await this.count("ad:"+adId+":"+metric);
+   await this.recordEvent(payload.event,adId);
    return new Response(null,{status:204,headers:{"Cache-Control":"no-store"}});
   }
   if(request.method!=="GET")return deny("Método no permitido.",405);
@@ -168,6 +182,7 @@ export class DownloadRouter {
    await this.count("ad:"+adId+":allocation_succeeded");
    await this.count("link:"+link.id+":allocated");
    await this.state.storage.put("latest_assignment",{id:link.id,ad_id:adId,at:new Date().toISOString(),result:"redirect_issued"});
+   await this.recordEvent("DownloadAssigned",adId,link.id);
    const metaResult=await reportMetaAssignment(this.env,request,adId,link.id);
    await this.count("meta_capi:"+metaResult.status);
    if(metaResult.status==="failed"&&metaResult.diagnostic){
