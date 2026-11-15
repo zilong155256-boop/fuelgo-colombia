@@ -54,12 +54,12 @@ async function healthy(url){
 // not that an APK download or installation completed.
 async function reportMetaAssignment(env,request,adId,linkId){
  const token=env.META_CAPI_TOKEN;
- if(!token)return "not_configured";
+ if(!token)return {status:"not_configured"};
  const incoming=new URL(request.url);
- if(incoming.searchParams.get("meta_consent")!=="1")return "not_consented";
+ if(incoming.searchParams.get("meta_consent")!=="1")return {status:"not_consented"};
  const ua=request.headers.get("User-Agent")||"";
  const ip=request.headers.get("CF-Connecting-IP")||"";
- if(!ua||!ip)return "missing_matching_data";
+ if(!ua||!ip)return {status:"missing_matching_data"};
  const event={
   event_name:"DownloadAssigned",
   event_time:Math.floor(Date.now()/1000),
@@ -72,16 +72,24 @@ async function reportMetaAssignment(env,request,adId,linkId){
  const payload={data:[event]};
  if(env.META_TEST_EVENT_CODE)payload.test_event_code=env.META_TEST_EVENT_CODE;
  const controller=new AbortController();
- const timer=setTimeout(()=>controller.abort(),1800);
+ const timer=setTimeout(()=>controller.abort(),3000);
  try{
   const response=await fetch("https://graph.facebook.com/v27.0/190746353614212/events",{
    method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},
    body:JSON.stringify(payload),signal:controller.signal
   });
-  if(!response.ok)return "failed";
-  const result=await response.json();
-  return result.events_received===1?"sent":"failed";
- }catch{return "failed"}finally{clearTimeout(timer)}
+  if(!response.ok){
+   let details={};
+   try{
+    const body=await response.json();const e=body&&body.error||{};
+    details={metaCode:Number(e.code)||null,metaSubcode:Number(e.error_subcode)||null};
+   }catch{}
+   return {status:"failed",diagnostic:{kind:"meta_http",httpStatus:response.status,...details}};
+  }
+  let result;
+  try{result=await response.json()}catch{return {status:"failed",diagnostic:{kind:"invalid_response",httpStatus:response.status}}}
+  return result.events_received===1?{status:"sent"}:{status:"failed",diagnostic:{kind:"not_accepted",httpStatus:response.status}};
+ }catch(e){return {status:"failed",diagnostic:{kind:e?.name==="AbortError"?"timeout":"network_error"}}}finally{clearTimeout(timer)}
 }
 
 export class DownloadRouter {
@@ -125,6 +133,7 @@ export class DownloadRouter {
      if(m)data.byLink[m[1]]=n;
     }
    }
+   data.metaCapi.lastError=await this.state.storage.get("meta:last_error")||null;
    return Response.json(data,{headers:{"Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}});
   }
   if(path==="/__internal/metric"){
@@ -140,8 +149,7 @@ export class DownloadRouter {
    return new Response(null,{status:204,headers:{"Cache-Control":"no-store"}});
   }
   if(request.method!=="GET")return deny("Método no permitido.",405);
-  await this.count("button_click");
-  await this.count("eligible");
+  // Do not write redundant legacy button_click/eligible counts.
   const rawAdId=new URL(request.url).searchParams.get("ad_id")||"";
   const adId=/^[A-Za-z0-9_-]{1,64}$/.test(rawAdId)?rawAdId:"unattributed";
   const pool=poolFrom(this.env.DOWNLOAD_POOL);
@@ -161,7 +169,11 @@ export class DownloadRouter {
    await this.count("link:"+link.id+":allocated");
    await this.state.storage.put("latest_assignment",{id:link.id,ad_id:adId,at:new Date().toISOString(),result:"redirect_issued"});
    const metaResult=await reportMetaAssignment(this.env,request,adId,link.id);
-   await this.count("meta_capi:"+metaResult);
+   await this.count("meta_capi:"+metaResult.status);
+   if(metaResult.status==="failed"&&metaResult.diagnostic){
+    // Only status/error codes: no tokens, IPs, or raw API responses.
+    await this.state.storage.put("meta:last_error",{...metaResult.diagnostic,at:new Date().toISOString()});
+   }
    return new Response(null,{status:302,headers:{"Location":link.url,"Cache-Control":"no-store","Referrer-Policy":"no-referrer","X-Robots-Tag":"noindex"}});
   }
   await this.count("allocation_failed");
