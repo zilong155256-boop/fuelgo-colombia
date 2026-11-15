@@ -541,11 +541,21 @@ html,body{max-width:100%;overflow-x:clip}
  const landingParams=new URLSearchParams(window.location.search);
  const rawAdId=landingParams.get("utm_content")||landingParams.get("ad_id")||"";
  const adId=/^[A-Za-z0-9_-]{1,64}$/.test(rawAdId)?rawAdId:"";
- document.querySelectorAll("a[data-download]").forEach(link=>{
-  const target=new URL(link.getAttribute("href"),window.location.origin);
-  if(adId)target.searchParams.set("ad_id",adId);
-  link.href=target.pathname+target.search;
- });
+ // Carry ad attribution and affirmative Meta consent only when present.
+ const metaConsentKey="fuelgo_meta_measurement_consent_v1";
+ function updateDownloadLinks(){
+  let affirmative=false;
+  try{affirmative=localStorage.getItem(metaConsentKey)==="yes"}catch(e){}
+  const privacySignal=navigator.globalPrivacyControl===true||navigator.doNotTrack==="1";
+  document.querySelectorAll("a[data-download]").forEach(link=>{
+   const target=new URL(link.getAttribute("href"),window.location.origin);
+   if(adId)target.searchParams.set("ad_id",adId);
+   if(affirmative&&!privacySignal)target.searchParams.set("meta_consent","1");
+   else target.searchParams.delete("meta_consent");
+   link.href=target.pathname+target.search;
+  });
+ }
+ updateDownloadLinks();
  // fuelgo-first-party-metrics-v1: aggregate events, no personal identifiers.
  function countSiteEvent(eventName){
   try{
@@ -574,6 +584,7 @@ html,body{max-width:100%;overflow-x:clip}
  function setPreference(value){
   try{localStorage.setItem(storageKey,value)}catch(e){}
   banner.hidden=true;
+  updateDownloadLinks();
   if(value==="yes")enablePixel();
   else if(granted&&typeof fbq==="function"){
    fbq("consent","revoke");
