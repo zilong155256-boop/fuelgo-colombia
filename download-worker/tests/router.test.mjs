@@ -123,6 +123,7 @@ test("consented successful assignment sends one DownloadAssigned server event",a
   const result=await router.fetch(new Request("https://fuelgo.example/api/download?ad_id=ad123&meta_consent=1",{headers:{"CF-Connecting-IP":"192.0.2.5","User-Agent":"test-agent"}}));
   assert.equal(result.status,302);
   assert.equal(posted.length,1);
+  assert.equal(new URL(posted[0].url).pathname,"/v27.0/1907463533614212/events");
   assert.equal(posted[0].payload.data[0].event_name,"DownloadAssigned");
   assert.equal(posted[0].payload.data[0].custom_data.ad_id,"ad123");
   assert.equal(posted[0].payload.test_event_code,"TESTONLY");
