@@ -74,7 +74,7 @@ async function reportMetaAssignment(env,request,adId,linkId){
  const controller=new AbortController();
  const timer=setTimeout(()=>controller.abort(),3000);
  try{
-  const response=await fetch("https://graph.facebook.com/v27.0/190746353614212/events",{
+  const response=await fetch("https://graph.facebook.com/v27.0/1907463533614212/events",{
    method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},
    body:JSON.stringify(payload),signal:controller.signal
   });
