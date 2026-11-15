@@ -50,6 +50,21 @@ async function healthy(url){
   return r.ok&&(apkMime||apkName)&&!mime.includes("text/html")&&!mime.includes("application/json");
  }catch{return false}finally{clearTimeout(timer)}
 }
+// Read existing Meta cookies only; never invent IDs or rewrite creation timestamps.
+function metaMatchCookies(request){
+ const raw=request.headers.get("Cookie")||"";
+ const values={};
+ for(const part of raw.split(";")){
+  const at=part.indexOf("=");
+  if(at<0)continue;
+  const name=part.slice(0,at).trim();
+  if(name!=="_fbc"&&name!=="_fbp")continue;
+  const value=part.slice(at+1).trim();
+  if(value.length>256||!/^fb\.\d{1,3}\.\d{13}\.[A-Za-z0-9_~.\-]+$/.test(value))continue;
+  values[name]=value;
+ }
+ return values;
+}
 // Send only after explicit tracking consent. The event means a redirect was issued,
 // not that an APK download or installation completed.
 async function reportMetaAssignment(env,request,adId,linkId){
@@ -69,6 +84,9 @@ async function reportMetaAssignment(env,request,adId,linkId){
   user_data:{client_ip_address:ip,client_user_agent:ua},
   custom_data:{ad_id:adId,link_id:linkId}
  };
+ const cookies=metaMatchCookies(request);
+ if(cookies._fbc)event.user_data.fbc=cookies._fbc;
+ if(cookies._fbp)event.user_data.fbp=cookies._fbp;
  const payload={data:[event]};
  if(env.META_TEST_EVENT_CODE)payload.test_event_code=env.META_TEST_EVENT_CODE;
  const controller=new AbortController();
