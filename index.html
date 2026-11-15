@@ -596,7 +596,7 @@ html,body{max-width:100%;overflow-x:clip}
  if(preference==="yes"||preference==="no")document.cookie="meta_consent="+(preference==="yes"&&!globalOptOut?"1":"0")+"; Path=/; Max-Age=15552000; SameSite=Lax; Secure";
  if(preference==="yes" && !globalOptOut)enablePixel();
  // A missing preference is not affirmative consent. Let visitors choose.
- if(preference!=="yes" && preference!=="no")banner.hidden=false;
+ // Do not auto-open a consent overlay on landing. Visitors can choose via the footer settings control.
  function setPreference(value){
   try{localStorage.setItem(storageKey,value)}catch(e){}
   const allowed=value==="yes" && !globalOptOut;
