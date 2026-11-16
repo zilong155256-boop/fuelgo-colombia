@@ -489,25 +489,59 @@ html,body{max-width:100%;overflow-x:clip}
 .fg-preview .download{display:flex;width:min(340px,100%);margin:0 auto;justify-content:center}
 .fg-preview-note{display:block;margin-top:12px;color:#697d70;font-size:10px}
 @media(max-width:340px){.fg-device{width:88%}.fg-app-banner strong{font-size:17px}.fg-preview{padding-left:10px!important;padding-right:10px!important}}
+
+/* One consistent download appearance sitewide; avoid competing CTA styles. */
+.site a.download,.sticky-download a.download{display:flex;align-items:center;justify-content:center;gap:9px;background:linear-gradient(180deg,#11a467 0%,#087448 100%);color:#fff;border:1px solid #087448;border-radius:999px;min-height:50px;padding:10px 16px;font-size:15px;font-weight:800;line-height:1.2;text-decoration:none;box-shadow:0 6px 15px rgba(0,83,51,.23)}
+.site a.download:focus-visible,.sticky-download a.download:focus-visible{outline:3px solid #c4fc47;outline-offset:3px}
+.fg-app-page{min-height:315px;padding-bottom:8px}.fg-app-page[hidden]{display:none!important}
+.fg-app-shortcuts button{border:0;background:none;color:#17392c;font:inherit;font-weight:700;font-size:10px;cursor:pointer;padding:1px 0}
+.fg-app-row{width:calc(100% - 22px);text-align:left;color:inherit;font:inherit;cursor:pointer}
+.fg-app-row:focus-visible,.fg-app-footer button:focus-visible,.fg-app-primary:focus-visible,.fg-app-shortcuts button:focus-visible{outline:2px solid #12a365;outline-offset:2px}
+.fg-app-primary{border:0;border-radius:100px;background:#b6f92b;color:#073823;padding:10px 14px;display:block;margin:14px auto;font-size:12px;font-weight:800;cursor:pointer}
+.fg-app-map{height:155px;border-radius:13px;margin:12px;background:repeating-linear-gradient(23deg,transparent 0 30px,#dce6d8 31px 35px,transparent 36px 60px),repeating-linear-gradient(112deg,#eaf2e7 0 30px,#fafbf7 30px 50px);display:flex;justify-content:space-around;align-items:center;font-size:25px}
+.fg-app-qr-demo{height:190px;border-radius:12px;margin:12px;background:#fff;border:1px solid #d8e8db;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:#28533a}
+.fg-app-qr-demo>span{font-size:80px;line-height:1}.fg-app-qr-demo strong{font-size:13px}.fg-app-qr-demo small{font-size:10px}
+.fg-app-small{text-align:center;font-size:11px;color:#4b6957;padding:0 10px}
+.fg-app-footer button{border:0;background:transparent;font:inherit;font-size:10px;font-weight:700;color:#476854;padding:4px;cursor:pointer}
+.fg-app-footer button[aria-current="page"]{color:#09663c;background:#e6f9dc;border-radius:8px}
+.fg-preview .fg-preview-lead{max-width:310px}
 </style></head><body><main class="site"><section class="hero"><div class="station"></div><header class="header"><div class="brand"><img class="appicon" src="./fuelgo-logo.svg" alt="FuelGo" width="51" height="51"><div><strong>FuelGo</strong><small>Tu app de combustible</small></div></div><span class="wallet-pill">Nequi · DaviPlata · más</span></header><div class="offer"><h2>Ahorra en tu tanqueada</h2><div class="big"><span>Hasta</span><strong>50%*</strong></div><p>*Consulta las promociones vigentes en la app FuelGo.</p></div><aside class="legend" lang="es-CO" aria-label="Beneficios FuelGo"><strong>Tus beneficios</strong><span class="legend-summary"><svg class="hero-benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-3a2 2 0 0 0 0-4z"/><path d="M12 5v14" stroke-dasharray="2 3"/></svg><span>Cupones de combustible</span></span><span class="legend-summary"><svg class="hero-benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h14v4M3 7h18v14H5a2 2 0 0 1-2-2V7z"/><path d="M16 12h5v5h-5a2.5 2.5 0 0 1 0-5z"/></svg><span>Cashback en tu cuenta</span></span><span class="legend-summary"><svg class="hero-benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Estaciones participantes</span></span></aside><div class="hero-action"><a class="download" data-download href="/api/download"><svg class="hero-download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4"/><path d="M5 17v3h14v-3"/></svg><span>Descargar FuelGo</span><svg class="hero-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a></div></section><section class="section fuelgo-install" aria-label="Cómo instalar FuelGo"><details class="install-accordion"><summary><span class="install-title-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2" width="11" height="20" rx="2"/><path d="M11 18.5h2"/></svg></span><span>¿Cómo instalar la app?</span><span class="install-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="install-content"><ol class="install-steps"><li><span class="install-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4"/><path d="M5 17v3h14v-3"/></svg></span><span>1. Descarga</span></li><li><span class="install-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 2h7l5 5v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/><path d="M14 2v6h5M12 11v7m-3-3 3 3 3-3"/></svg></span><span>2. Abre</span></li><li><span class="install-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/><path d="M9 3H7L5 5v2m10-4h2l2 2v2m0 10v2l-2 2h-2M9 21H7l-2-2v-2"/></svg></span><span>3. Autoriza</span></li><li><span class="install-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg></span><span>4. Instala</span></li></ol><div class="install-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 11v6M12 7h.01"/></svg><p>Abre el APK y verifica su origen. Si Android advierte de un riesgo, no continúes.</p></div><p class="download-troubleshooting" style="font-size:12px;color:#526c5c;margin:10px 2px 0">¿No descarga en Facebook o Messenger? Menú ⋯ → «Abrir en el navegador».</p></div></details></section><div class="hero-trust" aria-label="Ventajas de FuelGo"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3zM7 10l4-7a2 2 0 0 1 3 2v5h6a2 2 0 0 1 2 2l-1 7a2 2 0 0 1-2 2H7"/></svg><span>Ahorro real</span></div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg><span>Seguro y confiable</span></div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 10-12h-7l0-8z"/></svg><span>Fácil de usar</span></div></div>
 <section class="section steps"><h2>Obtén tus descuentos en 2 pasos</h2><ol><li><span class="num">1</span><span class="step-icon"><svg class="step-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4M12 6v8m-3-3 3 3 3-3"/></svg></span><span class="step-content"><strong>Descarga FuelGo</strong><span>Descarga la app y consulta las ofertas disponibles.</span></span></li><li><span class="num">2</span><span class="step-icon"><svg class="step-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-3a2 2 0 0 0 0-4V7z"/><path d="M12 5v14" stroke-dasharray="2 3"/></svg></span><span class="step-content"><strong>Disfruta tu descuento</strong><span>Elige tu oferta, visita la estación participante y presenta tu código QR.</span></span></li></ol><a class="download" data-download href="/api/download">Descargar FuelGo</a></section>
 <section class="section fg-preview" aria-label="Vista previa de FuelGo">
 <h2>Así se ve FuelGo</h2>
 <p class="fg-preview-lead">Explora promociones, elige tu cupón y consulta cómo utilizarlo.</p>
-<div class="fg-device" role="img" aria-label="Vista ilustrativa de la aplicación FuelGo con cupones de combustible">
+<div class="fg-device" aria-label="Demostración interactiva ilustrativa de FuelGo">
  <div class="fg-device-notch" aria-hidden="true"></div>
  <div class="fg-screen">
   <div class="fg-app-head"><div class="fg-app-brand">⛽ FuelGo<em>Colombia 🇨🇴</em></div><span class="fg-app-dot" aria-hidden="true">☰</span></div>
-  <div class="fg-app-banner"><strong>Cupones de combustible</strong><span>Hasta 50 %*</span><small>*En promociones seleccionadas</small></div>
-  <div class="fg-app-shortcuts"><div><b aria-hidden="true">⛽</b>Combustible</div><div><b aria-hidden="true">🎟</b>Mis cupones</div><div><b aria-hidden="true">📍</b>Estaciones</div></div>
-  <h3>Explora tus beneficios</h3>
-  <div class="fg-coupon-card"><div class="fg-coupon-icon" aria-hidden="true">⛽</div><span>Promociones de combustible<small>Consulta condiciones disponibles</small></span><strong>Ver ›</strong></div>
-  <div class="fg-coupon-card"><div class="fg-coupon-icon" aria-hidden="true">🎟</div><span>Mis cupones<small>Consulta tus beneficios</small></span><strong>Ver ›</strong></div>
-  <div class="fg-coupon-card"><div class="fg-coupon-icon" aria-hidden="true">▦</div><span>Presenta tu código QR<small>En estaciones participantes</small></span><strong>Ver ›</strong></div>
-  <div class="fg-app-footer"><span>⌂ Inicio</span><span>▤ Cupones</span><span>⌖ Estaciones</span></div>
+  <div class="fg-app-page" data-app-page="inicio">
+   <div class="fg-app-banner"><strong>Cupones de combustible</strong><span>Hasta 50 %*</span><small>*En promociones seleccionadas</small></div>
+   <div class="fg-app-shortcuts"><button type="button" data-app-go="cupones"><b aria-hidden="true">🎟</b>Mis cupones</button><button type="button" data-app-go="estaciones"><b aria-hidden="true">📍</b>Estaciones</button><button type="button" data-app-go="qr"><b aria-hidden="true">▦</b>Código QR</button></div>
+   <h3>Explora tus beneficios</h3>
+   <button class="fg-coupon-card fg-app-row" type="button" data-app-go="cupones"><span class="fg-coupon-icon" aria-hidden="true">⛽</span><span>Cupones de combustible<small>Consulta las condiciones</small></span><strong>Ver ›</strong></button>
+   <button class="fg-coupon-card fg-app-row" type="button" data-app-go="estaciones"><span class="fg-coupon-icon" aria-hidden="true">📍</span><span>Estaciones cercanas<small>Explora el mapa</small></span><strong>Ver ›</strong></button>
+  </div>
+  <div class="fg-app-page" data-app-page="cupones" hidden>
+   <h3>Mis cupones</h3>
+   <div class="fg-app-banner"><strong>Promociones disponibles</strong><span>Hasta 50 %*</span><small>*Sujeto a condiciones</small></div>
+   <div class="fg-coupon-card"><span class="fg-coupon-icon" aria-hidden="true">🎟</span><span>Cupón de combustible<small>Para estaciones participantes</small></span><strong>50 %*</strong></div>
+   <button class="fg-app-primary" type="button" data-app-go="qr">Ver ejemplo de cupón ›</button>
+  </div>
+  <div class="fg-app-page" data-app-page="estaciones" hidden>
+   <h3>Estaciones cercanas</h3>
+   <div class="fg-app-map" aria-label="Mapa ilustrativo de estaciones"><span>📍</span><span>⛽</span><span>📍</span></div>
+   <div class="fg-coupon-card"><span class="fg-coupon-icon" aria-hidden="true">📍</span><span>Consulta las estaciones<small>Ubicaciones sujetas a disponibilidad</small></span><strong>›</strong></div>
+   <button class="fg-app-primary" type="button" data-app-go="cupones">Ver cupones ›</button>
+  </div>
+  <div class="fg-app-page" data-app-page="qr" hidden>
+   <h3>Presenta tu cupón</h3>
+   <div class="fg-app-qr-demo"><span aria-hidden="true">▦</span><strong>Código QR de ejemplo</strong><small>Se muestra en la aplicación real</small></div>
+   <p class="fg-app-small">Presenta tu cupón en una estación participante.</p>
+   <button class="fg-app-primary" type="button" data-app-go="inicio">Volver al inicio</button>
+  </div>
+  <div class="fg-app-footer" role="navigation" aria-label="Pantallas de demostración"><button type="button" data-app-go="inicio" aria-current="page">⌂ Inicio</button><button type="button" data-app-go="cupones">▤ Cupones</button><button type="button" data-app-go="estaciones">⌖ Estaciones</button></div>
  </div>
 </div>
-<a class="download" data-download href="/api/download">Descargar FuelGo</a>
 <small class="fg-preview-note">Vista ilustrativa de la aplicación. Promociones sujetas a disponibilidad.</small>
 </section>
 <section class="section fuelgo-about"><h2>¿Qué es FuelGo?</h2>
@@ -668,6 +702,26 @@ html,body{max-width:100%;overflow-x:clip}
    window.setTimeout(()=>window.location.assign(destination),350);
   });
  });
+})();
+</script>
+<script>
+(function(){
+ const preview=document.querySelector(".fg-preview");
+ if(!preview)return;
+ const pages=Array.from(preview.querySelectorAll("[data-app-page]"));
+ const controls=Array.from(preview.querySelectorAll("[data-app-go]"));
+ function show(name){
+  if(!pages.some(page=>page.dataset.appPage===name))return;
+  pages.forEach(page=>{page.hidden=page.dataset.appPage!==name});
+  controls.forEach(btn=>{
+   if(btn.closest(".fg-app-footer")){
+    if(btn.dataset.appGo===name)btn.setAttribute("aria-current","page");
+    else btn.removeAttribute("aria-current");
+   }
+  });
+ }
+ controls.forEach(btn=>btn.addEventListener("click",()=>show(btn.dataset.appGo)));
+ show("inicio");
 })();
 </script>
 </body></html>
