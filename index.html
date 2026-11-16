@@ -557,12 +557,6 @@ html,body{max-width:100%;overflow-x:clip}
 .fg-phone-gallery:focus-visible{outline:2px solid #048956;outline-offset:-2px}
 .fg-phone-slide{flex:0 0 100%;min-width:100%;margin:0;padding:0 14px;scroll-snap-align:center;scroll-snap-stop:always;display:flex;justify-content:center;align-items:center;background:transparent;border:0;box-shadow:none;border-radius:0;overflow:visible}
 .fg-phone-slide img{display:block;width:min(100%,310px);height:auto;max-height:550px;object-fit:contain;object-position:center;background:transparent;border:0;border-radius:0;box-shadow:none;user-select:none;-webkit-user-drag:none}
-.fg-gallery-controls{display:flex;justify-content:center;align-items:center;gap:14px;margin:10px 0 0}
-.fg-gallery-arrow{width:36px;height:36px;border:1px solid #b7d7c5;border-radius:50%;background:#fff;color:#076b42;font-size:23px;line-height:1;cursor:pointer}
-.fg-gallery-arrow:disabled{opacity:.3;cursor:default}
-.fg-gallery-dots{display:flex;align-items:center;gap:8px}
-.fg-gallery-dot{width:9px;height:9px;padding:0;border:0;border-radius:50%;background:#aacabc;cursor:pointer}
-.fg-gallery-dot[aria-current="true"]{width:22px;border-radius:10px;background:#08784b}
 @media(max-width:359px){.fg-phone-slide{padding-inline:8px}.fg-phone-slide img{max-height:510px}}
 @media(prefers-reduced-motion:reduce){.fg-phone-gallery{scroll-behavior:auto}}
 /* Keep the 20–50 percent hero offer readable on narrow phones. */
@@ -576,11 +570,7 @@ html,body{max-width:100%;overflow-x:clip}
  <figure class="fg-phone-slide"><img src="./assets/fuelgo-stations.jpg" alt="FuelGo Colombia: demostración de estaciones y cupón" loading="lazy" decoding="async"></figure>
  <figure class="fg-phone-slide"><img src="./assets/fuelgo-qr.jpg" alt="FuelGo Colombia: demostración de promociones y código QR" loading="lazy" decoding="async"></figure>
 </div>
-<div class="fg-gallery-controls" aria-label="Controles de pantallas">
-<button class="fg-gallery-arrow fg-gallery-prev" type="button" aria-label="Pantalla anterior">‹</button>
-<div class="fg-gallery-dots" aria-label="Seleccionar pantalla"></div>
-<button class="fg-gallery-arrow fg-gallery-next" type="button" aria-label="Pantalla siguiente">›</button>
-</div>
+
 </section>
 
 <section class="section steps"><h2>Obtén tus descuentos en 2 pasos</h2><ol><li><span class="num">1</span><span class="step-icon"><svg class="step-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4M12 6v8m-3-3 3 3 3-3"/></svg></span><span class="step-content"><strong>Descarga FuelGo</strong><span>Descarga la app y consulta las ofertas disponibles.</span></span></li><li><span class="num">2</span><span class="step-icon"><svg class="step-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-3a2 2 0 0 0 0-4V7z"/><path d="M12 5v14" stroke-dasharray="2 3"/></svg></span><span class="step-content"><strong>Disfruta tu descuento</strong><span>Elige tu oferta, visita la estación participante y presenta tu código QR.</span></span></li></ol></section>
@@ -749,19 +739,4 @@ html,body{max-width:100%;overflow-x:clip}
 })();
 </script>
 
-<script id="fuelgo-photo-gallery-swipe">
-(()=>{const gallery=document.querySelector('.fg-phone-gallery');if(!gallery)return;
-const slides=Array.from(gallery.querySelectorAll('.fg-phone-slide'));
-const prev=document.querySelector('.fg-gallery-prev'),next=document.querySelector('.fg-gallery-next'),dots=document.querySelector('.fg-gallery-dots');
-if(!slides.length||!prev||!next||!dots)return;
-let current=0;
-slides.forEach((_,i)=>{const b=document.createElement('button');b.type='button';b.className='fg-gallery-dot';b.setAttribute('aria-label','Ver pantalla '+(i+1));b.addEventListener('click',()=>go(i));dots.appendChild(b)});
-const controls=Array.from(dots.children);
-function update(index){current=Math.max(0,Math.min(slides.length-1,index));controls.forEach((b,i)=>b.setAttribute('aria-current',String(i===current)));prev.disabled=current===0;next.disabled=current===slides.length-1}
-function go(index){update(index);gallery.scrollTo({left:slides[current].offsetLeft-slides[0].offsetLeft,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})}
-prev.addEventListener('click',()=>go(current-1));next.addEventListener('click',()=>go(current+1));
-let frame=0;gallery.addEventListener('scroll',()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{const w=gallery.clientWidth||1;update(Math.round(gallery.scrollLeft/w))})},{passive:true});
-gallery.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();go(current+(e.key==='ArrowRight'?1:-1))}});
-update(0);
-})();
-</script></body></html>
+</body></html>
