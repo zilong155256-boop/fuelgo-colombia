@@ -73,10 +73,14 @@ body{background:transparent;padding:0}
 /* Lightweight locally cached images, no embedded megabyte-sized base64 data. */
 .br div{background:rgba(255,255,255,.98)}
 .br img{max-width:92%;max-height:76%;object-fit:contain}
-.preview-slide{content-visibility:auto;contain-intrinsic-size:auto 630px}
-.preview-slide:first-child{content-visibility:visible}
+.preview-slide{content-visibility:visible;contain:layout style}
 .row{scroll-behavior:smooth}
 .row.is-dragging{scroll-behavior:auto}
+@media(prefers-reduced-motion:reduce){.row{scroll-behavior:auto}}
+/* Final 390px reference: 10–20% smaller phones, no stretched UI. */
+.row{gap:10px!important;padding-left:14px;padding-right:14px;scroll-padding-left:14px}
+.preview-slide{min-width:0}
+.preview-slide>.ph{will-change:auto;backface-visibility:hidden}
 @media(prefers-reduced-motion:reduce){.row{scroll-behavior:auto}}
 </style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
 <svg width="0" height="0" style="position:absolute"><defs>
@@ -143,7 +147,7 @@ const firstPhone=app.querySelector('.preview-slide img');
 if(firstPhone)firstPhone.loading='eager';
 function fitPreview(){
  const vw=document.documentElement.clientWidth||window.innerWidth;
- const scale=Math.min(.73,Math.max(.46,(vw-110)/414));
+ const scale=Math.min(.62,Math.max(.39,((vw-84)/414)*.78));
  for(const slide of document.querySelectorAll('.preview-slide')){
   slide.style.width=(414*scale)+'px';
   slide.style.height=(868*scale)+'px';
@@ -151,7 +155,7 @@ function fitPreview(){
   phone.style.transform='scale('+scale+')';
   phone.style.transformOrigin='top left';
  }
- app.style.height=(868*scale+12)+'px';
+ app.style.height=(868*scale+16)+'px';
 }
 fitPreview();
 window.addEventListener('resize',fitPreview);
@@ -173,8 +177,9 @@ window.addEventListener('resize',fitPreview);
   dragging=false;
   scroller.classList.remove('is-dragging');
   const slides=Array.from(scroller.children);
-  const closest=slides.reduce((best,el)=>Math.abs(el.offsetLeft-scroller.scrollLeft)<Math.abs(best.offsetLeft-scroller.scrollLeft)?el:best,slides[0]);
-  if(closest)scroller.scrollTo({left:closest.offsetLeft-slides[0].offsetLeft,behavior:'smooth'});
+  const stride=slides[1]?slides[1].offsetLeft-slides[0].offsetLeft:scroller.clientWidth;
+  const target=Math.max(0,Math.min(slides.length-1,Math.round(scroller.scrollLeft/Math.max(stride,1))));
+  scroller.scrollTo({left:target*stride,behavior:'smooth'});
  }
  scroller.addEventListener('pointerup',finish);
  scroller.addEventListener('pointercancel',finish);

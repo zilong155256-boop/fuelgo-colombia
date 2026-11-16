@@ -747,6 +747,28 @@ html,body{max-width:100%;overflow-x:clip}
 .hero .wallet-payments{display:flex;align-items:center;justify-content:flex-end;flex-wrap:nowrap;gap:5px;min-width:0;width:auto;max-width:62%;padding:0!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important}
 .hero .wallet-payments .wallet-brand-icon{display:block;flex:0 0 29px;width:29px;height:29px;max-width:29px;object-fit:cover;object-position:center;border-radius:7px;background:transparent!important;box-shadow:none!important;padding:0!important}
 @media(max-width:359px){.hero .wallet-payments{gap:3px;max-width:59%}.hero .wallet-payments .wallet-brand-icon{width:24px;height:24px;flex-basis:24px}}
+
+/* Final front-end handoff, 390px design baseline. Static visual components only. */
+.fg-photo-preview{background:#f3faf4!important;padding:16px 0 12px!important}
+.fg-photo-preview h2{margin:0 16px 10px!important;line-height:1.28!important}
+.fg-html-demo{display:block;width:100%;height:clamp(405px,calc((100vw - 84px)*1.65 + 18px),565px)!important;max-height:565px!important;border:0!important;overflow:hidden!important}
+.site .section{min-width:0}
+.site .section p,.site .section li{overflow-wrap:break-word}
+.site .download,.sticky-download .download{min-height:46px!important;border-radius:999px!important;gap:9px;box-shadow:0 3px 9px rgba(0,68,45,.12);align-items:center;justify-content:center}
+.site .download:active,.sticky-download .download:active{transform:scale(.995);filter:brightness(.97)}
+.site .download[aria-label="Botón de demostración"],.sticky-download .download[aria-label="Botón de demostración"]{cursor:default}
+.sticky-download{max-width:100%;box-sizing:border-box}
+.faq details{max-width:100%;overflow-wrap:anywhere}
+@media(max-width:359px){
+ .fg-html-demo{height:clamp(395px,calc((100vw - 84px)*1.65 + 18px),450px)!important}
+ .site .download,.sticky-download .download{min-height:44px!important}
+}
+@media(min-width:600px){
+ .fg-html-demo{height:565px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .site .download,.sticky-download .download{transition:none!important}
+}
 </style></head><body><main class="site"><section class="hero"><img class="hero-photo" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Terpel_area_de_Servicio.jpg?width=1280" alt="" aria-hidden="true" loading="eager" fetchpriority="high" decoding="async" width="1280" height="850"><div class="station"></div><header class="header"><div class="brand"><img class="appicon" src="./fuelgo-logo.svg" fetchpriority="high" decoding="async" alt="FuelGo" width="51" height="51"><div><strong>FuelGo</strong><small>Tu app de combustible</small></div></div><div class="wallet-pill wallet-payments" role="group" aria-label="Billeteras disponibles para pagar: Nequi, DaviPlata, MOVii y dale!">
 <img class="wallet-brand-icon" src="https://play-lh.googleusercontent.com/ieznb73N7P1gm49TTOYpQX23BAUlRVxiVnzy2_YJQSAkcfOkKOi9U-UQlvW5vCt1Exf2ljI-rn4Hc81xddqg5M8=w240-h480" alt="Nequi" width="32" height="32" loading="eager" decoding="async">
 <img class="wallet-brand-icon" src="https://play-lh.googleusercontent.com/bNPDiFqg28L6ckatfuP-WgrxDRDk0JEOkC6nUIQp7Q61RW78i1bw-ffMmEjyxl-qP6dv3ANDOQqmIbBtgJI3EA=w240-h480" alt="DaviPlata" width="32" height="32" loading="eager" decoding="async">
