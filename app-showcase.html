@@ -82,6 +82,34 @@ body{background:transparent;padding:0}
 .preview-slide{min-width:0}
 .preview-slide>.ph{will-change:auto;backface-visibility:hidden}
 @media(prefers-reduced-motion:reduce){.row{scroll-behavior:auto}}
+
+/* Activity history: distinct chronological list, never a duplicate coupon gallery. */
+.history-page{padding:12px 14px 0;gap:12px}
+.history-summary{display:flex;align-items:center;justify-content:space-around;padding:14px 10px;background:linear-gradient(145deg,#ecfbd7,#f5ffeb);border-radius:18px;border:1px solid #e0f1c7}
+.history-stat{display:flex;align-items:center;gap:10px;min-width:0;color:var(--g)}
+.history-stat>.i{width:28px;height:28px;stroke:var(--g2)}
+.history-stat>div{display:flex;flex-direction:column;gap:1px}
+.history-stat span{font:500 12px/15px Inter,system-ui,sans-serif;color:#46614f}
+.history-stat strong{font:750 25px/29px Inter,system-ui,sans-serif;color:var(--g)}
+.history-sep{height:35px;width:1px;background:#cfe7ba}
+.history-heading{display:flex;justify-content:space-between;align-items:center;margin:2px 2px 0}
+.history-heading>span{font:700 17px/22px Inter,system-ui,sans-serif;color:#103d2b}
+.history-heading small{font:500 12px Inter,system-ui,sans-serif;color:#6d8174}
+.history-list{display:flex;flex-direction:column;gap:7px}
+.history-entry{min-height:78px;display:grid;grid-template-columns:4px 38px minmax(0,1fr) auto;gap:9px;align-items:center;padding:9px 10px 9px 0;background:#fff;border:1px solid #eff0ee;border-radius:14px;box-shadow:0 2px 7px rgba(13,53,35,.055);min-width:0}
+.history-rail{align-self:stretch;border-radius:0 4px 4px 0;background:#11b539}
+.history-rail.u{background:#a9adb0}.history-rail.v{background:#ed3955}
+.history-logo{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#fafdf9}
+.history-logo img{width:35px;height:35px;object-fit:contain;max-width:100%}
+.history-info{min-width:0;display:flex;flex-direction:column;gap:3px}
+.history-info strong{font:700 13px/16px Inter,system-ui,sans-serif;white-space:normal;color:#183b2a}
+.history-info>span{font:500 12px/15px Inter,system-ui,sans-serif;color:#536057;white-space:normal}
+.history-info small{display:flex;align-items:center;gap:4px;font:400 11px/14px Inter,system-ui,sans-serif;color:#8a948c}
+.history-info small .i{width:13px;height:13px;stroke:#78867b}
+.history-status{align-self:start;margin-top:4px;padding:5px 7px;border-radius:999px;font:650 10px/12px Inter,system-ui,sans-serif;white-space:nowrap;color:#087839;background:#ddf8cc}
+.history-status.u{background:#f0f1f1;color:#737b78}.history-status.v{background:#ffe7eb;color:#d9304b}
+.history-caption{display:flex;align-items:center;gap:8px;padding:10px 8px;font:400 11px/16px Inter,system-ui,sans-serif;color:#69766e}
+.history-caption .i{width:15px;height:15px;stroke:#6a967d}
 </style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
@@ -128,9 +156,31 @@ const cupones=hd('Cupones de combustible','Ahorra en gasolina, diésel y más',I
 ${cup.map(([b,d,h,s,n])=>`<div class="cd cp"><img src="${A[b]}" alt="${n}"><div><div class="t">Cupón de combustible</div><div class="d">${h?`<small>${h}</small>`:''}${d}</div><div class="aux">${s}</div></div><div class="bt s">Obtener</div><div class="ml"><span>${I('cal')}Válido: 15 – 30 nov 2026</span><span>${I('pin')}En estaciones ${n} participantes</span>${I('chev')}</div></div>`).join('')}
 <div class="cd" style="background:#f1fddf;display:flex;align-items:center;gap:12px;padding:6px 16px"><span style="color:var(--g2)">${I('info')}</span><div style="flex:1"><div style="font:600 16px Inter">Reglas de uso</div><div class="aux" style="color:#111">Cada cupón tiene condiciones, vigencia y estaciones participantes.</div></div>${I('chev')}</div></div>`+nav(1);
 const rec=[['terpel','30% Dto.',['Recibido: 15 nov 2026','Válido hasta: 30 nov 2026'],'a'],['shell','50% Dto.',['Recibido: 12 nov 2026','Válido hasta: 27 nov 2026'],'a'],['primax','30% Dto.',['Usado: 10 nov 2026'],'u'],['biomax','40% Dto.',['Usado: 08 nov 2026'],'u'],['terpel','30% Dto.',['Vencido: 05 nov 2026'],'v']];
-const hist=hd('Mis cupones y actividad','',I('back'))+`<div class="bd"><div class="cd" style="background:#f1fddf;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 16px"><div style="display:flex;gap:10px;align-items:center;color:var(--g2)">${I('tkt')}<div><div style="font:600 13px Inter">Cupones recibidos</div><div style="font:700 28px/30px Inter">8</div></div></div><div style="display:flex;gap:10px;align-items:center;color:var(--g2)">${I('ok')}<div><div style="font:600 13px Inter">Cupones usados</div><div style="font:700 28px/30px Inter">3</div></div></div></div>
-<div class="ch"><span class="on">Todos (8)</span><span>Disponibles (4)</span><span>Usados (3)</span><span>Vencidos (1)</span></div>
-${rec.map(([b,d,ds,s])=>`<div class="cd cp hc" style="--c:${{a:'#00A91C',u:'#999',v:'#F20D2F'}[s]};padding:8px 12px 8px 10px"><img src="${A[b]}" alt="${b}"><div><div class="t">Cupón de combustible</div><div class="d">${d}</div>${ds.map(x=>`<div class="aux" style="display:flex;gap:4px;align-items:center">${I('cal').replace('class="i"','class="i" style="width:14px;height:14px"')}${x}</div>`).join('')}</div><div class="rt"><span class="pill ${s}">${{a:'Disponible',u:'✓ Usado',v:'◔ Vencido'}[s]}</span><div class="${s=='a'?'bt s':'bt s o'}">${s=='a'?I('qr').replace('class="i"','class="i" style="width:18px;height:18px"')+'Ver QR':'Detalles'}</div></div></div>`).join('')}</div>`+nav(3);
+const hist=hd('Historial de actividad','',I('back'))+`<div class="bd history-page">
+ <div class="history-summary">
+  <div class="history-stat">${I('tkt')}<div><span>Recibidos</span><strong>8</strong></div></div>
+  <div class="history-sep"></div>
+  <div class="history-stat">${I('ok')}<div><span>Usados</span><strong>3</strong></div></div>
+ </div>
+ <div class="history-heading"><span>Movimientos recientes</span><small>Nov 2026</small></div>
+ <div class="history-list">
+ ${rec.map(([brand,discount,dates,state],index)=>{
+   const isReceived=state==='a',isUsed=state==='u';
+   const action=isReceived?'Cupón recibido':isUsed?'Cupón utilizado':'Cupón vencido';
+   const detail=(dates[0]||'').replace(/^(Recibido|Usado|Vencido): /,'');
+   return `<div class="history-entry"><span class="history-rail ${state}"></span>
+     <span class="history-logo"><img src="${A[brand]}" alt="${brand}"></span>
+     <div class="history-info">
+       <strong>${action}</strong>
+       <span>${brand.charAt(0).toUpperCase()+brand.slice(1)} · ${discount}</span>
+       <small>${I('cal')}${detail}</small>
+     </div>
+     <span class="history-status ${state}">${isReceived?'Disponible':isUsed?'Usado':'Vencido'}</span>
+   </div>`;
+ }).join('')}
+ </div>
+ <div class="history-caption">${I('info')}<span>Consulta aquí los movimientos de tus cupones.</span></div>
+</div>`+nav(3);
 const qr=`<div style="position:absolute;inset:0;background:linear-gradient(#003F2E,#06432f 40%,#1b1b1b)"></div>`+hd('','',' ',I('x')).replace('border-radius:0 0 24px 24px','')+`<div class="cd" style="margin:6px 14px 0;padding:14px 16px 14px;position:relative;border-radius:24px;height:690px;display:flex;flex-direction:column;gap:10px;box-shadow:none">
 <div style="display:grid;grid-template-columns:52px 1fr auto;gap:8px;align-items:center">${L('terpel','ql')}<div><div class="t" style="font:600 15px Inter;white-space:nowrap">Cupón de combustible</div><div style="font:700 28px/32px Inter;color:var(--r)">30% Dto.</div></div><div class="pill" style="display:flex;gap:6px;align-items:center;padding:8px 8px;white-space:normal;width:88px;text-align:left"><span style="color:var(--g2)">${I('ok')}</span>¡Cupón obtenido!</div></div>
 <div style="width:238px;height:238px;margin:0 auto;padding:22px;position:relative">${L('qr','qi')}${['top:0;left:0;border-width:5px 0 0 5px;border-radius:22px 0 0 0','top:0;right:0;border-width:5px 5px 0 0;border-radius:0 22px 0 0','bottom:0;left:0;border-width:0 0 5px 5px;border-radius:0 0 0 22px','bottom:0;right:0;border-width:0 5px 5px 0;border-radius:0 0 22px 0'].map(s=>`<i style="position:absolute;width:48px;height:48px;border:solid var(--g2);${s}"></i>`).join('')}</div>
