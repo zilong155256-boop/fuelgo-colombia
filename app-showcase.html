@@ -110,6 +110,11 @@ body{background:transparent;padding:0}
 .history-status.u{background:#f0f1f1;color:#737b78}.history-status.v{background:#ffe7eb;color:#d9304b}
 .history-caption{display:flex;align-items:center;gap:8px;padding:10px 8px;font:400 11px/16px Inter,system-ui,sans-serif;color:#69766e}
 .history-caption .i{width:15px;height:15px;stroke:#6a967d}
+
+/* Phone showcase: eliminate repeated large headings; retain FuelGo brand bar. */
+.hd.compact{padding-top:44px;padding-bottom:11px;min-height:96px}
+.hd.compact .lg{height:34px;max-width:160px;object-fit:contain}
+.hd.compact .l,.hd.compact .r{top:52px}
 </style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
@@ -139,6 +144,7 @@ const I=n=>`<svg class="i"><use href="#i-${n}"/></svg>`,L=(n,c='')=>`<img class=
 const sb=`<div class="sb"><span>10:24</span><svg width="66" height="14" viewBox="0 0 66 14" fill="#fff"><rect y="9" width="3" height="5" rx="1"/><rect x="5" y="6" width="3" height="8" rx="1"/><rect x="10" y="3" width="3" height="11" rx="1"/><rect x="15" width="3" height="14" rx="1"/><path d="M27 4a9 9 0 0112 0M29.5 7a5.5 5.5 0 017 0" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="33" cy="11" r="1.6"/><rect x="45" y="1" width="19" height="11" rx="3" fill="none" stroke="#fff"/><rect x="47" y="3" width="15" height="7" rx="1.5"/></svg></div>`;
 const nav=a=>`<nav class="nv">`+[['Inicio','home'],['Cupones','tkt'],['Escanear QR','scan'],['Historial','clip'],['Mi cuenta','user']].map(([t,i],k)=>`<a class="${k==a?'on':''}">${i=='scan'?L('scan'):I(i)}${t}</a>`).join('')+`</nav>`;
 const hd=(t='',s='',l='',r='')=>`<header class="hd"><div class="l">${l}</div><div class="r">${r}</div>${L('logo','lg')}${t?`<h1>${t}</h1>`:''}${s?`<p>${s}</p>`:''}</header>`;
+const hdCompact=(l='',r='')=>hd('','',l,r).replace('class="hd"','class="hd compact"');
 const ph=(c,d='')=>`<div class="ph"><div class="sc">${sb}${c}<i class="hi" style="${d}"></i></div></div>`;
 const brands=['terpel','primax','biomax','texaco','shell','petromil'],nm={terpel:'Terpel',primax:'Primax',biomax:'Biomax',texaco:'Texaco',shell:'Shell',petromil:'Petromil'};
 const dist=['350 m','1,2 km','2,5 km','3,1 km','4,0 km','5,2 km'],ord=['terpel','shell','primax','biomax','texaco','petromil'];
@@ -152,11 +158,11 @@ const home=hd('','',I('menu'),L('gift')+I('bell'))+`<div class="bd">${L('banner'
 <div class="aux" style="margin-top:-4px">Distancias simuladas con fines de demostración.</div>
 <div class="cd" style="padding:2px 16px">${ord.map((b,k)=>`<div class="st">${L(b)}<span>${I('pin')}${dist[k]}</span><span class="pill" style="justify-self:end;margin-right:8px">Precio por confirmar</span>${I('chev').replace('class="i"','class="i" style="width:16px;height:16px"')}</div>`).join('')}</div></div>`+nav(0);
 const cup=[['terpel','30% DTO.','','En gasolina corriente y diésel','Terpel'],['shell','50% DTO.','Hasta ','En gasolina seleccionada','Shell'],['primax','30% DTO.','','En gasolina y diésel','Primax'],['biomax','40% DTO.','','En gasolina seleccionada','Biomax']];
-const cupones=hd('Cupones de combustible','Ahorra en gasolina, diésel y más',I('back'),L('giftc'))+`<div class="bd" style="gap:6px"><div class="ch"><span class="on">▦ Todos</span>${['terpel','shell','primax','biomax'].map(b=>`<span>${L(b)}</span>`).join('')}<span>Más ⌄</span></div>${L('promo')}
+const cupones=hdCompact(I('back'),L('giftc'))+`<div class="bd" style="gap:6px"><div class="ch"><span class="on">▦ Todos</span>${['terpel','shell','primax','biomax'].map(b=>`<span>${L(b)}</span>`).join('')}<span>Más ⌄</span></div>${L('promo')}
 ${cup.map(([b,d,h,s,n])=>`<div class="cd cp"><img src="${A[b]}" alt="${n}"><div><div class="t">Cupón de combustible</div><div class="d">${h?`<small>${h}</small>`:''}${d}</div><div class="aux">${s}</div></div><div class="bt s">Obtener</div><div class="ml"><span>${I('cal')}Válido: 15 – 30 nov 2026</span><span>${I('pin')}En estaciones ${n} participantes</span>${I('chev')}</div></div>`).join('')}
 <div class="cd" style="background:#f1fddf;display:flex;align-items:center;gap:12px;padding:6px 16px"><span style="color:var(--g2)">${I('info')}</span><div style="flex:1"><div style="font:600 16px Inter">Reglas de uso</div><div class="aux" style="color:#111">Cada cupón tiene condiciones, vigencia y estaciones participantes.</div></div>${I('chev')}</div></div>`+nav(1);
 const rec=[['terpel','30% Dto.',['Recibido: 15 nov 2026','Válido hasta: 30 nov 2026'],'a'],['shell','50% Dto.',['Recibido: 12 nov 2026','Válido hasta: 27 nov 2026'],'a'],['primax','30% Dto.',['Usado: 10 nov 2026'],'u'],['biomax','40% Dto.',['Usado: 08 nov 2026'],'u'],['terpel','30% Dto.',['Vencido: 05 nov 2026'],'v']];
-const hist=hd('Historial de actividad','',I('back'))+`<div class="bd history-page">
+const hist=hdCompact(I('back'))+`<div class="bd history-page">
  <div class="history-summary">
   <div class="history-stat">${I('tkt')}<div><span>Recibidos</span><strong>8</strong></div></div>
   <div class="history-sep"></div>
@@ -188,7 +194,7 @@ const qr=`<div style="position:absolute;inset:0;background:linear-gradient(#003F
 <div class="h2">¿Cómo usarlo?</div><div style="display:grid;grid-template-columns:1fr 14px 1fr 14px 1fr;align-items:start;text-align:center;font:400 14px/18px Inter;color:var(--g2)">${[['qr','1. Muestra el QR'],['pump','2. Aplica el descuento'],['ok','3. Paga y listo']].map(([i,t],k)=>(k?`<span style="color:#111;margin-top:6px">${I('chev').replace('class="i"','class="i" style="width:14px;height:14px"')}</span>`:'')+`<div>${I(i)}<div style="color:#111;margin-top:4px">${t}</div></div>`).join('')}</div>
 <div style="border-top:1px dashed #ccc;padding-top:4px;flex:1;display:flex;flex-direction:column">${[['cal','Válido hasta: 30 nov 2026',0],['pin','Participa en: Estaciones Terpel de Colombia',0],['doc','Reglas de uso',1]].map(([i,t,c])=>`<div style="display:grid;grid-template-columns:24px 1fr ${c?'20px':''};gap:12px;align-items:center;height:38px;font:${c?600:400} 14px Inter;border-bottom:1px solid #eee">${I(i)}<span>${t}</span>${c?I('chev'):''}</div>`).join('')}</div>
 <div class="bt" style="height:48px">Ver mis cupones</div></div>`;
-const acc=hd('Mi cuenta')+`<div class="bd"><div class="cd" style="background:#f1fddf;display:grid;grid-template-columns:56px 1fr 20px;gap:14px;align-items:center;padding:12px 16px"><div style="width:56px;height:56px;border-radius:50%;background:var(--g2);display:flex;align-items:center;justify-content:center">${I('user').replace('class="i"','class="i" style="width:32px;height:32px;stroke:#fff;fill:#fff"')}</div><div><div style="font:600 18px/22px Inter">Inicia sesión</div><div class="aux" style="color:#111;font-size:13px">Accede a tus cupones, pedidos y más</div></div>${I('chev')}</div>
+const acc=hdCompact()+`<div class="bd"><div class="cd" style="background:#f1fddf;display:grid;grid-template-columns:56px 1fr 20px;gap:14px;align-items:center;padding:12px 16px"><div style="width:56px;height:56px;border-radius:50%;background:var(--g2);display:flex;align-items:center;justify-content:center">${I('user').replace('class="i"','class="i" style="width:32px;height:32px;stroke:#fff;fill:#fff"')}</div><div><div style="font:600 18px/22px Inter">Inicia sesión</div><div class="aux" style="color:#111;font-size:13px">Accede a tus cupones, pedidos y más</div></div>${I('chev')}</div>
 ${[['tkt','Mis cupones'],['doc','Mis pedidos'],['heart','Mis estaciones favoritas'],['bell','Notificaciones'],['help','Ayuda y soporte'],['shield','Términos y privacidad'],['info','Acerca de FuelGo']].map(([i,t])=>`<div class="cd mn">${I(i)}<span>${t}</span>${I('chev')}</div>`).join('')}</div>${L('city').replace('<img','<img style="position:absolute;left:0;bottom:86px;width:100%"')}`+nav(4);
 /* HTML/CSS screens inside one swipeable gallery. */
 const screens=[ph(home),ph(cupones),ph(hist),ph(qr,'background:#fff'),ph(acc)];
