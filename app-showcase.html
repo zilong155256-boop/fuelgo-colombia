@@ -46,6 +46,29 @@ body{background:transparent;padding:0}
 .preview-slide{position:relative;flex:none;scroll-snap-align:start;scroll-snap-stop:always}
 .preview-slide>.ph{position:absolute;left:0;top:0;pointer-events:none}
 .nv a{cursor:default;text-decoration:none}
+/* Coupon-card overflow cleanup. Keep all text readable without spilling into the next card. */
+.cp{grid-template-columns:44px minmax(0,1fr) 78px;column-gap:7px;row-gap:5px;padding:8px 10px 8px 9px;min-width:0}
+.cp>img{width:44px;height:44px}
+.cp>div:not(.ml){min-width:0}
+.cp .t{font:600 13px/17px Inter,system-ui,sans-serif;white-space:normal;overflow-wrap:break-word}
+.cp .d{font:700 25px/27px Inter,system-ui,sans-serif;white-space:normal;max-width:100%;letter-spacing:-.035em}
+.cp .d small{display:block;font:600 11px/13px Inter,system-ui,sans-serif;letter-spacing:0}
+.cp .aux{font-size:11px;line-height:14px;overflow-wrap:break-word}
+.cp .bt{min-width:0;padding:0 4px;font-size:13px;white-space:nowrap}
+.cp .ml{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.22fr) 14px;gap:7px;min-width:0;align-items:start;justify-content:stretch;white-space:normal;font:400 10px/13px Inter,system-ui,sans-serif;padding-top:7px}
+.cp .ml span{display:flex;align-items:flex-start;min-width:0;gap:3px;overflow-wrap:anywhere;white-space:normal}
+.cp .ml .i{width:13px;height:13px;flex:0 0 13px}
+.cp .ml>.i{width:14px;height:14px}
+.cp.hc .d{font-size:24px}
+.cp.hc .rt{min-width:0}
+.cp.hc .rt .pill{white-space:normal;line-height:1.15}
+.br{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.br div{min-width:0;overflow:hidden;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.10)}
+.br img{max-width:90%;max-height:78%;object-fit:contain}
+/* Avoid text collisions in the reference-price panel. */
+.pr{min-width:0}
+.pr b{font-size:12px;line-height:1.3;overflow-wrap:anywhere}
+.pr *{min-width:0}
 </style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
