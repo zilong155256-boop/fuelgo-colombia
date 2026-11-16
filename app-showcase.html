@@ -36,15 +36,17 @@ body{background:transparent;padding:32px}
 .ql{width:52px;height:52px;object-fit:contain}.qi{width:100%;height:100%;display:block}.h2{white-space:nowrap}
 .mn{display:grid;grid-template-columns:28px 1fr 20px;align-items:center;gap:14px;height:46px;padding:0 16px;font:600 16px Inter}.mn .i{color:var(--g2)}.mn .i:last-child{color:#111}
 
-/* Landing-page swipe presentation: HTML & CSS content; images embedded for standalone reliability. */
+/* Responsive in-browser app preview: HTML/CSS, native touch swipe, mouse drag. */
 html,body{width:100%;max-width:100%;overflow-x:hidden}
 body{background:transparent;padding:0}
-.row{display:flex!important;flex-wrap:nowrap!important;justify-content:flex-start!important;gap:12px!important;padding:0 0 6px 10px;width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+.row{display:flex!important;flex-wrap:nowrap!important;justify-content:flex-start!important;gap:12px!important;padding:0 0 8px 12px;width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:auto;overscroll-behavior-x:contain;cursor:grab}
 .row::-webkit-scrollbar{display:none}
+.row.is-dragging{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
+.row:focus-visible{outline:2px solid #0a8654;outline-offset:-2px}
 .preview-slide{position:relative;flex:none;scroll-snap-align:start;scroll-snap-stop:always}
-.preview-slide>.ph{position:absolute;left:0;top:0}
+.preview-slide>.ph{position:absolute;left:0;top:0;pointer-events:none}
 .nv a{cursor:default;text-decoration:none}
-</style></head><body><div class="row" id="app"></div>
+</style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
 <symbol id="i-tkt" viewBox="0 0 24 24"><path d="M3 8a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 000-4zM10 9l4 6"/></symbol>
@@ -102,17 +104,55 @@ const qr=`<div style="position:absolute;inset:0;background:linear-gradient(#003F
 <div class="bt" style="height:48px">Ver mis cupones</div></div>`;
 const acc=hd('Mi cuenta')+`<div class="bd"><div class="cd" style="background:#f1fddf;display:grid;grid-template-columns:56px 1fr 20px;gap:14px;align-items:center;padding:12px 16px"><div style="width:56px;height:56px;border-radius:50%;background:var(--g2);display:flex;align-items:center;justify-content:center">${I('user').replace('class="i"','class="i" style="width:32px;height:32px;stroke:#fff;fill:#fff"')}</div><div><div style="font:600 18px/22px Inter">Inicia sesión</div><div class="aux" style="color:#111;font-size:13px">Accede a tus cupones, pedidos y más</div></div>${I('chev')}</div>
 ${[['tkt','Mis cupones'],['doc','Mis pedidos'],['heart','Mis estaciones favoritas'],['bell','Notificaciones'],['help','Ayuda y soporte'],['shield','Términos y privacidad'],['info','Acerca de FuelGo']].map(([i,t])=>`<div class="cd mn">${I(i)}<span>${t}</span>${I('chev')}</div>`).join('')}</div>${L('city').replace('<img','<img style="position:absolute;left:0;bottom:86px;width:100%"')}`+nav(4);
-const screens=[ph(home),ph(cupones),ph(qr,'background:#fff'),ph(hist),ph(acc)];
-app.innerHTML=screens.map(screen=>'<div class="preview-slide">'+screen+'</div>').join('');
+/* HTML/CSS screens inside one swipeable gallery. */
+const screens=[ph(home),ph(cupones),ph(hist),ph(qr,'background:#fff'),ph(acc)];
+app.innerHTML=screens.map((screen,i)=>'<div class="preview-slide" aria-label="Pantalla '+(i+1)+' de 5">'+screen+'</div>').join('');
 function fitPreview(){
- const w=window.innerWidth;
- const scale=Math.min(.79,Math.max(.49,(w-82)/414));
+ const vw=document.documentElement.clientWidth||window.innerWidth;
+ const scale=Math.min(.73,Math.max(.46,(vw-110)/414));
  for(const slide of document.querySelectorAll('.preview-slide')){
-  slide.style.width=(414*scale)+'px';slide.style.height=(868*scale)+'px';
-  slide.firstElementChild.style.transform='scale('+scale+')';
-  slide.firstElementChild.style.transformOrigin='top left';
+  slide.style.width=(414*scale)+'px';
+  slide.style.height=(868*scale)+'px';
+  const phone=slide.firstElementChild;
+  phone.style.transform='scale('+scale+')';
+  phone.style.transformOrigin='top left';
  }
- app.style.height=(868*scale+10)+'px';
+ app.style.height=(868*scale+12)+'px';
 }
-fitPreview();window.addEventListener('resize',fitPreview);
+fitPreview();
+window.addEventListener('resize',fitPreview);
+(function setupPreviewDrag(){
+ const scroller=app;
+ let startX=0,startLeft=0,dragging=false,dragDistance=0;
+ scroller.addEventListener('pointerdown',e=>{
+  if(e.pointerType!=='mouse'||e.button!==0)return;
+  dragging=true;startX=e.clientX;startLeft=scroller.scrollLeft;dragDistance=0;
+  scroller.classList.add('is-dragging');
+  scroller.setPointerCapture(e.pointerId);
+ });
+ scroller.addEventListener('pointermove',e=>{
+  if(!dragging)return;
+  dragDistance=e.clientX-startX;scroller.scrollLeft=startLeft-dragDistance;
+ });
+ function finish(){
+  if(!dragging)return;
+  dragging=false;
+  scroller.classList.remove('is-dragging');
+  const slides=Array.from(scroller.children);
+  const closest=slides.reduce((best,el)=>Math.abs(el.offsetLeft-scroller.scrollLeft)<Math.abs(best.offsetLeft-scroller.scrollLeft)?el:best,slides[0]);
+  if(closest)scroller.scrollTo({left:closest.offsetLeft-slides[0].offsetLeft,behavior:'smooth'});
+ }
+ scroller.addEventListener('pointerup',finish);
+ scroller.addEventListener('pointercancel',finish);
+ scroller.addEventListener('lostpointercapture',finish);
+ scroller.addEventListener('keydown',e=>{
+  if(!['ArrowLeft','ArrowRight'].includes(e.key))return;
+  e.preventDefault();
+  const slides=Array.from(scroller.children),step=slides[1]?slides[1].offsetLeft-slides[0].offsetLeft:scroller.clientWidth;
+  const i=Math.round(scroller.scrollLeft/step)+(e.key==='ArrowRight'?1:-1);
+  scroller.scrollTo({left:Math.max(0,Math.min(slides.length-1,i))*step,behavior:'smooth'});
+ });
+ scroller.addEventListener('click',e=>{if(Math.abs(dragDistance)>6){e.preventDefault();e.stopPropagation();dragDistance=0}},true);
+})();
+
 </script></body></html>
