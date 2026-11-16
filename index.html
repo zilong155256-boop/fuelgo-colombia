@@ -561,7 +561,7 @@ html,body{max-width:100%;overflow-x:clip}
   <div class="fg-app-footer" role="navigation" aria-label="Pantallas de demostración"><button type="button" data-app-go="inicio" aria-current="page">⌂ Inicio</button><button type="button" data-app-go="cupones">▤ Cupones</button><button type="button" data-app-go="estaciones">⌖ Estaciones</button><button type="button" data-app-go="qr">▦ QR</button></div>
  </div>
 </div>
-<div class="fg-app-carousel-controls" aria-label="Navegación entre cuatro pantallas"><button type="button" class="fg-app-prev" aria-label="Pantalla anterior">‹</button><div class="fg-app-dots"><button type="button" class="fg-app-dot active" data-app-dot="inicio" aria-label="Pantalla 1: Inicio" aria-current="step"></button><button type="button" class="fg-app-dot" data-app-dot="cupones" aria-label="Pantalla 2: Cupones"></button><button type="button" class="fg-app-dot" data-app-dot="estaciones" aria-label="Pantalla 3: Estaciones"></button><button type="button" class="fg-app-dot" data-app-dot="qr" aria-label="Pantalla 4: QR"></button></div><button type="button" class="fg-app-next" aria-label="Pantalla siguiente">›</button></div>
+
 
 
 </section>
@@ -738,7 +738,6 @@ html,body{max-width:100%;overflow-x:clip}
  const pages=Array.from(preview.querySelectorAll("[data-app-page]"));
  const controls=Array.from(preview.querySelectorAll("[data-app-go]"));
  const names=["inicio","cupones","estaciones","qr"];
- const dots=Array.from(preview.querySelectorAll("[data-app-dot]"));
  const screen=preview.querySelector(".fg-screen");
  let current=0;
  let startX=null,startY=null;
@@ -753,18 +752,9 @@ html,body{max-width:100%;overflow-x:clip}
     else btn.removeAttribute("aria-current");
    }
   });
-  dots.forEach(dot=>{
-   const active=dot.dataset.appDot===name;
-   dot.classList.toggle("active",active);
-   if(active)dot.setAttribute("aria-current","step");
-   else dot.removeAttribute("aria-current");
-  });
  }
  function step(direction){show(names[(current+direction+names.length)%names.length])}
  controls.forEach(btn=>btn.addEventListener("click",()=>show(btn.dataset.appGo)));
- dots.forEach(btn=>btn.addEventListener("click",()=>show(btn.dataset.appDot)));
- preview.querySelector(".fg-app-prev").addEventListener("click",()=>step(-1));
- preview.querySelector(".fg-app-next").addEventListener("click",()=>step(1));
  screen.addEventListener("touchstart",e=>{
   if(e.touches.length!==1)return;
   startX=e.touches[0].clientX;startY=e.touches[0].clientY;
