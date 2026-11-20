@@ -506,6 +506,23 @@ body{padding:0!important}
  .fg-station-label{font-size:12px!important}
 }
 @media(prefers-reduced-motion:reduce){.fg-brand-rail,.ch.coupon-brand-filters{scroll-behavior:auto!important}.hero-track{transition:none!important}}
+/* QR display: public informational QR, never a redeemable voucher. */
+.fg-qr-card{background:#fff;border:1px solid #e3eee6;border-radius:20px;padding:17px 15px;box-shadow:0 4px 16px #003e2812;display:flex;flex-direction:column;gap:15px}
+.fg-qr-header{display:flex;align-items:center;gap:10px}
+.fg-qr-icon{width:43px;height:43px;display:grid;place-items:center;background:#e7f8e2;border-radius:13px;flex:none}
+.fg-qr-icon .i{color:#087b47;width:25px;height:25px}
+.fg-qr-header strong{color:#153e2a;font-size:16px}.fg-qr-header p{font-size:11px;color:#637669;margin-top:3px}
+.fg-qr-image{display:flex;align-items:center;justify-content:center;padding:10px;border-radius:17px;background:#fff;border:1px solid #e5eee8;min-height:230px}
+.fg-qr-image img{max-width:100%;width:220px;height:220px;object-fit:contain;image-rendering:pixelated}
+.fg-qr-note{padding:12px;background:#f4faef;border-radius:13px}
+.fg-qr-note strong{font-size:13px;color:#165b35}.fg-qr-note p{font-size:11px;color:#526e5a;line-height:1.5;margin-top:4px}
+.fg-qr-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fg-qr-actions button,.fg-qr-account button{border:0;border-radius:13px;min-height:41px;background:#009d45;color:#fff;font-size:12px;font-weight:750;padding:8px;cursor:pointer}
+.fg-qr-actions .fg-qr-secondary{background:#e7f7de;color:#12633b}
+.fg-qr-account{border-top:1px solid #e9efe9;padding-top:12px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.fg-qr-account p{font-size:11px;color:#708073;line-height:1.5}
+.fg-qr-account button{min-height:36px;padding:7px 14px}
+@media(max-width:350px){.fg-qr-image{min-height:210px}.fg-qr-image img{width:195px;height:195px}}
 </style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
@@ -605,6 +622,7 @@ function showExtra(type,brand,couponIndex){
  else if(type==='invite')body=shell('Invita a tus amigos','Comparte FuelGo Colombia','<div class="invite-card"><div class="invite-top"><div><small>FUELGO COLOMBIA</small><h3>¡Invita a tus amigos!</h3><p>Comparte FuelGo y descubre las actividades y premios disponibles.</p></div>'+giftIcon+'</div><div class="invite-bottom"><strong>¡Hasta un millón de pesos en premios!</strong><p>Las recompensas están sujetas a condiciones, elegibilidad y confirmación de la campaña. Compartir no garantiza un premio.</p><button data-action="invite-share">Compartir ahora ›</button></div></div>');
  else if(type==='help')body=shell('Ayuda y soporte','Estamos aquí para orientarte','<div class="service-card"><h3>Preguntas frecuentes</h3><details><summary>¿Cómo veo los cupones?</summary><p>Abre Cupones en el menú o en la barra inferior para explorar las ofertas mostradas.</p></details><details><summary>¿Por qué debo iniciar sesión?</summary><p>Para guardar cupones y acceder a tu historial se necesita una cuenta verificada. Para guardar cupones y consultar tu actividad se requiere una cuenta verificada y una oferta habilitada.</p></details><details><summary>¿Puedo compartir FuelGo?</summary><p>Sí. Usa Invitar amigos y elige WhatsApp, Facebook, Telegram o copiar enlace.</p></details></div>');
  else if(type==='login')body=shell('Iniciar sesión','Accede a tu cuenta FuelGo',authUser?'<div class="login-form"><h3>Mi cuenta</h3><p class="account-email"></p><button type="button" data-action="logout">Cerrar sesión</button></div>':'<div class="login-form"><div class="login-brand"><img src="'+A.logo+'" alt="FuelGo Colombia"></div><h3>Bienvenido a FuelGo</h3><p>Ingresa tu correo electrónico. Recibirás un código de verificación.</p><label for="login-email">Correo electrónico</label><input id="login-email" type="email" autocomplete="email" placeholder="nombre@ejemplo.com" required><div class="login-error" id="login-error" role="status"></div><button type="button" data-action="continue-login">Enviar código</button><p class="login-disclosure">Tu dirección de correo se usará para iniciar sesión. No se envían correos de marketing desde este formulario.</p></div>');
+ else if(type==='qr-info')body=shell('Escanear QR','Información y códigos de FuelGo','<div class="fg-qr-card"><div class="fg-qr-header"><span class="fg-qr-icon">'+I('qr')+'</span><div><strong>Código QR de FuelGo</strong><p>Comparte y abre nuestra aplicación web</p></div></div><div class="fg-qr-image"><img src="https://api.qrserver.com/v1/create-qr-code/?size=280x280&amp;data=https%3A%2F%2Ffuelgo-colombia1.pages.dev%2Fcupones.html" alt="Código QR para abrir FuelGo Colombia" width="220" height="220" loading="lazy"></div><div class="fg-qr-note"><strong>QR informativo</strong><p>Este código abre la página de FuelGo. No es un cupón válido para canjear en estaciones.</p></div><div class="fg-qr-actions"><button type="button" data-action="qr-share">Compartir FuelGo</button><button type="button" class="fg-qr-secondary" data-action="qr-copy">Copiar enlace</button></div><div class="fg-qr-account"><p>'+(authUser?'Cuando obtengas cupones válidos, sus códigos aparecerán en tu cuenta.':'Inicia sesión para consultar tus futuros cupones y su estado.')+'</p>'+(authUser?'<button type="button" data-action="explore-coupons">Explorar cupones</button>':'<button type="button" data-action="login">Iniciar sesión</button>')+'</div></div>');
  else if(type==='qr-empty')body=shell('Escanear QR','Mis códigos disponibles','<div class="fg-empty fg-qr-empty"><span class="fg-empty-icon">'+I('qr')+'</span><strong>Aún no tienes un QR disponible</strong><p>Cuando se confirme un cupón válido, su código aparecerá aquí.</p><button class="fg-primary-button" data-action="explore-coupons">Explorar cupones</button></div>');
  else if(type==='locked')body=gate('consultar tu código QR');
  app.innerHTML=wrap(body);app.querySelector('.sc').scrollTop=0;const emailNode=app.querySelector('.account-email');if(emailNode)emailNode.textContent=authUser?.email||'';
@@ -675,7 +693,7 @@ function setupHero(){
 }
 function render(index){
  extra=null;current=index;
- if(index===2){if(authUser)showExtra('qr-empty');else showExtra('locked');return;}
+ if(index===2){showExtra('qr-info');return;}
  if(index===4){refreshAuth().then(()=>{if(current===4)showExtra('login');});showExtra('login');return;}
  app.innerHTML=wrap(pages[index]);
  app.querySelectorAll('.nv a').forEach((a,i)=>{a.href='#'+['inicio','cupones','qr','historial','mi-cuenta'][i];a.setAttribute('aria-current',i===index?'page':'false');});
@@ -702,6 +720,8 @@ app.addEventListener('click',async e=>{
   if(key==='open-menu'){openMenu();return;}
   if(key==='back'){render(0);return;}
   if(key==='explore-coupons'){selected='Todos';render(1);return;}
+  if(key==='qr-share'){openShare();return;}
+  if(key==='qr-copy'){const url='https://fuelgo-colombia1.pages.dev/cupones.html';if(navigator.clipboard?.writeText){try{await navigator.clipboard.writeText(url);toast('Enlace copiado');}catch(error){toast('No se pudo copiar el enlace');}}else toast('No se pudo copiar el enlace');return;}
   if(key==='invite'){showExtra('invite');return;}
   if(key==='invite-share'){openShare();return;}
   if(key==='login'){showExtra('login');return;}
