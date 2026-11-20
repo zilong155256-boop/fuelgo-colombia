@@ -149,7 +149,7 @@ body{padding:0!important}
 #app .cp[hidden]{display:none}
 #app .app-toast{position:fixed;bottom:calc(85px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#163f2d;color:white;border-radius:12px;padding:12px 16px;font-size:13px;z-index:30;max-width:90vw;text-align:center;box-shadow:0 6px 18px #0003}
 @media(max-width:350px){.cp{grid-template-columns:40px minmax(0,1fr) 72px}.cp .d{font-size:22px}.h2{font-size:15px}.pr>div:nth-child(2){gap:5px!important}}
-</style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
+.preview-slide>.ph{position:relative!important;left:auto!important;top:auto!important;pointer-events:auto!important;transform:none!important}.preview-slide>.ph>.sc,.nv,.nv a{pointer-events:auto!important}.nv a,.bt,.ch span,.mn,.tl>div,.history-entry{cursor:pointer;touch-action:manipulation}.hero-slider{position:relative;overflow:hidden;border-radius:17px;touch-action:pan-y}.hero-track{display:flex;transition:transform .28s ease}.hero-panel{min-width:100%;aspect-ratio:390/145;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}.hero-panel img{width:100%;height:100%;object-fit:cover}.hero-panel.custom{background:linear-gradient(110deg,#06452f,#089653);padding:14px 22px;justify-content:space-between}.hero-panel.custom strong,.hero-panel.custom p{color:white}.hero-panel.custom strong{font-size:clamp(18px,5vw,25px)}.hero-panel.custom p{font-size:12px;margin-top:6px}.hero-dots{position:absolute;bottom:7px;left:0;right:0;display:flex;justify-content:center;gap:7px}.hero-dot{appearance:none;border:0;width:8px;height:8px;padding:0;border-radius:50%;background:#ffffffa0;cursor:pointer}.hero-dot[aria-current=true]{background:#ffe500;width:10px;height:10px}</style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
 <symbol id="i-tkt" viewBox="0 0 24 24"><path d="M3 8a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 000-4zM10 9l4 6"/></symbol>
@@ -182,7 +182,7 @@ const hdCompact=(l='',r='')=>hd('','',l,r).replace('class="hd"','class="hd compa
 const ph=(c,d='')=>`<div class="ph"><div class="sc">${sb}${c}<i class="hi" style="${d}"></i></div></div>`;
 const brands=['terpel','primax','biomax','texaco','shell','petromil'],nm={terpel:'Terpel',primax:'Primax',biomax:'Biomax',texaco:'Texaco',shell:'Shell',petromil:'Petromil'};
 const dist=['350 m','1,2 km','2,5 km','3,1 km','4,0 km','5,2 km'],ord=['terpel','shell','primax','biomax','texaco','petromil'];
-const home=hd('','',I('menu'),L('gift')+I('bell'))+`<div class="bd">${L('banner','')}
+const home=hd('','',I('menu'),L('gift')+I('bell'))+`<div class="bd"><div class="hero-slider" aria-label="Promociones FuelGo"><div class="hero-track"><div class="hero-panel">${L('banner')}</div><div class="hero-panel">${L('promo')}</div><div class="hero-panel custom"><div><strong>FuelGo Colombia</strong><p>Encuentra cupones y beneficios</p></div><span style="font-size:56px">⛽</span></div></div><div class="hero-dots"><button class="hero-dot" aria-label="Imagen 1"></button><button class="hero-dot" aria-label="Imagen 2"></button><button class="hero-dot" aria-label="Imagen 3"></button></div></div>
 <div class="tl"><div style="background:linear-gradient(#0aa622,#066b18)">${I('tkt')}Cupones de combustible</div><div style="background:linear-gradient(#1b7cf0,#0a3fd0)">${I('bolt')}Recarga</div><div style="background:linear-gradient(#8a3ff0,#5a1ad0)">${I('car')}Servicios para tu auto</div></div>
 <div class="h2">${I('pump')}Principales marcas de estaciones</div><div class="br">${brands.map(b=>`<div>${L(b)}</div>`).join('')}</div>
 <div class="pr"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 14px Inter;white-space:nowrap">Precios de referencia · <u>Medellín</u></span><span class="aux" style="font-size:11px;white-space:nowrap">Actualizado: Nov 2026</span></div>
@@ -232,12 +232,13 @@ const acc=hdCompact()+`<div class="bd"><div class="cd" style="background:#f1fddf
 ${[['tkt','Mis cupones'],['doc','Mis pedidos'],['heart','Mis estaciones favoritas'],['bell','Notificaciones'],['help','Ayuda y soporte'],['shield','Términos y privacidad'],['info','Acerca de FuelGo']].map(([i,t])=>`<div class="cd mn">${I(i)}<span>${t}</span>${I('chev')}</div>`).join('')}</div>${L('city').replace('<img','<img style="position:absolute;left:0;bottom:86px;width:100%"')}`+nav(4);
 
 /* Interactive single-screen mobile web app; coupon/QR are demonstrations only. */
+let bannerIndex=0;function setupHero(){const el=app.querySelector('.hero-slider');if(!el)return;let x=0,y=0,pressed=false;function change(i){bannerIndex=Math.max(0,Math.min(2,i));el.querySelector('.hero-track').style.transform='translateX(-'+(bannerIndex*100)+'%)';el.querySelectorAll('.hero-dot').forEach((b,k)=>b.setAttribute('aria-current',k===bannerIndex?'true':'false'));}el.querySelectorAll('.hero-dot').forEach((b,k)=>b.addEventListener('click',()=>change(k)));el.addEventListener('pointerdown',e=>{x=e.clientX;y=e.clientY;pressed=true});el.addEventListener('pointerup',e=>{if(!pressed)return;pressed=false;const dx=e.clientX-x,dy=e.clientY-y;if(Math.abs(dx)>32&&Math.abs(dx)>Math.abs(dy))change(bannerIndex+(dx<0?1:-1))});el.addEventListener('pointercancel',()=>pressed=false);change(0);}
 const pages=[home,cupones,qr,hist,acc];
 let current=0,selected='Todos',toastTimer;
 function render(index){
  current=index;
  const screen=ph(pages[index],index===2?'background:#fff':'');
- app.innerHTML='<section class="preview-slide" aria-label="FuelGo Colombia"><div class="demo-note" style="position:absolute;top:0;right:0;z-index:15;font-size:9px;color:#fff;background:#126343;padding:2px 5px;border-radius:0 0 0 7px">DEMO</div>'+screen+'</section>';
+ app.innerHTML='<section class="preview-slide" aria-label="FuelGo Colombia">'+screen+'</section>';
  app.querySelectorAll('.nv a').forEach((a,i)=>{
   a.classList.add('nav-link');
   a.setAttribute('href','#'+['inicio','cupones','qr','historial','mi-cuenta'][i]);
@@ -246,6 +247,7 @@ function render(index){
  });
  app.querySelector('.sc').scrollTop=0;
  if(index===1) applyFilter();
+ if(index===0)setupHero();
 }
 function showToast(message){
  const old=document.querySelector('.app-toast');if(old)old.remove();
@@ -261,7 +263,7 @@ function applyFilter(){
  app.querySelectorAll('.cp').forEach((card,i)=>{
    card.hidden=selected!=='Todos'&&selected!=='Más'&&cup[i][0]!==selected;
  });
- if(selected==='Más')showToast('Otras marcas: próximamente (demostración)');
+ if(selected==='Más')showToast('Más marcas próximamente');
 }
 app.addEventListener('click',async event=>{
  const target=event.target.closest('a,.bt,.ch span,.mn,.hd .l,.hd .r,.tl>div,.history-entry,.cd');
@@ -277,9 +279,9 @@ app.addEventListener('click',async event=>{
   if(chip){selected=['Todos','terpel','shell','primax','biomax','Más'][all.indexOf(chip)]||'Todos';applyFilter();}
   return;
  }
- if(current===1&&target.closest('.cp .bt')){render(2);showToast('Vista previa de cupón — sin emisión real');return;}
+ if(current===1&&target.closest('.cp .bt')){render(2);return;}
  if(current===2&&target.closest('.bt.o')){
-  try{await navigator.clipboard.writeText('TERPEL30');showToast('Código de demostración copiado');}
+  try{await navigator.clipboard.writeText('TERPEL30');showToast('Código copiado');}
   catch(e){showToast('Código de ejemplo: TERPEL30');}return;
  }
  if(current===2&&target.closest('.bt:not(.o)')){render(3);return;}
@@ -287,16 +289,16 @@ app.addEventListener('click',async event=>{
  if(target.closest('.hd .r')&&current===2){render(1);return;}
  if(current===0&&target.closest('.tl>div')){
   const index=Array.from(app.querySelectorAll('.tl>div')).indexOf(target.closest('.tl>div'));
-  if(index===0){render(1)}else{showToast('Función ilustrativa en esta demostración');}return;
+  if(index===0){render(1)}else{showToast('Esta sección todavía no está disponible');}return;
  }
  if(current===4&&target.closest('.mn')){
   const title=target.closest('.mn').textContent;
   if(title.includes('cupones'))render(3);
-  else showToast('Función disponible próximamente — demostración');
+  else showToast('Esta sección todavía no está disponible');
   return;
  }
  if(current===3&&target.closest('.history-entry')){render(2);return;}
- if(target.closest('.cd'))showToast('Contenido ilustrativo, no es un cupón válido');
+ if(target.closest('.cd'))showToast('Consulta los detalles de esta promoción');
 });
 render(0);
 </script></body></html>
