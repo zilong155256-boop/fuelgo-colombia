@@ -283,7 +283,23 @@ body{padding:0!important}
 .station-brand-icon .brand-whole-img{width:54px!important;height:40px!important;max-width:54px!important;max-height:40px!important}
 .station-detail-emblem .brand-whole-img{width:125px!important;height:90px!important;max-height:90px!important}
 @media(max-width:350px){.coupons-page .cp{grid-template-columns:57px minmax(0,1fr) 69px!important;gap:5px!important}.coupons-page .coupon-brand-logo{width:57px!important}.coupons-page .coupon-brand-symbol{width:55px!important;height:55px!important}.coupons-page .coupon-brand-symbol .brand-whole-img{width:54px!important;height:49px!important}.coupons-page .ch.coupon-brand-filters>span{min-width:65px!important}.coupons-page .ch.coupon-brand-filters .coupon-filter-logo .brand-whole-img{width:53px!important;height:39px!important}.coupons-page .cp .t{font-size:11px!important}}
-.br>div.brand-tile .brand-emblem img.brand-whole-img{display:block!important;visibility:visible!important;opacity:1!important}.station-brand-icon img.brand-whole-img,.coupon-brand-symbol img.brand-whole-img,.coupon-filter-logo img.brand-whole-img{display:block!important;visibility:visible!important;opacity:1!important}</style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
+.br>div.brand-tile .brand-emblem img.brand-whole-img{display:block!important;visibility:visible!important;opacity:1!important}.station-brand-icon img.brand-whole-img,.coupon-brand-symbol img.brand-whole-img,.coupon-filter-logo img.brand-whole-img{display:block!important;visibility:visible!important;opacity:1!important}/* Refined mobile brand tiles and swipe-first coupon filters */
+.brand-wordmark{width:100%;height:100%;min-height:34px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:visible;white-space:nowrap;letter-spacing:-.035em;font-family:Arial,Helvetica,sans-serif;line-height:1;color:#145239}
+.brand-wordmark b{font-weight:950;font-size:clamp(15px,4vw,22px);line-height:1.12}.brand-wordmark small{font-size:9px;letter-spacing:.2em;font-weight:800}
+.brand-wordmark-zeuss b{font-style:italic;color:#e69c13}.brand-wordmark-puma b{color:#d12432;letter-spacing:.04em}.brand-wordmark-petrobras b{font-size:clamp(11px,2.7vw,16px);color:#08733e}.brand-wordmark-esso b{font-family:Georgia,serif;font-size:clamp(20px,5vw,29px);color:#d71936}
+.br>div.brand-tile{height:100px!important;padding:12px 5px!important;gap:0!important}.br>div.brand-tile .brand-emblem{width:100%!important;max-width:96%!important;height:72px!important;min-height:72px!important;flex-basis:72px!important;overflow:visible!important;display:flex!important;align-items:center!important;justify-content:center!important}.br>div.brand-tile .brand-emblem .brand-wordmark{padding:8px 2px}
+.station-brand-icon .brand-wordmark{width:100%;height:100%}.station-brand-icon .brand-wordmark b{font-size:13px}.station-brand-icon .brand-wordmark-petrobras b{font-size:9px}.station-brand-icon .brand-wordmark-esso b{font-size:18px}
+.station-detail-emblem .brand-wordmark b{font-size:30px}.station-detail-emblem .brand-wordmark-petrobras b{font-size:25px}
+.coupon-filter-wrap{position:relative;min-width:0;display:flex;align-items:center;width:100%;gap:5px}
+.coupons-page .ch.coupon-brand-filters{display:flex!important;width:100%;min-width:0;flex:1;align-items:center!important;gap:8px!important;overflow-x:auto!important;overflow-y:hidden!important;padding:5px 4px 10px!important;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;touch-action:pan-x;overscroll-behavior-x:contain}
+.coupons-page .ch.coupon-brand-filters::-webkit-scrollbar{display:none}
+.coupons-page .ch.coupon-brand-filters .filter-pill{appearance:none!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;width:auto!important;min-width:65px!important;height:39px!important;margin:0!important;padding:0 14px!important;border-radius:22px!important;border:1px solid #e4ebe5!important;background:white!important;color:#2b4c3a!important;box-shadow:0 2px 6px #06341d12!important;font:750 12px/1 Arial,system-ui,sans-serif!important;white-space:nowrap;cursor:pointer;scroll-snap-align:start}
+.coupons-page .ch.coupon-brand-filters .filter-pill.on{background:#e1ffb5!important;border:2px solid #00a52a!important;color:#075725!important;box-shadow:none!important}
+.filter-next{appearance:none;display:grid;place-items:center;flex:0 0 35px;height:36px;border:1px solid #dfe9e2;border-radius:50%;background:#fff;color:#047743;font-size:26px;line-height:1;box-shadow:0 3px 9px #10371f12;cursor:pointer}
+.no-brand-offers{border:1px solid #d8e8db;background:#f4faf4;border-radius:16px;padding:22px 18px;text-align:center;margin:4px 0 10px}.no-brand-offers strong{font-size:17px;color:#095538}.no-brand-offers p{font-size:12px;color:#738276;margin-top:7px}
+.coupon-brand-logo .brand-wordmark b{font-size:14px}.coupon-brand-logo .brand-wordmark-petrobras b{font-size:10px}
+@media(max-width:350px){.br>div.brand-tile{height:89px!important}.br>div.brand-tile .brand-emblem{height:62px!important;min-height:62px!important;flex-basis:62px!important}.brand-wordmark b{font-size:15px}.filter-next{flex-basis:32px}}
+</style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
 <symbol id="i-tkt" viewBox="0 0 24 24"><path d="M3 8a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 000-4zM10 9l4 6"/></symbol>
@@ -323,13 +339,8 @@ const hd=(t='',s='',l='',r='')=>`<header class="hd"><div class="l">${l}</div><di
 const hdCompact=(l='',r='')=>hd('','',l,r).replace('class="hd"','class="hd compact"');
 const ph=(c,d='')=>`<div class="ph"><div class="sc">${sb}${c}<i class="hi" style="${d}"></i></div></div>`;
 const brands=['terpel','primax','biomax','texaco','shell','petromil','zeuss','puma','petrobras','esso'],nm={terpel:'Terpel',primax:'Primax',biomax:'Biomax',texaco:'Texaco',shell:'Shell',petromil:'Petromil',zeuss:'Zeuss',puma:'Puma',petrobras:'Petrobras',esso:'Esso'};
-const brandPublicLogos={
- zeuss:'https://pbs.twimg.com/profile_images/682990185148248064/54tO4BGm.png',
- puma:'https://mma.prnewswire.com/media/508348/Puma_Energy_Logo.jpg?p=facebook',
- petrobras:'https://upload.wikimedia.org/wikipedia/commons/8/8e/Petrobras-logo-0.png',
- esso:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Esso_textlogo.svg/3840px-Esso_textlogo.svg.png'
-};
-const brandIcon=b=>A[b]?`<img class="brand-whole-img" src="${A[b]}" alt="${nm[b]}" loading="lazy" decoding="async">`:(brandPublicLogos[b]?`<img class="brand-external-logo" src="${brandPublicLogos[b]}" alt="${nm[b]}" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="brand-monogram brand-fallback" style="display:none" aria-hidden="true">${nm[b].charAt(0)}</span>`:`<span class="brand-monogram" aria-hidden="true">${nm[b].charAt(0)}</span>`);
+/* Robust self-contained brand identifiers when external assets are unavailable. */
+const brandIcon=b=>A[b]?`<img class="brand-whole-img" src="${A[b]}" alt="${nm[b]}" loading="lazy" decoding="async">`:`<span class="brand-wordmark brand-wordmark-${b} notranslate" translate="no" aria-label="${nm[b]}">${b==='puma'?'<b>PUMA</b><small>ENERGY</small>':b==='petrobras'?'<b>PETROBRAS</b>':b==='zeuss'?'<b>ZEUSS</b>':'<b>Esso</b>'}</span>`;
 const dist=[],ord=['terpel','shell','primax','biomax','texaco','petromil','zeuss','puma','petrobras','esso'];
 const home=hd('','',`<button type="button" class="header-menu" data-action="open-menu" aria-label="Abrir menú" aria-expanded="false">${I('menu')}</button>`,`<button type="button" class="header-notification" data-action="invite" aria-label="Invitar amigos y compartir FuelGo" title="Invitar amigos">${I('bell')}<span class="notification-count" aria-hidden="true">99+</span></button>`)+`<div class="bd"><div class="hero-slider" tabindex="0" aria-label="Actividades FuelGo"><div class="hero-viewport"><div class="hero-track">
 <div class="hero-panel"><img src="${A.banner}" alt="Beneficios de combustible"><button class="hero-open" data-hero="coupons" aria-label="Ver cupones"></button></div>
@@ -337,7 +348,7 @@ const home=hd('','',`<button type="button" class="header-menu" data-action="open
 <div class="hero-panel activity-card activity-green"><div class="activity-glow"></div><div class="activity-content"><small>NUEVOS CUPONES</small><strong>Más descuentos en camino</strong><p>Estamos preparando nuevas promociones para ti.</p><span class="hero-button soon-label">Próximamente</span></div><div class="promo-art" aria-hidden="true"><div class="promo-art-ring"></div><div class="promo-ticket"><span>FuelGo</span><b>%</b><i>PRÓXIMAMENTE</i></div><span class="promo-spark spark-one">✦</span></div></div>
 </div></div><div class="hero-dots"><button class="hero-dot" aria-label="Actividad 1"></button><button class="hero-dot" aria-label="Actividad 2"></button><button class="hero-dot" aria-label="Actividad 3"></button></div></div>
 <div class="tl"><div style="background:linear-gradient(#0aa622,#066b18)">${I('tkt')}Cupones de combustible</div><div style="background:linear-gradient(#1b7cf0,#0a3fd0)">${I('bolt')}Recarga</div><div style="background:linear-gradient(#8a3ff0,#5a1ad0)">${I('car')}Servicios para tu auto</div></div>
-<div class="h2">${I('pump')}Principales marcas de estaciones</div><div class="br notranslate" translate="no">${brands.map(b=>`<div class="brand-tile" role="button" tabindex="0" aria-label="Ver beneficios de ${nm[b]}"><span class="brand-emblem" aria-hidden="true">${brandIcon(b)}</span>${A[b]?"":`<span class="brand-name brand-${b} notranslate" translate="no">${nm[b]}</span>`}</div>`).join('')}</div>
+<div class="h2">${I('pump')}Principales marcas de estaciones</div><div class="br notranslate" translate="no">${brands.map(b=>`<div class="brand-tile" role="button" tabindex="0" aria-label="Ver beneficios de ${nm[b]}"><span class="brand-emblem" aria-hidden="true">${brandIcon(b)}</span></div>`).join('')}</div>
 <div class="pr"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 14px Inter;white-space:nowrap">Precios de referencia · <u>Medellín</u></span><span class="aux" style="font-size:11px;white-space:nowrap">Vigente: 1 nov 2026</span></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0"><div><div class="aux" style="color:#111">Gasolina corriente</div><b>COP $16.251/gal</b></div><div><div class="aux" style="color:#111">ACPM (Diésel)</div><b>COP $11.641/gal</b></div></div>
 <div class="aux" style="display:flex;gap:4px">${I('info').replace('class="i"','class="i" style="width:14px;height:14px"')}Fuente: CREG, Circular 371/2026. Precios de referencia mensuales, no cotizaciones en vivo por estación. <a href="https://www.sicom.gov.co/index.php/consulta-de-precios" target="_blank" rel="noopener noreferrer">Consultar reportes de estaciones</a>.</div></div>
@@ -357,7 +368,7 @@ const cup=[
  ['shell','7% DTO.','','En combustible seleccionado','Shell']
 ];
 const couponLogo=b=>`<div class="coupon-brand-logo notranslate" translate="no"><span class="coupon-brand-symbol">${brandIcon(b)}</span>${A[b]?"":`<strong class="notranslate" translate="no">${nm[b]}</strong>`}</div>`;
-const cupones=hdCompact(I('back'),L('giftc'))+`<div class="bd coupons-page" style="gap:10px"><div class="ch coupon-brand-filters notranslate" translate="no"><span class="on">▦ Todos</span>${['terpel','shell','primax','biomax'].map(b=>`<span class="coupon-filter-logo" aria-label="${nm[b]}">${brandIcon(b)}</span>`).join('')}<span>Más ⌄</span></div>${L('promo')}
+const cupones=hdCompact(I('back'),L('giftc'))+`<div class="bd coupons-page" style="gap:10px"><div class="coupon-filter-wrap"><div class="ch coupon-brand-filters notranslate" translate="no" id="coupon-filter-scroll" role="group" aria-label="Filtrar por marca"><button class="filter-pill on" type="button" data-brand="Todos">Todos</button>${brands.map(b=>`<button class="filter-pill" type="button" data-brand="${b}">${nm[b]}</button>`).join('')}</div><button class="filter-next" type="button" data-action="filter-next" aria-label="Ver más marcas">›</button></div>${L('promo')}
 <div class="coupon-section-title"><strong>Explora los beneficios</strong><span>12 ofertas por anunciar</span></div>
 ${cup.map(([b,d,h,detail,n],index)=>`<article class="cd cp coupon-offer" data-brand="${b}">${couponLogo(b)}<div class="coupon-text"><div class="t">${d.includes('$')?'Bono de combustible':'Cupón de combustible'}</div><div class="d">${h?`<small>${h}</small>`:''}${d}</div><div class="aux">${detail}</div></div><button class="bt s coupon-soon" type="button" data-action="coupon-info" data-index="${index}">Ver detalle</button><div class="ml"><span>${I('cal')}Próximamente</span><span>${I('info')}Sujeto a confirmación</span>${I('chev')}</div></article>`).join('')}
 <div class="cd coupon-rules" style="background:#f1fddf;display:flex;align-items:center;gap:12px;padding:12px 16px"><span style="color:var(--g2)">${I('info')}</span><div style="flex:1"><div style="font:600 16px Inter">Reglas de uso</div><div class="aux" style="color:#111">Las ofertas son propuestas y todavía no están activas. Sujeto a condiciones y establecimientos participantes.</div></div>${I('chev')}</div></div>`+nav(1);
@@ -466,15 +477,21 @@ function render(index){
  if(index===1)filterCoupons();
 }
 function filterCoupons(){
- const chips=Array.from(app.querySelectorAll('.ch span'));
- chips.forEach((c,i)=>{const selectedChip=selected===['Todos','terpel','shell','primax','biomax','Más'][i];c.classList.toggle('on',selectedChip);c.classList.toggle('coupon-filter-active',selectedChip);});
- app.querySelectorAll('.cp').forEach(c=>{const brand=c.dataset.brand;c.hidden=selected!=='Todos' && (selected==='Más'?['terpel','shell','primax','biomax'].includes(brand):brand!==selected);});
+ const chips=Array.from(app.querySelectorAll('.filter-pill'));
+ chips.forEach(c=>{const active=selected===c.dataset.brand;c.classList.toggle('on',active);c.setAttribute('aria-pressed',active?'true':'false');});
+ app.querySelectorAll('.cp').forEach(c=>{c.hidden=selected!=='Todos'&&c.dataset.brand!==selected;});
+ const prev=app.querySelector('.no-brand-offers');if(prev)prev.remove();
+ if(selected!=='Todos'&&!app.querySelector('.cp:not([hidden])')){
+  const el=document.createElement('div');el.className='no-brand-offers';el.innerHTML='<strong>Próximamente</strong><p>Estamos preparando beneficios para esta marca.</p>';
+  const heading=app.querySelector('.coupon-section-title');if(heading)heading.insertAdjacentElement('afterend',el);
+ }
 }
 app.addEventListener('click',async e=>{
  const navLink=e.target.closest('.nv a');if(navLink){e.preventDefault();render([...navLink.parentElement.children].indexOf(navLink));return;}
  const hero=e.target.closest('[data-hero]');if(hero){if(hero.dataset.hero==='coupons')render(1);else openShare();return;}
  const action=e.target.closest('[data-action]');if(action){
   const key=action.dataset.action;
+  if(key==='filter-next'){const el=app.querySelector('#coupon-filter-scroll');if(el)el.scrollBy({left:Math.max(175,el.clientWidth*.7),behavior:'smooth'});return;}
   if(key==='open-menu'){openMenu();return;}
   if(key==='back'){render(0);return;}
   if(key==='invite'){showExtra('invite');return;}
@@ -515,7 +532,7 @@ if(key==='logout'){if(authClient){await authClient.auth.signOut();authUser=null;
   const station=e.target.closest('.st');if(station){const i=[...station.parentElement.children].indexOf(station);showExtra('station',ord[i]);return;}
  }
  if(current===1){
-  const chip=e.target.closest('.ch span');if(chip){const all=[...chip.parentElement.children];selected=['Todos','terpel','shell','primax','biomax','Más'][all.indexOf(chip)]||'Todos';filterCoupons();return;}
+  const chip=e.target.closest('.filter-pill');if(chip){selected=chip.dataset.brand;filterCoupons();chip.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});return;}
   if(e.target.closest('.cp .bt')){return;}
  }
  if(e.target.closest('.hd .l'))render(0);
