@@ -476,6 +476,36 @@ body{padding:0!important}
 .nv a.on{background:#DFFF9F!important;color:#075a30!important}
 .nv a.on .i{stroke:#075a30}
 @media(max-width:350px){.fg-station-item{grid-template-columns:minmax(0,1fr) 13px!important}.fg-station-cta{display:none!important}.coupons-page .coupon-offer{grid-template-columns:55px minmax(0,1fr) 66px!important;gap:5px!important;padding:9px 8px!important}.coupons-page .coupon-offer .fg-coupon-logo{width:54px!important;height:54px!important}.coupons-page .coupon-soon{font-size:10px!important}.nv a{font-size:8px!important}.fg-brand-rail .fg-brand-tile{flex-basis:105px!important;min-width:105px!important;width:105px!important;height:75px!important}}
+
+/* FINAL V5 accessibility/mobile correction */
+.nv{position:fixed!important;bottom:0!important;left:0!important;right:0!important;z-index:120!important;height:calc(73px + env(safe-area-inset-bottom,0px))!important;padding:6px 5px calc(7px + env(safe-area-inset-bottom,0px))!important}
+.sc{padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))!important;scroll-padding-bottom:calc(80px + env(safe-area-inset-bottom,0px));scrollbar-width:none}
+.sc::-webkit-scrollbar{display:none}
+.fg-station-item{grid-template-columns:minmax(0,1fr) 13px!important}
+.fg-station-cta{display:none!important}
+.fg-station-label{font-size:13px!important}
+.coupons-page>img:not(.lg){width:100%!important;max-width:100%!important;height:auto!important;max-height:140px!important;object-fit:contain!important;object-position:center;border-radius:18px!important}
+.fg-brand-section,.fg-price-card,.fg-explore,.coupon-offer{max-width:100%;min-width:0}
+.fg-brand-rail,.coupons-page .ch.coupon-brand-filters{touch-action:pan-x!important}
+.fg-brand-rail button,.filter-pill,.coupon-soon{touch-action:manipulation}
+.fg-brand-rail .fg-brand-tile:focus-visible,.filter-pill:focus-visible,.fg-primary-button:focus-visible,.nv a:focus-visible{outline:2px solid #009D45!important;outline-offset:2px!important}
+.nv a[aria-current="page"]{background:#DFFF9F!important}
+@media(max-width:360px){
+ .bd{padding-left:12px!important;padding-right:12px!important}
+ .fg-price-card{padding:12px!important}
+ .fg-price-item{padding:10px 8px!important}
+ .fg-price-item strong{font-size:19px!important}
+ .fg-price-head strong{font-size:14px!important}
+ .fg-brand-rail .fg-brand-tile{width:109px!important;min-width:109px!important;flex-basis:109px!important}
+ .tl>div{font-size:10px!important;padding:7px 2px!important}
+ .coupons-page .coupon-offer{grid-template-columns:54px minmax(0,1fr) 67px!important;gap:5px!important;padding:9px 8px!important}
+ .coupons-page .coupon-offer .fg-coupon-logo{width:53px!important;height:55px!important}
+ .coupons-page .coupon-offer .d{font-size:20px!important}
+ .coupons-page .coupon-soon{font-size:10px!important;padding:0 3px!important}
+ .fg-station-item{padding:8px!important}
+ .fg-station-label{font-size:12px!important}
+}
+@media(prefers-reduced-motion:reduce){.fg-brand-rail,.ch.coupon-brand-filters{scroll-behavior:auto!important}.hero-track{transition:none!important}}
 </style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
