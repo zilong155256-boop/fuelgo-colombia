@@ -615,7 +615,38 @@ const shell=(heading,subtitle,body)=>'<div class="service-page"><div class="serv
 function gate(){return shell('Escanear QR','','<div class="login-gate"><span class="fg-lock-icon">'+I('shield')+'</span><strong>Por favor, inicia sesión</strong><button data-action="login">Iniciar sesión</button></div>');}
 const FG_QR_ROWS='00000000000|00000000000|00000000000|00000000000|01fc757a7f0|0104534c410|0175672a5d0|0175f2445d0|017517925d0|0105d865410|01fd55557f0|0001b53d000|017c48a37c0|00f199f26f0|01459f9dd60|011299dcde0|00e70737ba0|01419a424f0|0007a35de20|0188be0ee40|002d3ac7b10|00a0b1326d0|006f735cf60|00998e387c0|01658e699a0|012a9f1b490|010fa4608a0|0172313f4f0|013664e5f30|0001adf1150|01fcc287560|010502d31d0|0175873dfb0|0175bec3950|0175c397e80|0104164e9c0|01fd5f87aa0|00000000000|00000000000|00000000000|00000000000';
 const fuelgoQrSvg=()=>'<svg class="fg-qr-inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 41" role="img" aria-label="QR de FuelGo Colombia para abrir la página web" shape-rendering="crispEdges"><rect width="41" height="41" fill="#fff"/>'+FG_QR_ROWS.split('|').map((row,y)=>{const bits=BigInt('0x'+row).toString(2).padStart(41,'0').slice(-41);return Array.from(bits).map((v,x)=>v==='1'?'<rect x="'+x+'" y="'+y+'" width="1" height="1" fill="#003f2e"/>':'').join('')}).join('')+'</svg>';
+let fgCameraStream=null,fgScanFrame=0;
+function stopFuelGoScanner(){if(fgScanFrame){cancelAnimationFrame(fgScanFrame);fgScanFrame=0;}if(fgCameraStream){fgCameraStream.getTracks().forEach(t=>t.stop());fgCameraStream=null;}const v=document.getElementById('fg-scan-video');if(v)v.srcObject=null;}
+async function startFuelGoScanner(){
+ const video=document.getElementById('fg-scan-video'),status=document.getElementById('fg-scan-result');
+ if(!video||!status)return;
+ stopFuelGoScanner();
+ if(!navigator.mediaDevices?.getUserMedia){status.textContent='La cámara no está disponible en este navegador.';return;}
+ try{
+  fgCameraStream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'}}});
+  const live=document.getElementById('fg-scan-video');
+  if(!live){stopFuelGoScanner();return;}
+  live.srcObject=fgCameraStream;await live.play();
+  status.textContent='Apunta la cámara al código QR del cliente.';
+  if(!('BarcodeDetector' in window)){status.textContent='La cámara está activa, pero este navegador no admite la lectura automática de códigos QR.';return;}
+  const detector=new BarcodeDetector({formats:['qr_code']});
+  let busy=false;
+  const tick=async()=>{
+   if(!fgCameraStream||!document.getElementById('fg-scan-video'))return;
+   if(!busy&&live.readyState>=2){
+    busy=true;
+    try{const codes=await detector.detect(live);if(codes.length){
+     status.textContent='Código detectado. La validación del cupón debe realizarse con el sistema de canje.';
+     stopFuelGoScanner();return;
+    }}catch(err){}finally{busy=false;}
+   }
+   fgScanFrame=requestAnimationFrame(tick);
+  };
+  fgScanFrame=requestAnimationFrame(tick);
+ }catch(error){stopFuelGoScanner();status.textContent='No fue posible activar la cámara. Revisa los permisos.';}
+}
 function showExtra(type,brand,couponIndex){
+ stopFuelGoScanner();
  extra={type,brand};let body='';
  if(type==='charge')body=shell('Recarga eléctrica','Calcula el costo de una recarga','<div class="service-card"><h3>Calculadora de recarga</h3><p>Introduce la energía y la tarifa de tu estación.</p><label>Energía (kWh)<input id="kwh" type="number" min="0" step="0.1" placeholder="30"></label><label>Tarifa (COP/kWh)<input id="rate" type="number" min="0" placeholder="Precio de tu estación"></label><button data-action="calc-charge">Calcular costo</button><div class="service-result" id="calc-result" aria-live="polite"></div></div>');
  else if(type==='auto')body=shell('Servicios para tu auto','Herramientas para planear el mantenimiento','<div class="service-card"><h3>Calculadora de combustible</h3><p>Estima el gasto de tu viaje.</p><label>Distancia (km)<input id="distance" type="number" min="0" placeholder="100"></label><label>Consumo (L/100 km)<input id="consumption" type="number" min="0" step="0.1" placeholder="8"></label><label>Precio (COP/L)<input id="fuelprice" type="number" min="0" placeholder="Precio por litro"></label><button data-action="calc-fuel">Calcular gasto</button><div id="calc-result" class="service-result" aria-live="polite"></div></div><div class="service-card"><h3>Revisión del vehículo</h3>'+['Aceite y filtros','Presión de neumáticos','Frenos y luces','Nivel de refrigerante'].map(x=>'<label class="service-check"><input type="checkbox">'+x+'</label>').join('')+'</div>');
@@ -695,6 +726,7 @@ function setupHero(){
  change(0);
 }
 function render(index){
+ stopFuelGoScanner();
  extra=null;current=index;
  if(index===2){showExtra(authUser?'coupon-scan':'locked');if(authClient)refreshAuth().then(()=>{if(current===2)showExtra(authUser?'coupon-qr':'locked');});return;}
  if(index===4){refreshAuth().then(()=>{if(current===4)showExtra('login');});showExtra('login');return;}
@@ -723,6 +755,8 @@ app.addEventListener('click',async e=>{
   if(key==='open-menu'){openMenu();return;}
   if(key==='back'){render(0);return;}
   if(key==='explore-coupons'){selected='Todos';render(1);return;}
+  if(key==='start-qr-scan'){await startFuelGoScanner();return;}
+  if(key==='stop-qr-scan'){stopFuelGoScanner();const status=document.getElementById('fg-scan-result');if(status)status.textContent='Cámara detenida.';return;}
   
   
   if(key==='invite'){showExtra('invite');return;}
