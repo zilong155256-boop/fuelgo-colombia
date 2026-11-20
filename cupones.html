@@ -249,6 +249,24 @@ body{padding:0!important}
 .station-detail-emblem .brand-monogram{width:80px;height:80px;font-size:40px}
 .coming-soon-detail{display:inline-block;padding:10px 18px;border-radius:20px;background:#e5f8d2;color:#286d38;font-weight:750;margin-top:10px}
 @media(max-width:350px){.br>div.brand-tile .brand-emblem{height:46px!important;min-height:46px!important;flex-basis:46px!important}.brand-symbol-svg{width:68px;height:40px}.station-brand-icon .brand-symbol-svg{width:50px;height:33px}}
+.coupons-page .cp{grid-template-columns:62px minmax(0,1fr) 90px!important;gap:9px!important;padding:12px!important;border-radius:17px;align-items:center}
+.coupons-page .coupon-brand-logo{width:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0}
+.coupon-brand-symbol{display:flex;align-items:center;justify-content:center;width:56px;height:39px;overflow:hidden}
+.coupon-brand-symbol .brand-symbol-svg{width:56px;height:39px}
+.coupon-brand-symbol .brand-monogram{width:45px;height:39px;font-size:24px}
+.coupon-brand-logo strong{font:800 10px/1.2 Arial,system-ui,sans-serif;letter-spacing:-.02em;color:#124933;white-space:nowrap}
+.coupons-page .cp .coupon-text{min-width:0}
+.coupons-page .cp .t{font-size:12px;line-height:16px}
+.coupons-page .cp .d{font-size:clamp(21px,5.5vw,29px);line-height:1.12}
+.coupons-page .cp .d small{font-size:11px}
+.coupons-page .cp .aux{font-size:11px;line-height:15px;margin-top:4px}
+.coupons-page .coupon-soon{background:#ecfbdc!important;color:#13713c!important;box-shadow:none!important;border:1px solid #b8e5b3!important;border-radius:14px!important;height:36px!important;font-size:12px!important;cursor:pointer}
+.coupons-page .cp .ml{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) 14px;gap:6px;font-size:10px}
+.coupons-page .ch span .brand-symbol-svg{width:33px;height:23px;min-width:33px}
+.coupons-page .ch span .brand-monogram{width:28px;height:24px;font-size:15px}
+.coupon-section-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:5px 0 0}.coupon-section-title strong{font-size:16px;color:#123d29}.coupon-section-title span{font-size:11px;color:#738478;white-space:nowrap}
+.offer-detail h3{font-size:31px;color:#ed1d39;margin:12px 0}.offer-detail-name{font-size:17px;font-weight:800;color:#09623b}.offer-detail .offer-upcoming{display:inline-block;border-radius:12px;background:#e4f8d6;color:#086832;padding:8px 15px;font-size:13px;font-weight:800;margin-top:14px}
+@media(max-width:350px){.coupons-page .cp{grid-template-columns:48px minmax(0,1fr) 73px!important;gap:5px!important;padding:9px!important}.coupons-page .coupon-brand-logo{width:47px}.coupons-page .coupon-soon{font-size:10px!important}.coupons-page .cp .d{font-size:20px}}
 </style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
@@ -295,10 +313,25 @@ const home=hd('','',`<button type="button" class="header-menu" data-action="open
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0"><div><div class="aux" style="color:#111">Gasolina corriente</div><b>COP $16.251/gal</b></div><div><div class="aux" style="color:#111">ACPM (Diésel)</div><b>COP $11.641/gal</b></div></div>
 <div class="aux" style="display:flex;gap:4px">${I('info').replace('class="i"','class="i" style="width:14px;height:14px"')}Precios de referencia de la ciudad. El precio real puede variar en cada estación.</div></div>
 <section class="brand-explore"><div class="brand-explore-heading"><div class="h2">${I('pin')}Explora estaciones</div><span class="brand-explore-count">10 marcas</span></div><p class="brand-explore-subtitle">Selecciona una marca y descubre sus beneficios y cupones disponibles.</p><div class="station-brand-list notranslate" translate="no">${ord.map(b=>`<button type="button" class="st station-brand-row" aria-label="Ver beneficios de ${nm[b]}"><span class="station-brand-icon" aria-hidden="true">${brandIcon(b)}</span><span class="station-brand-name notranslate" translate="no">${nm[b]}</span><span class="station-brand-action">Ver beneficios</span>${I('chev')}</button>`).join('')}</div></section></div>`+nav(0);
-const cup=[['terpel','30% DTO.','','En gasolina corriente y diésel','Terpel'],['shell','50% DTO.','Hasta ','En gasolina seleccionada','Shell'],['primax','30% DTO.','','En gasolina y diésel','Primax'],['biomax','40% DTO.','','En gasolina seleccionada','Biomax']];
-const cupones=hdCompact(I('back'),L('giftc'))+`<div class="bd" style="gap:6px"><div class="ch"><span class="on">▦ Todos</span>${['terpel','shell','primax','biomax'].map(b=>`<span>${L(b)}</span>`).join('')}<span>Más ⌄</span></div>${L('promo')}
-${cup.map(([b,d,h,s,n])=>`<div class="cd cp"><img src="${A[b]}" alt="${n}"><div><div class="t">Cupón de combustible</div><div class="d">${h?`<small>${h}</small>`:''}${d}</div><div class="aux">${s}</div></div><div class="bt s">Obtener</div><div class="ml"><span>${I('cal')}Válido: 15 – 30 nov 2026</span><span>${I('pin')}En estaciones ${n} participantes</span>${I('chev')}</div></div>`).join('')}
-<div class="cd" style="background:#f1fddf;display:flex;align-items:center;gap:12px;padding:6px 16px"><span style="color:var(--g2)">${I('info')}</span><div style="flex:1"><div style="font:600 16px Inter">Reglas de uso</div><div class="aux" style="color:#111">Cada cupón tiene condiciones, vigencia y estaciones participantes.</div></div>${I('chev')}</div></div>`+nav(1);
+const cup=[
+ ['terpel','30% DTO.','','En gasolina corriente y diésel','Terpel'],
+ ['shell','50% DTO.','Hasta ','En gasolina seleccionada','Shell'],
+ ['primax','30% DTO.','','En gasolina y diésel','Primax'],
+ ['biomax','40% DTO.','','En gasolina seleccionada','Biomax'],
+ ['terpel','5% DTO.','','En combustible seleccionado','Terpel'],
+ ['shell','10% DTO.','','En combustible seleccionado','Shell'],
+ ['primax','$5.000','','En compras desde $50.000 COP','Primax'],
+ ['biomax','$10.000','','En compras desde $100.000 COP','Biomax'],
+ ['texaco','$3.000','','En compras desde $40.000 COP','Texaco'],
+ ['petromil','5% DTO.','','En compras desde $60.000 COP','Petromil'],
+ ['terpel','$8.000','','En compras desde $80.000 COP','Terpel'],
+ ['shell','7% DTO.','','En combustible seleccionado','Shell']
+];
+const couponLogo=b=>`<div class="coupon-brand-logo"><span class="coupon-brand-symbol">${brandIcon(b)}</span><strong class="notranslate" translate="no">${nm[b]}</strong></div>`;
+const cupones=hdCompact(I('back'),L('giftc'))+`<div class="bd coupons-page" style="gap:10px"><div class="ch"><span class="on">▦ Todos</span>${['terpel','shell','primax','biomax'].map(b=>`<span>${brandIcon(b)}</span>`).join('')}<span>Más ⌄</span></div>${L('promo')}
+<div class="coupon-section-title"><strong>Explora los beneficios</strong><span>12 ofertas por anunciar</span></div>
+${cup.map(([b,d,h,detail,n],index)=>`<article class="cd cp coupon-offer" data-brand="${b}">${couponLogo(b)}<div class="coupon-text"><div class="t">${d.includes('$')?'Bono de combustible':'Cupón de combustible'}</div><div class="d">${h?`<small>${h}</small>`:''}${d}</div><div class="aux">${detail}</div></div><button class="bt s coupon-soon" type="button" data-action="coupon-info" data-index="${index}">Ver detalle</button><div class="ml"><span>${I('cal')}Próximamente</span><span>${I('info')}Sujeto a confirmación</span>${I('chev')}</div></article>`).join('')}
+<div class="cd coupon-rules" style="background:#f1fddf;display:flex;align-items:center;gap:12px;padding:12px 16px"><span style="color:var(--g2)">${I('info')}</span><div style="flex:1"><div style="font:600 16px Inter">Reglas de uso</div><div class="aux" style="color:#111">Las ofertas son propuestas y todavía no están activas. Sujeto a condiciones y establecimientos participantes.</div></div>${I('chev')}</div></div>`+nav(1);
 const hist=hdCompact(I('back'))+`<div class="bd history-page"><div class="h2">Mis cupones y actividad</div><div class="empty-state"><span style="font-size:44px">🎟️</span><strong>Todavía no tienes movimientos</strong><p>Cuando obtengas cupones con tu cuenta, aparecerán aquí.</p></div></div>`+nav(3);
 const qr=`<div style="position:absolute;inset:0;background:linear-gradient(#003F2E,#06432f 40%,#1b1b1b)"></div>`+hd('','',' ',I('x')).replace('border-radius:0 0 24px 24px','')+`<div class="cd" style="margin:6px 14px 0;padding:14px 16px 14px;position:relative;border-radius:24px;height:690px;display:flex;flex-direction:column;gap:10px;box-shadow:none">
 <div style="display:grid;grid-template-columns:52px 1fr auto;gap:8px;align-items:center">${L('terpel','ql')}<div><div class="t" style="font:600 15px Inter;white-space:nowrap">Cupón de combustible</div><div style="font:700 28px/32px Inter;color:var(--r)">30% Dto.</div></div><div class="pill" style="display:flex;gap:6px;align-items:center;padding:8px 8px;white-space:normal;width:88px;text-align:left"><span style="color:var(--g2)">${I('ok')}</span>¡Cupón obtenido!</div></div>
@@ -317,10 +350,11 @@ function toast(message){const old=document.querySelector('.app-toast');if(old)ol
 const wrap=(body,tab=0)=>'<section class="preview-slide"><div class="ph"><div class="sc">'+body+'</div></div></section>';
 const shell=(heading,subtitle,body)=>'<div class="service-page"><div class="service-heading"><h2>'+heading+'</h2><p>'+subtitle+'</p></div><button class="service-back" data-action="back">‹ Volver al inicio</button><div class="bd">'+body+'</div></div>'+nav(current);
 function gate(label){return shell('Inicia sesión','Protegemos tus cupones y tu actividad','<div class="login-gate"><strong>Accede a FuelGo</strong><p>Para '+label+' necesitas iniciar sesión con tu cuenta.</p><button data-action="login">Iniciar sesión</button><p class="fake-token-notice">La autenticación estará disponible cuando se conecte el servicio de cuentas.</p></div>');}
-function showExtra(type,brand){
+function showExtra(type,brand,couponIndex){
  extra={type,brand};let body='';
  if(type==='charge')body=shell('Recarga eléctrica','Calcula el costo de una recarga','<div class="service-card"><h3>Calculadora de recarga</h3><p>Introduce la energía y la tarifa de tu estación.</p><label>Energía (kWh)<input id="kwh" type="number" min="0" step="0.1" placeholder="30"></label><label>Tarifa (COP/kWh)<input id="rate" type="number" min="0" placeholder="Precio de tu estación"></label><button data-action="calc-charge">Calcular costo</button><div class="service-result" id="calc-result" aria-live="polite"></div></div>');
  else if(type==='auto')body=shell('Servicios para tu auto','Herramientas para planear el mantenimiento','<div class="service-card"><h3>Calculadora de combustible</h3><p>Estima el gasto de tu viaje.</p><label>Distancia (km)<input id="distance" type="number" min="0" placeholder="100"></label><label>Consumo (L/100 km)<input id="consumption" type="number" min="0" step="0.1" placeholder="8"></label><label>Precio (COP/L)<input id="fuelprice" type="number" min="0" placeholder="Precio por litro"></label><button data-action="calc-fuel">Calcular gasto</button><div id="calc-result" class="service-result" aria-live="polite"></div></div><div class="service-card"><h3>Revisión del vehículo</h3>'+['Aceite y filtros','Presión de neumáticos','Frenos y luces','Nivel de refrigerante'].map(x=>'<label class="service-check"><input type="checkbox">'+x+'</label>').join('')+'</div>');
+ else if(type==='coupon-info'){const item=cup[couponIndex];body=shell('Detalle de la oferta','Promoción pendiente de lanzamiento','<div class="service-card offer-detail"><div class="offer-detail-name">'+nm[item[0]]+'</div><h3>'+item[2]+item[1]+'</h3><p>'+item[3]+'</p><div class="offer-upcoming">Próximamente</div><p>Esta oferta todavía no está disponible para canjear. Los descuentos, las fechas y las estaciones participantes requieren confirmación antes del lanzamiento.</p><button type="button" data-action="brand-coupons" data-brand="'+item[0]+'">Volver a cupones</button></div>');}
  else if(type==='station')body=shell('Estación '+nm[brand],'Información y beneficios por marca','<div class="service-card station-detail" style="text-align:center"><div class="station-detail-emblem">'+brandIcon(brand)+'</div><h3 class="notranslate" translate="no">'+nm[brand]+'</h3><p>'+(cup.some(c=>c[0]===brand)?'Consulta los cupones disponibles para esta marca.':'Estamos preparando información y beneficios para esta marca.')+'</p>'+(cup.some(c=>c[0]===brand)?'<button data-action="brand-coupons" data-brand="'+brand+'">Ver cupones</button>':'<span class="coming-soon-detail">Próximamente</span>')+'</div>');
  else if(type==='invite')body=shell('Invita a tus amigos','Comparte FuelGo Colombia','<div class="invite-card"><div class="invite-top"><div><small>FUELGO COLOMBIA</small><h3>¡Invita a tus amigos!</h3><p>Comparte FuelGo y descubre las actividades y premios disponibles.</p></div>'+giftIcon+'</div><div class="invite-bottom"><strong>¡Hasta un millón de pesos en premios!</strong><p>Las recompensas están sujetas a condiciones, elegibilidad y confirmación de la campaña. Compartir no garantiza un premio.</p><button data-action="invite-share">Compartir ahora ›</button></div></div>');
  else if(type==='help')body=shell('Ayuda y soporte','Estamos aquí para orientarte','<div class="service-card"><h3>Preguntas frecuentes</h3><details><summary>¿Cómo veo los cupones?</summary><p>Abre Cupones en el menú o en la barra inferior para explorar las ofertas mostradas.</p></details><details><summary>¿Por qué debo iniciar sesión?</summary><p>Para guardar cupones y acceder a tu historial se necesita una cuenta verificada. El servicio de autenticación todavía no está conectado.</p></details><details><summary>¿Puedo compartir FuelGo?</summary><p>Sí. Usa Invitar amigos y elige WhatsApp, Facebook, Telegram o copiar enlace.</p></details></div>');
@@ -401,7 +435,7 @@ function render(index){
 function filterCoupons(){
  const chips=Array.from(app.querySelectorAll('.ch span'));
  chips.forEach((c,i)=>{const selectedChip=selected===['Todos','terpel','shell','primax','biomax','Más'][i];c.classList.toggle('on',selectedChip);c.classList.toggle('coupon-filter-active',selectedChip);});
- app.querySelectorAll('.cp').forEach((c,i)=>c.hidden=selected!=='Todos'&&selected!=='Más'&&cup[i][0]!==selected);
+ app.querySelectorAll('.cp').forEach(c=>{const brand=c.dataset.brand;c.hidden=selected!=='Todos' && (selected==='Más'?['terpel','shell','primax','biomax'].includes(brand):brand!==selected);});
 }
 app.addEventListener('click',async e=>{
  const navLink=e.target.closest('.nv a');if(navLink){e.preventDefault();render([...navLink.parentElement.children].indexOf(navLink));return;}
@@ -414,6 +448,7 @@ app.addEventListener('click',async e=>{
   if(key==='invite-share'){openShare();return;}
   if(key==='login'){showExtra('login');return;}
   if(key==='continue-login'){const inp=document.getElementById('login-email'),msg=document.getElementById('login-error');if(!inp||!msg)return;if(!inp.validity.valid||!inp.value.trim()){msg.textContent='Introduce un correo electrónico válido.';inp.focus();return;}msg.textContent='El inicio de sesión aún no está disponible. No se ha enviado ningún dato.';return;}
+  if(key==='coupon-info'){const item=cup[Number(action.dataset.index)];if(item)showExtra('coupon-info',item[0],Number(action.dataset.index));return;}
   if(key==='brand-coupons'){selected=action.dataset.brand;render(1);return;}
   if(key==='calc-charge'||key==='calc-fuel'){const keys=key==='calc-charge'?['kwh','rate']:['distance','consumption','fuelprice'];const n=keys.map(id=>Number(document.getElementById(id)?.value));const valid=keys.every(id=>document.getElementById(id)?.value!=='')&&n.every(v=>Number.isFinite(v)&&v>=0);const result=document.getElementById('calc-result');if(!valid){result.textContent='Introduce valores válidos en todos los campos.';return;}const total=key==='calc-charge'?n[0]*n[1]:(n[0]/100)*n[1]*n[2];result.textContent='Costo estimado: COP $'+Math.round(total).toLocaleString('es-CO');return;}
  }
@@ -425,7 +460,7 @@ app.addEventListener('click',async e=>{
  }
  if(current===1){
   const chip=e.target.closest('.ch span');if(chip){const all=[...chip.parentElement.children];selected=['Todos','terpel','shell','primax','biomax','Más'][all.indexOf(chip)]||'Todos';filterCoupons();return;}
-  if(e.target.closest('.cp .bt')){showExtra('login');return;}
+  if(e.target.closest('.cp .bt')){return;}
  }
  if(e.target.closest('.hd .l'))render(0);
 });
