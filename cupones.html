@@ -290,7 +290,14 @@ body{padding:0!important}
 <symbol id="i-pump" viewBox="0 0 24 24"><path d="M5 21V4h9v17M3 21h13M5 9h9M14 8l3 2v8a1.5 1.5 0 003 0v-7l-2-2"/></symbol>
 <symbol id="i-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><path d="M14 14h3v3h-3zM20 14v6h-3"/></symbol>
 </defs></svg>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
+const AUTH_URL='https://qoixrbzqmwmqkihpagrh.supabase.co';
+const AUTH_PUBLIC_KEY='sb_publishable_vDSwCMWP96z-5IsOLV-BtA_e0nqAkaU';
+const authClient=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(AUTH_URL,AUTH_PUBLIC_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
+let authUser=null, authEmail='';
+async function refreshAuth(){if(!authClient)return;const {data,error}=await authClient.auth.getUser();authUser=error?null:data.user;}
+if(authClient){authClient.auth.onAuthStateChange((_event,session)=>{authUser=session?.user||null;});refreshAuth();}
 const A={"terpel":"./assets/app-html/terpel.png","primax":"./assets/app-html/primax.png","biomax":"./assets/app-html/biomax.png","texaco":"./assets/app-html/texaco.png","shell":"./assets/app-html/shell.png","petromil":"./assets/app-html/petromil.png","logo":"./assets/app-html/logo.png","gift":"./assets/app-html/gift.png","giftc":"./assets/app-html/giftc.png","banner":"./assets/app-html/banner.png","promo":"./assets/app-html/promo.png","city":"./assets/app-html/city.png","qr":"./assets/app-html/qr.png","scan":"./assets/app-html/scan.png"};
 const I=n=>`<svg class="i"><use href="#i-${n}"/></svg>`,L=(n,c='')=>`<img class="${c}" src="${A[n]}" alt="${n}">`;
 const giftIcon=`<svg class="fuelgo-gift-svg" viewBox="0 0 48 48" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6.5" y="19" width="35" height="22" rx="5.5" fill="#FFE500"/><rect x="5" y="17" width="38" height="10" rx="4" fill="#F8FFCE"/><path d="M24 17v24M7 27h34" stroke="#036641" stroke-width="3" stroke-linecap="round"/><path d="M24 17c-6.2-1.2-12.6-3.3-12.6-8 0-2.5 2-4.4 4.6-4.4 5.5 0 8 9 8 12.4Zm0 0c6.2-1.2 12.6-3.3 12.6-8 0-2.5-2-4.4-4.6-4.4-5.5 0-8 9-8 12.4Z" fill="#FFE500" stroke="#F9FFF0" stroke-width="2.2" stroke-linejoin="round"/><path d="M24 17v-7" stroke="#036641" stroke-width="2.4" stroke-linecap="round"/></svg>`;
@@ -309,9 +316,9 @@ const home=hd('','',`<button type="button" class="header-menu" data-action="open
 </div></div><div class="hero-dots"><button class="hero-dot" aria-label="Actividad 1"></button><button class="hero-dot" aria-label="Actividad 2"></button><button class="hero-dot" aria-label="Actividad 3"></button></div></div>
 <div class="tl"><div style="background:linear-gradient(#0aa622,#066b18)">${I('tkt')}Cupones de combustible</div><div style="background:linear-gradient(#1b7cf0,#0a3fd0)">${I('bolt')}Recarga</div><div style="background:linear-gradient(#8a3ff0,#5a1ad0)">${I('car')}Servicios para tu auto</div></div>
 <div class="h2">${I('pump')}Principales marcas de estaciones</div><div class="br notranslate" translate="no">${brands.map(b=>`<div class="brand-tile" role="button" tabindex="0" aria-label="Ver beneficios de ${nm[b]}"><span class="brand-emblem" aria-hidden="true">${brandIcon(b)}</span><span class="brand-name brand-${b} notranslate" translate="no">${nm[b]}</span></div>`).join('')}</div>
-<div class="pr"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 14px Inter;white-space:nowrap">Precios de referencia · <u>Medellín</u></span><span class="aux" style="font-size:11px;white-space:nowrap">Actualizado: Nov 2026</span></div>
+<div class="pr"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 14px Inter;white-space:nowrap">Precios de referencia · <u>Medellín</u></span><span class="aux" style="font-size:11px;white-space:nowrap">Vigente: 1 nov 2026</span></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0"><div><div class="aux" style="color:#111">Gasolina corriente</div><b>COP $16.251/gal</b></div><div><div class="aux" style="color:#111">ACPM (Diésel)</div><b>COP $11.641/gal</b></div></div>
-<div class="aux" style="display:flex;gap:4px">${I('info').replace('class="i"','class="i" style="width:14px;height:14px"')}Precios de referencia de la ciudad. El precio real puede variar en cada estación.</div></div>
+<div class="aux" style="display:flex;gap:4px">${I('info').replace('class="i"','class="i" style="width:14px;height:14px"')}Fuente: CREG, Circular 371/2026. Precios de referencia mensuales, no cotizaciones en vivo por estación. <a href="https://www.minenergia.gov.co/es/ministerio/gestion/gestion-informacion/datos-abiertos/" target="_blank" rel="noopener noreferrer">Consultar reportes de estaciones</a>.</div></div>
 <section class="brand-explore"><div class="brand-explore-heading"><div class="h2">${I('pin')}Explora estaciones</div><span class="brand-explore-count">10 marcas</span></div><p class="brand-explore-subtitle">Selecciona una marca y descubre sus beneficios y cupones disponibles.</p><div class="station-brand-list notranslate" translate="no">${ord.map(b=>`<button type="button" class="st station-brand-row" aria-label="Ver beneficios de ${nm[b]}"><span class="station-brand-icon" aria-hidden="true">${brandIcon(b)}</span><span class="station-brand-name notranslate" translate="no">${nm[b]}</span><span class="station-brand-action">Ver beneficios</span>${I('chev')}</button>`).join('')}</div></section></div>`+nav(0);
 const cup=[
  ['terpel','30% DTO.','','En gasolina corriente y diésel','Terpel'],
@@ -358,9 +365,9 @@ function showExtra(type,brand,couponIndex){
  else if(type==='station')body=shell('Estación '+nm[brand],'Información y beneficios por marca','<div class="service-card station-detail" style="text-align:center"><div class="station-detail-emblem">'+brandIcon(brand)+'</div><h3 class="notranslate" translate="no">'+nm[brand]+'</h3><p>'+(cup.some(c=>c[0]===brand)?'Consulta los cupones disponibles para esta marca.':'Estamos preparando información y beneficios para esta marca.')+'</p>'+(cup.some(c=>c[0]===brand)?'<button data-action="brand-coupons" data-brand="'+brand+'">Ver cupones</button>':'<span class="coming-soon-detail">Próximamente</span>')+'</div>');
  else if(type==='invite')body=shell('Invita a tus amigos','Comparte FuelGo Colombia','<div class="invite-card"><div class="invite-top"><div><small>FUELGO COLOMBIA</small><h3>¡Invita a tus amigos!</h3><p>Comparte FuelGo y descubre las actividades y premios disponibles.</p></div>'+giftIcon+'</div><div class="invite-bottom"><strong>¡Hasta un millón de pesos en premios!</strong><p>Las recompensas están sujetas a condiciones, elegibilidad y confirmación de la campaña. Compartir no garantiza un premio.</p><button data-action="invite-share">Compartir ahora ›</button></div></div>');
  else if(type==='help')body=shell('Ayuda y soporte','Estamos aquí para orientarte','<div class="service-card"><h3>Preguntas frecuentes</h3><details><summary>¿Cómo veo los cupones?</summary><p>Abre Cupones en el menú o en la barra inferior para explorar las ofertas mostradas.</p></details><details><summary>¿Por qué debo iniciar sesión?</summary><p>Para guardar cupones y acceder a tu historial se necesita una cuenta verificada. El servicio de autenticación todavía no está conectado.</p></details><details><summary>¿Puedo compartir FuelGo?</summary><p>Sí. Usa Invitar amigos y elige WhatsApp, Facebook, Telegram o copiar enlace.</p></details></div>');
- else if(type==='login')body=shell('Iniciar sesión','Accede a tu cuenta FuelGo','<div class="login-form"><div class="login-brand"><img src="'+A.logo+'" alt="FuelGo Colombia"></div><h3>Bienvenido a FuelGo</h3><p>Ingresa tu correo electrónico para continuar.</p><label for="login-email">Correo electrónico</label><input id="login-email" type="email" autocomplete="email" placeholder="nombre@ejemplo.com" required><div class="login-error" id="login-error" role="status"></div><button type="button" data-action="continue-login">Continuar</button><p class="login-disclosure">El acceso a cuentas todavía no está habilitado. No se enviarán datos ni códigos hasta conectar un servicio de autenticación seguro.</p></div>');
+ else if(type==='login')body=shell('Iniciar sesión','Accede a tu cuenta FuelGo',authUser?'<div class="login-form"><h3>Mi cuenta</h3><p class="account-email"></p><button type="button" data-action="logout">Cerrar sesión</button></div>':'<div class="login-form"><div class="login-brand"><img src="'+A.logo+'" alt="FuelGo Colombia"></div><h3>Bienvenido a FuelGo</h3><p>Ingresa tu correo electrónico. Recibirás un código de verificación.</p><label for="login-email">Correo electrónico</label><input id="login-email" type="email" autocomplete="email" placeholder="nombre@ejemplo.com" required><div class="login-error" id="login-error" role="status"></div><button type="button" data-action="continue-login">Enviar código</button><p class="login-disclosure">Tu dirección de correo se usará para iniciar sesión. No se envían correos de marketing desde este formulario.</p></div>');
  else if(type==='locked')body=gate('consultar tu código QR');
- app.innerHTML=wrap(body);app.querySelector('.sc').scrollTop=0;
+ app.innerHTML=wrap(body);app.querySelector('.sc').scrollTop=0;const emailNode=app.querySelector('.account-email');if(emailNode)emailNode.textContent=authUser?.email||'';
 }
 function closeMenu(){const node=document.getElementById('fuelgo-side-menu');if(node)node.remove();}
 function openMenu(){
@@ -387,6 +394,10 @@ function openMenu(){
  const close=node.querySelector('.side-menu-close');if(close)close.focus();
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+function showOtpForm(email){
+ const panel=app.querySelector('.login-form');if(!panel)return;
+ panel.innerHTML='<div class="login-brand"><img src="'+A.logo+'" alt="FuelGo Colombia"></div><h3>Verifica tu correo</h3><p>Introduce el código recibido en tu correo electrónico.</p><label for="login-token">Código de verificación</label><input id="login-token" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="one-time-code" placeholder="000000"><div id="login-otp-status" class="login-error" role="status"></div><button type="button" data-action="verify-login">Verificar y entrar</button><p class="login-disclosure">Si recibes un enlace en lugar de un código, configura la plantilla Email OTP de Supabase con {{ .Token }}.</p>';
+}
 function openShare(){
  const existing=document.getElementById('fuelgo-share-sheet');if(existing)existing.remove();
  const url=location.origin+location.pathname;
@@ -425,7 +436,7 @@ function setupHero(){
 function render(index){
  extra=null;current=index;
  if(index===2){showExtra('locked');return;}
- if(index===4){showExtra('login');return;}
+ if(index===4){refreshAuth().then(()=>{if(current===4)showExtra('login');});showExtra('login');return;}
  app.innerHTML=wrap(pages[index]);
  app.querySelectorAll('.nv a').forEach((a,i)=>{a.href='#'+['inicio','cupones','qr','historial','mi-cuenta'][i];a.setAttribute('aria-current',i===index?'page':'false');});
  app.querySelector('.sc').scrollTop=0;
@@ -447,7 +458,30 @@ app.addEventListener('click',async e=>{
   if(key==='invite'){showExtra('invite');return;}
   if(key==='invite-share'){openShare();return;}
   if(key==='login'){showExtra('login');return;}
-  if(key==='continue-login'){const inp=document.getElementById('login-email'),msg=document.getElementById('login-error');if(!inp||!msg)return;if(!inp.validity.valid||!inp.value.trim()){msg.textContent='Introduce un correo electrónico válido.';inp.focus();return;}msg.textContent='El inicio de sesión aún no está disponible. No se ha enviado ningún dato.';return;}
+  if(key==='continue-login'){
+ const inp=document.getElementById('login-email'),msg=document.getElementById('login-error');
+ if(!inp||!msg)return;
+ if(!inp.validity.valid||!inp.value.trim()){msg.textContent='Introduce un correo electrónico válido.';inp.focus();return;}
+ if(!authClient){msg.textContent='No se pudo conectar con el servicio de acceso. Inténtalo más tarde.';return;}
+ const button=action;button.disabled=true;button.textContent='Enviando…';
+ authEmail=inp.value.trim().toLowerCase();
+ try{const {error}=await authClient.auth.signInWithOtp({email:authEmail,options:{shouldCreateUser:true}});if(error)throw error;showOtpForm(authEmail);}
+ catch(error){msg.textContent=error.message||'No se pudo enviar el código.';}
+ finally{button.disabled=false;button.textContent='Enviar código';}
+ return;
+}
+if(key==='verify-login'){
+ const token=document.getElementById('login-token')?.value.trim();
+ const msg=document.getElementById('login-otp-status');
+ if(!token||!/^\\d{6,8}$/.test(token)){if(msg)msg.textContent='Introduce el código recibido por correo.';return;}
+ if(!authClient)return;
+ action.disabled=true;
+ try{const {data,error}=await authClient.auth.verifyOtp({email:authEmail,token,type:'email'});if(error)throw error;authUser=data.user||data.session?.user||null;showExtra('login');}
+ catch(error){if(msg)msg.textContent=error.message||'Código inválido.';}
+ finally{action.disabled=false;}
+ return;
+}
+if(key==='logout'){if(authClient){await authClient.auth.signOut();authUser=null;}showExtra('login');return;}
   if(key==='coupon-info'){const item=cup[Number(action.dataset.index)];if(item)showExtra('coupon-info',item[0],Number(action.dataset.index));return;}
   if(key==='brand-coupons'){selected=action.dataset.brand;render(1);return;}
   if(key==='calc-charge'||key==='calc-fuel'){const keys=key==='calc-charge'?['kwh','rate']:['distance','consumption','fuelprice'];const n=keys.map(id=>Number(document.getElementById(id)?.value));const valid=keys.every(id=>document.getElementById(id)?.value!=='')&&n.every(v=>Number.isFinite(v)&&v>=0);const result=document.getElementById('calc-result');if(!valid){result.textContent='Introduce valores válidos en todos los campos.';return;}const total=key==='calc-charge'?n[0]*n[1]:(n[0]/100)*n[1]*n[2];result.textContent='Costo estimado: COP $'+Math.round(total).toLocaleString('es-CO');return;}
