@@ -267,7 +267,7 @@ body{padding:0!important}
 .coupon-section-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:5px 0 0}.coupon-section-title strong{font-size:16px;color:#123d29}.coupon-section-title span{font-size:11px;color:#738478;white-space:nowrap}
 .offer-detail h3{font-size:31px;color:#ed1d39;margin:12px 0}.offer-detail-name{font-size:17px;font-weight:800;color:#09623b}.offer-detail .offer-upcoming{display:inline-block;border-radius:12px;background:#e4f8d6;color:#086832;padding:8px 15px;font-size:13px;font-weight:800;margin-top:14px}
 @media(max-width:350px){.coupons-page .cp{grid-template-columns:48px minmax(0,1fr) 73px!important;gap:5px!important;padding:9px!important}.coupons-page .coupon-brand-logo{width:47px}.coupons-page .coupon-soon{font-size:10px!important}.coupons-page .cp .d{font-size:20px}}
-</style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
+.brand-external-logo{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;display:block}.brand-emblem .brand-external-logo{width:79px;height:46px}.station-brand-icon .brand-external-logo{width:56px;height:43px}.coupon-brand-symbol .brand-external-logo{width:52px;height:37px}.station-detail-emblem .brand-external-logo{height:84px;max-width:210px}.brand-fallback{width:100%;height:100%;font-size:23px}.station-brand-icon .brand-fallback{font-size:22px}</style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
 <symbol id="i-tkt" viewBox="0 0 24 24"><path d="M3 8a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 000-4zM10 9l4 6"/></symbol>
@@ -307,7 +307,13 @@ const hd=(t='',s='',l='',r='')=>`<header class="hd"><div class="l">${l}</div><di
 const hdCompact=(l='',r='')=>hd('','',l,r).replace('class="hd"','class="hd compact"');
 const ph=(c,d='')=>`<div class="ph"><div class="sc">${sb}${c}<i class="hi" style="${d}"></i></div></div>`;
 const brands=['terpel','primax','biomax','texaco','shell','petromil','zeuss','puma','petrobras','esso'],nm={terpel:'Terpel',primax:'Primax',biomax:'Biomax',texaco:'Texaco',shell:'Shell',petromil:'Petromil',zeuss:'Zeuss',puma:'Puma',petrobras:'Petrobras',esso:'Esso'};
-const brandIcon=b=>A[b]?`<svg class="brand-symbol-svg" viewBox="0 0 100 48" aria-hidden="true"><image href="${A[b]}" x="0" y="0" width="100" height="73" preserveAspectRatio="xMidYMin meet"/></svg>`:`<span class="brand-monogram monogram-${b}" aria-hidden="true">${({zeuss:'Z',puma:'P',petrobras:'P',esso:'E'})[b]||'⛽'}</span>`;
+const brandPublicLogos={
+ zeuss:'https://pbs.twimg.com/profile_images/682990185148248064/54tO4BGm.png',
+ puma:'https://mma.prnewswire.com/media/508348/Puma_Energy_Logo.jpg?p=facebook',
+ petrobras:'https://upload.wikimedia.org/wikipedia/commons/8/8e/Petrobras-logo-0.png',
+ esso:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Esso_textlogo.svg/3840px-Esso_textlogo.svg.png'
+};
+const brandIcon=b=>A[b]?`<svg class="brand-symbol-svg" viewBox="0 0 100 48" aria-hidden="true"><image href="${A[b]}" x="0" y="0" width="100" height="73" preserveAspectRatio="xMidYMin meet"/></svg>`:(brandPublicLogos[b]?`<img class="brand-external-logo" src="${brandPublicLogos[b]}" alt="${nm[b]}" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="brand-monogram brand-fallback" style="display:none" aria-hidden="true">${nm[b].charAt(0)}</span>`:`<span class="brand-monogram" aria-hidden="true">${nm[b].charAt(0)}</span>`);
 const dist=[],ord=['terpel','shell','primax','biomax','texaco','petromil','zeuss','puma','petrobras','esso'];
 const home=hd('','',`<button type="button" class="header-menu" data-action="open-menu" aria-label="Abrir menú" aria-expanded="false">${I('menu')}</button>`,`<button type="button" class="header-notification" data-action="invite" aria-label="Invitar amigos y compartir FuelGo" title="Invitar amigos">${I('bell')}<span class="notification-count" aria-hidden="true">99+</span></button>`)+`<div class="bd"><div class="hero-slider" tabindex="0" aria-label="Actividades FuelGo"><div class="hero-viewport"><div class="hero-track">
 <div class="hero-panel"><img src="${A.banner}" alt="Beneficios de combustible"><button class="hero-open" data-hero="coupons" aria-label="Ver cupones"></button></div>
