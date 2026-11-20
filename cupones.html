@@ -378,6 +378,104 @@ body{padding:0!important}
 .fg-brand-rail .fg-brand-visual{width:100%!important;height:76px!important;max-height:76px!important;overflow:hidden!important}
 .fg-brand-rail .fg-brand-visual .fg-brand-art{display:block!important;width:124%!important;height:124%!important;max-width:none!important;max-height:none!important;min-width:124%!important;min-height:124%!important;flex:none!important;object-fit:contain!important}
 @media(max-width:350px){.fg-brand-rail .fg-brand-tile{flex-basis:108px!important;width:108px!important;min-width:108px!important;height:78px!important}.fg-brand-rail .fg-brand-visual{height:69px!important;max-height:69px!important}}
+
+/* FINAL DESIGN SYSTEM V5: cohesive finish, scoped to existing functional components. */
+:root{--g:#004D35;--g2:#009D45;--lg:#DFFF9F;--r:#F0143D;--fg-bg:#F5F8F5;--fg-muted:#61756a;--fg-border:#e5eee8;--fg-shadow:0 3px 12px rgba(0,56,29,.07);--fg-radius:18px}
+.sc{background:#fff}
+.bd{padding:12px 16px 96px!important;gap:13px!important;min-width:0}
+.hd,.hd.compact{background:linear-gradient(135deg,#004d35,#087546);border-radius:0 0 22px 22px!important}
+.hd .lg{max-width:54%!important;max-height:43px!important;object-fit:contain}
+.header-notification{height:40px;width:40px;border-radius:12px}
+.notification-count{font-size:9px!important;min-width:23px!important;height:17px!important;right:-6px!important;top:-5px!important}
+.hero-viewport,.hero-panel{border-radius:18px}
+.hero-slider{padding-bottom:23px!important}
+.hero-dots{bottom:1px!important;gap:8px!important}
+.hero-dot{height:7px!important;width:7px!important;flex-basis:7px!important}
+.hero-dot[aria-current=true]{background:#009D45!important}
+.tl{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;min-width:0}
+.tl>div{height:72px!important;min-width:0;padding:8px 3px;border-radius:16px!important;gap:5px;box-shadow:var(--fg-shadow)!important;font-size:11px!important;line-height:1.22!important;font-weight:700!important;cursor:pointer}
+.tl>div .i{width:23px!important;height:23px!important;stroke-width:1.8}
+.tl>div:nth-child(1){background:linear-gradient(150deg,#00813b,#006d36)!important}
+.tl>div:nth-child(2){background:linear-gradient(150deg,#247de0,#1559c7)!important}
+.tl>div:nth-child(3){background:linear-gradient(150deg,#8257d6,#673bc1)!important}
+.fg-brand-heading{margin:7px 0 4px!important;min-height:28px!important}
+.fg-brand-heading strong{font-size:16px!important;font-weight:780!important;color:#174430!important}
+.fg-brand-rail{gap:9px!important;padding:3px 2px 8px!important}
+.fg-brand-rail .fg-brand-tile{flex:0 0 116px!important;width:116px!important;min-width:116px!important;height:80px!important;border-radius:16px!important;border:1px solid var(--fg-border)!important;padding:7px!important;background:white!important;box-shadow:var(--fg-shadow)!important}
+.fg-brand-rail .fg-brand-visual{width:100%!important;height:65px!important;max-height:65px!important;overflow:hidden!important}
+.fg-brand-rail .fg-brand-visual .fg-brand-art{width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important}
+.fg-price-card{padding:14px!important;border:1px solid #daedcc!important;border-radius:18px!important;background:#f3fce9!important;box-shadow:none!important}
+.fg-price-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.fg-price-head>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.fg-price-head strong{font-size:15px;font-weight:800;color:#174932;line-height:1.3}
+.fg-price-head small{font-size:10px;color:#758575;line-height:1.35}
+.fg-price-tag{flex:none;font-size:10px;font-weight:800;color:#116337;background:#dcf4cb;padding:6px 8px;border-radius:10px}
+.fg-price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0 10px}
+.fg-price-item{background:white;border:1px solid #e3efd9;border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;gap:5px;min-width:0}
+.fg-price-item>span{font-size:11px;color:#59735e;line-height:1.25}
+.fg-price-item>strong{font-size:clamp(19px,5vw,23px);font-weight:850;letter-spacing:-.03em;color:#12472f;line-height:1.1;font-variant-numeric:tabular-nums}
+.fg-price-item>small{font-size:10px;color:#728376}
+.fg-price-note{font-size:11px!important;color:#657a68;line-height:1.45}
+.fg-price-source{font-size:11px;color:#14663d;text-decoration:underline;text-underline-offset:2px;align-self:flex-start;margin-top:4px}
+.fg-explore{margin:0!important}
+.fg-explore-header{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fg-explore-header strong{font-size:15px;color:#15452f}
+.fg-explore-header span{font-size:10px;color:#708477}
+.fg-station-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important;min-width:0}
+.fg-station-item{display:grid!important;grid-template-columns:minmax(0,1fr) auto 13px!important;gap:4px!important;min-height:50px!important;height:50px!important;padding:8px 8px 8px 11px!important;border:1px solid var(--fg-border)!important;border-radius:14px!important;background:#fff!important;box-shadow:none!important}
+.fg-station-label{font-size:12px!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fg-station-cta{font-size:9px!important;padding:4px 6px!important;border-radius:9px!important;white-space:nowrap}
+.fg-station-item>.i{width:13px!important;height:13px!important}
+.coupons-page{gap:11px!important}
+.coupon-filter-wrap{gap:5px}
+.coupons-page .ch.coupon-brand-filters .filter-pill{height:36px!important;border-radius:18px!important;box-shadow:none!important}
+.coupons-page .ch.coupon-brand-filters .filter-pill.on{border:1px solid #0aa249!important;background:#ddf9b0!important}
+.filter-next{flex:0 0 31px!important;width:31px!important;height:31px!important;font-size:21px}
+.coupons-page .coupon-offer{border-radius:18px!important;border-left:4px solid #009D45!important;min-height:116px!important;grid-template-columns:71px minmax(0,1fr) 80px!important;gap:8px!important;padding:11px 10px!important;box-shadow:var(--fg-shadow)!important}
+.coupons-page .coupon-offer .fg-coupon-logo{width:70px!important;height:61px!important;max-width:100%;min-width:0!important}
+.coupons-page .coupon-offer .coupon-text{min-width:0!important}
+.coupons-page .coupon-offer .t{font-size:12px!important;line-height:1.35!important;color:#234331}
+.coupons-page .coupon-offer .d{font-size:clamp(20px,5.3vw,27px)!important;line-height:1.08!important;color:#F0143D!important;margin:2px 0!important;font-weight:850!important}
+.coupons-page .coupon-offer .aux{font-size:10px!important;line-height:1.4!important;color:#61756a!important}
+.coupons-page .coupon-soon{font-size:11px!important;min-width:0;min-height:34px;height:34px!important;padding:0 6px!important;border-radius:12px!important;border:1px solid #c8e7c9!important;background:#ebf8e6!important;color:#12643b!important;box-shadow:none!important}
+.coupons-page .coupon-offer .ml{padding-top:8px!important;border-top:1px solid #e9eee9!important;gap:5px!important;font-size:10px!important;line-height:1.25!important}
+.coupon-section-title strong{font-size:16px!important}
+.coupon-section-title span{font-size:11px!important;color:#728879!important}
+.coupon-rules{box-shadow:none!important;border:1px solid #e3eecf!important}
+.service-page{padding-bottom:10px!important}
+.service-heading{padding:19px 16px 16px!important;min-height:85px!important}
+.service-heading h2{font-size:21px!important;line-height:1.25}
+.service-heading p{font-size:12px!important;line-height:1.4}
+.service-back{margin:8px 16px 2px!important;padding:8px 12px!important;font-size:12px!important}
+.service-page>.bd{padding-top:3px!important}
+.login-form{margin:6px 0 0!important;padding:16px!important;border-radius:18px!important;box-shadow:var(--fg-shadow)!important}
+.login-brand{padding:10px 12px!important;margin-bottom:14px!important;border-radius:14px!important}
+.login-brand img{height:41px!important;width:100%!important;max-width:220px!important;object-fit:contain!important}
+.login-form h3{font-size:19px!important;margin-bottom:6px!important}
+.login-form>p{font-size:12px!important;margin:0 0 13px!important}
+.login-form label{margin-bottom:6px!important}
+.login-form input{height:45px!important}
+.login-form button{height:44px!important}
+.login-form .login-disclosure{font-size:10px!important;line-height:1.5!important;margin-top:13px!important;color:#788779!important}
+.login-gate{margin:5px 0 0!important;padding:22px 16px!important;border-radius:18px!important;background:#f6faf6!important}
+.fg-lock-icon,.fg-empty-icon{display:grid;place-items:center;width:54px;height:54px;margin:0 auto 12px;background:#e4f7dc;border-radius:16px}
+.fg-lock-icon .i,.fg-empty-icon .i{width:30px;height:30px;color:#047a42;stroke-width:1.9}
+.login-gate strong{font-size:18px!important}
+.login-gate p{font-size:12px!important;line-height:1.45!important}
+.login-gate button,.fg-primary-button{display:inline-flex;justify-content:center;align-items:center;border:0;background:#009D45;color:#fff;border-radius:14px;padding:0 17px;height:41px;font:750 13px Inter,system-ui,sans-serif;cursor:pointer;margin-top:13px}
+.fg-page-title{font-size:19px;line-height:1.3;font-weight:800;color:#164531}
+.history-page{padding:12px 16px 100px!important;gap:10px!important}
+.fg-empty{margin:0!important;background:#f7faf7;border:1px solid #e5eee8;border-radius:18px;padding:25px 18px;text-align:center;min-height:0}
+.fg-empty strong{display:block;font-size:16px;line-height:1.35;margin:6px 0 4px;color:#143f2d}
+.fg-empty p{font-size:12px;line-height:1.45;color:#6a7f70;margin:0}
+.fg-empty .fg-primary-button{margin-top:14px}
+.fg-qr-empty{margin-top:0}
+.nv{height:calc(78px + env(safe-area-inset-bottom,0px))!important;bottom:0!important;position:sticky!important;left:0!important;right:0!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:3px!important;padding:7px 5px calc(9px + env(safe-area-inset-bottom,0px))!important;box-shadow:0 -3px 16px rgba(0,36,20,.07)!important;border-radius:18px 18px 0 0!important;background:#fff!important}
+.nv a{min-width:0!important;gap:4px!important;text-align:center!important;white-space:nowrap!important;font:650 clamp(8px,2.4vw,11px)/1.1 Inter,system-ui,sans-serif!important;padding:5px 2px!important;color:#26342c!important}
+.nv a .i,.nv a img{width:23px!important;height:23px!important;object-fit:contain!important}
+.nv a.on{background:#DFFF9F!important;color:#075a30!important}
+.nv a.on .i{stroke:#075a30}
+@media(max-width:350px){.fg-station-item{grid-template-columns:minmax(0,1fr) 13px!important}.fg-station-cta{display:none!important}.coupons-page .coupon-offer{grid-template-columns:55px minmax(0,1fr) 66px!important;gap:5px!important;padding:9px 8px!important}.coupons-page .coupon-offer .fg-coupon-logo{width:54px!important;height:54px!important}.coupons-page .coupon-soon{font-size:10px!important}.nv a{font-size:8px!important}.fg-brand-rail .fg-brand-tile{flex-basis:105px!important;min-width:105px!important;width:105px!important;height:75px!important}}
 </style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
@@ -429,10 +527,8 @@ const home=hd('','',`<button type="button" class="header-menu" data-action="open
 </div></div><div class="hero-dots"><button class="hero-dot" aria-label="Actividad 1"></button><button class="hero-dot" aria-label="Actividad 2"></button><button class="hero-dot" aria-label="Actividad 3"></button></div></div>
 <div class="tl"><div style="background:linear-gradient(#0aa622,#066b18)">${I('tkt')}Cupones de combustible</div><div style="background:linear-gradient(#1b7cf0,#0a3fd0)">${I('bolt')}Recarga</div><div style="background:linear-gradient(#8a3ff0,#5a1ad0)">${I('car')}Servicios para tu auto</div></div>
 <section class="fg-brand-section"><div class="fg-brand-heading"><strong><span class="fg-heading-symbol">${I('pump')}</span><span>Marcas principales</span></strong><span class="fg-scroll-tip">Desliza ${I('chev')}</span></div><div class="fg-brand-rail notranslate" translate="no" aria-label="Marcas principales, desliza horizontalmente">${brands.slice(0,6).map(b=>`<button type="button" class="fg-brand-tile" data-brand="${b}" aria-label="Ver beneficios de ${nm[b]}"><span class="fg-brand-visual">${brandIcon(b)}</span></button>`).join('')}</div></section><section class="fg-brand-section"><div class="fg-brand-heading"><strong><span class="fg-heading-symbol">${I('pump')}</span><span>Más marcas</span></strong><span class="fg-scroll-tip">Desliza ${I('chev')}</span></div><div class="fg-brand-rail notranslate" translate="no" aria-label="Más marcas, desliza horizontalmente">${brands.slice(6).map(b=>`<button type="button" class="fg-brand-tile" data-brand="${b}" aria-label="Ver beneficios de ${nm[b]}"><span class="fg-brand-visual">${brandIcon(b)}</span></button>`).join('')}</div></section>
-<div class="pr"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 14px Inter;white-space:nowrap">Precios de referencia · <u>Medellín</u></span><span class="aux" style="font-size:11px;white-space:nowrap">Vigente: 1 nov 2026</span></div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0"><div><div class="aux" style="color:#111">Gasolina corriente</div><b>COP $16.251/gal</b></div><div><div class="aux" style="color:#111">ACPM (Diésel)</div><b>COP $11.641/gal</b></div></div>
-<div class="aux" style="display:flex;gap:4px">${I('info').replace('class="i"','class="i" style="width:14px;height:14px"')}Fuente: CREG, Circular 371/2026. Precios de referencia mensuales, no cotizaciones en vivo por estación. <a href="https://www.sicom.gov.co/index.php/consulta-de-precios" target="_blank" rel="noopener noreferrer">Consultar reportes de estaciones</a>.</div></div>
-<section class="brand-explore"><div class="brand-explore-heading"><div class="h2">${I('pin')}Explora estaciones</div><span class="brand-explore-count">10 marcas</span></div><p class="brand-explore-subtitle">Selecciona una marca y descubre sus beneficios y cupones disponibles.</p><div class="fg-station-list notranslate" translate="no">${ord.map(b=>`<button type="button" class="fg-station-item" data-brand="${b}" aria-label="Ver beneficios de ${nm[b]}"><span class="fg-station-visual">${brandIcon(b)}</span><span class="fg-station-label">${nm[b]}</span><span class="fg-station-cta">Ver beneficios</span>${I('chev')}</button>`).join('')}</div></section></div>`+nav(0);
+<section class="pr fg-price-card"><div class="fg-price-head"><div><strong>Precio de referencia · Medellín</strong><small>Vigente desde el 1 de noviembre de 2026</small></div><span class="fg-price-tag">COP/gal</span></div><div class="fg-price-grid"><div class="fg-price-item"><span>Gasolina corriente</span><strong>$16.251</strong><small>Por galón</small></div><div class="fg-price-item"><span>ACPM · Diésel</span><strong>$11.641</strong><small>Por galón</small></div></div><p class="fg-price-note">Valores oficiales de referencia; pueden variar por estación. No son precios en tiempo real.</p><a class="fg-price-source" href="https://www.sicom.gov.co/index.php/consulta-de-precios" target="_blank" rel="noopener noreferrer">Fuente y consulta de estaciones: SICOM</a></section>
+<section class="brand-explore fg-explore"><div class="fg-explore-header"><strong>Explora estaciones</strong><span>Ver beneficios por marca</span></div><div class="fg-station-list notranslate" translate="no">${ord.map(b=>`<button type="button" class="fg-station-item" data-brand="${b}" aria-label="Ver beneficios de ${nm[b]}"><span class="fg-station-label">${nm[b]}</span><span class="fg-station-cta">Ver beneficios</span>${I('chev')}</button>`).join('')}</div></section></div>`+nav(0);
 const cup=[
  ['terpel','30% DTO.','','En gasolina corriente y diésel','Terpel'],
  ['shell','50% DTO.','Hasta ','En gasolina seleccionada','Shell'],
@@ -449,10 +545,10 @@ const cup=[
 ];
 const couponLogo=b=>`<div class="fg-coupon-logo notranslate" translate="no">${brandIcon(b)}</div>`;
 const cupones=hdCompact(I('back'),L('giftc'))+`<div class="bd coupons-page" style="gap:10px"><div class="coupon-filter-wrap"><div class="ch coupon-brand-filters notranslate" translate="no" id="coupon-filter-scroll" role="group" aria-label="Filtrar por marca"><button class="filter-pill on" type="button" data-brand="Todos">Todos</button>${brands.map(b=>`<button class="filter-pill" type="button" data-brand="${b}">${nm[b]}</button>`).join('')}</div><button class="filter-next" type="button" data-action="filter-next" aria-label="Ver más marcas">›</button></div>${L('promo')}
-<div class="coupon-section-title"><strong>Explora los beneficios</strong><span>12 ofertas por anunciar</span></div>
+<div class="coupon-section-title"><strong>Explora los beneficios</strong><span>Próximamente</span></div>
 ${cup.map(([b,d,h,detail,n],index)=>`<article class="cd cp coupon-offer" data-brand="${b}">${couponLogo(b)}<div class="coupon-text"><div class="t">${d.includes('$')?'Bono de combustible':'Cupón de combustible'}</div><div class="d">${h?`<small>${h}</small>`:''}${d}</div><div class="aux">${detail}</div></div><button class="bt s coupon-soon" type="button" data-action="coupon-info" data-index="${index}">Ver detalle</button><div class="ml"><span>${I('cal')}Próximamente</span><span>${I('info')}Sujeto a confirmación</span>${I('chev')}</div></article>`).join('')}
-<div class="cd coupon-rules" style="background:#f1fddf;display:flex;align-items:center;gap:12px;padding:12px 16px"><span style="color:var(--g2)">${I('info')}</span><div style="flex:1"><div style="font:600 16px Inter">Reglas de uso</div><div class="aux" style="color:#111">Las ofertas son propuestas y todavía no están activas. Sujeto a condiciones y establecimientos participantes.</div></div>${I('chev')}</div></div>`+nav(1);
-const hist=hdCompact(I('back'))+`<div class="bd history-page"><div class="h2">Mis cupones y actividad</div><div class="empty-state"><span style="font-size:44px">🎟️</span><strong>Todavía no tienes movimientos</strong><p>Cuando obtengas cupones con tu cuenta, aparecerán aquí.</p></div></div>`+nav(3);
+<div class="cd coupon-rules" style="background:#f1fddf;display:flex;align-items:center;gap:12px;padding:12px 16px"><span style="color:var(--g2)">${I('info')}</span><div style="flex:1"><div style="font:600 16px Inter">Reglas de uso</div><div class="aux" style="color:#111">Las promociones están pendientes de confirmación y no se pueden canjear todavía.</div></div>${I('chev')}</div></div>`+nav(1);
+const hist=hdCompact(I('back'))+`<div class="bd history-page"><h2 class="fg-page-title">Mis cupones y actividad</h2><div class="fg-empty"><span class="fg-empty-icon">${I('tkt')}</span><strong>Todavía no tienes movimientos</strong><p>Tus cupones y movimientos verificados aparecerán aquí.</p><button type="button" class="fg-primary-button" data-action="explore-coupons">Explorar cupones</button></div></div>`+nav(3);
 const qr=`<div style="position:absolute;inset:0;background:linear-gradient(#003F2E,#06432f 40%,#1b1b1b)"></div>`+hd('','',' ',I('x')).replace('border-radius:0 0 24px 24px','')+`<div class="cd" style="margin:6px 14px 0;padding:14px 16px 14px;position:relative;border-radius:24px;height:690px;display:flex;flex-direction:column;gap:10px;box-shadow:none">
 <div style="display:grid;grid-template-columns:52px 1fr auto;gap:8px;align-items:center">${L('terpel','ql')}<div><div class="t" style="font:600 15px Inter;white-space:nowrap">Cupón de combustible</div><div style="font:700 28px/32px Inter;color:var(--r)">30% Dto.</div></div><div class="pill" style="display:flex;gap:6px;align-items:center;padding:8px 8px;white-space:normal;width:88px;text-align:left"><span style="color:var(--g2)">${I('ok')}</span>¡Cupón obtenido!</div></div>
 <div style="width:238px;height:238px;margin:0 auto;padding:22px;position:relative">${L('qr','qi')}${['top:0;left:0;border-width:5px 0 0 5px;border-radius:22px 0 0 0','top:0;right:0;border-width:5px 5px 0 0;border-radius:0 22px 0 0','bottom:0;left:0;border-width:0 0 5px 5px;border-radius:0 0 0 22px','bottom:0;right:0;border-width:0 5px 5px 0;border-radius:0 0 22px 0'].map(s=>`<i style="position:absolute;width:48px;height:48px;border:solid var(--g2);${s}"></i>`).join('')}</div>
@@ -469,7 +565,7 @@ let current=0,selected='Todos',extra=null,bannerIndex=0;
 function toast(message){const old=document.querySelector('.app-toast');if(old)old.remove();const el=document.createElement('div');el.className='app-toast';el.role='status';el.textContent=message;document.body.appendChild(el);setTimeout(()=>el.remove(),2400);}
 const wrap=(body,tab=0)=>'<section class="preview-slide"><div class="ph"><div class="sc">'+body+'</div></div></section>';
 const shell=(heading,subtitle,body)=>'<div class="service-page"><div class="service-heading"><h2>'+heading+'</h2><p>'+subtitle+'</p></div><button class="service-back" data-action="back">‹ Volver al inicio</button><div class="bd">'+body+'</div></div>'+nav(current);
-function gate(label){return shell('Inicia sesión','Protegemos tus cupones y tu actividad','<div class="login-gate"><strong>Accede a FuelGo</strong><p>Para '+label+' necesitas iniciar sesión con tu cuenta.</p><button data-action="login">Iniciar sesión</button><p class="fake-token-notice">La autenticación estará disponible cuando se conecte el servicio de cuentas.</p></div>');}
+function gate(label){return shell('Acceso protegido','Tu cuenta mantiene tus beneficios seguros','<div class="login-gate"><span class="fg-lock-icon">'+I('shield')+'</span><strong>Inicia sesión para continuar</strong><p>Para '+label+' necesitas ingresar a tu cuenta FuelGo.</p><button data-action="login">Iniciar sesión</button><p class="fake-token-notice">Tu código QR solo aparecerá cuando tengas un cupón real habilitado.</p></div>');}
 function showExtra(type,brand,couponIndex){
  extra={type,brand};let body='';
  if(type==='charge')body=shell('Recarga eléctrica','Calcula el costo de una recarga','<div class="service-card"><h3>Calculadora de recarga</h3><p>Introduce la energía y la tarifa de tu estación.</p><label>Energía (kWh)<input id="kwh" type="number" min="0" step="0.1" placeholder="30"></label><label>Tarifa (COP/kWh)<input id="rate" type="number" min="0" placeholder="Precio de tu estación"></label><button data-action="calc-charge">Calcular costo</button><div class="service-result" id="calc-result" aria-live="polite"></div></div>');
@@ -479,6 +575,7 @@ function showExtra(type,brand,couponIndex){
  else if(type==='invite')body=shell('Invita a tus amigos','Comparte FuelGo Colombia','<div class="invite-card"><div class="invite-top"><div><small>FUELGO COLOMBIA</small><h3>¡Invita a tus amigos!</h3><p>Comparte FuelGo y descubre las actividades y premios disponibles.</p></div>'+giftIcon+'</div><div class="invite-bottom"><strong>¡Hasta un millón de pesos en premios!</strong><p>Las recompensas están sujetas a condiciones, elegibilidad y confirmación de la campaña. Compartir no garantiza un premio.</p><button data-action="invite-share">Compartir ahora ›</button></div></div>');
  else if(type==='help')body=shell('Ayuda y soporte','Estamos aquí para orientarte','<div class="service-card"><h3>Preguntas frecuentes</h3><details><summary>¿Cómo veo los cupones?</summary><p>Abre Cupones en el menú o en la barra inferior para explorar las ofertas mostradas.</p></details><details><summary>¿Por qué debo iniciar sesión?</summary><p>Para guardar cupones y acceder a tu historial se necesita una cuenta verificada. El servicio de autenticación todavía no está conectado.</p></details><details><summary>¿Puedo compartir FuelGo?</summary><p>Sí. Usa Invitar amigos y elige WhatsApp, Facebook, Telegram o copiar enlace.</p></details></div>');
  else if(type==='login')body=shell('Iniciar sesión','Accede a tu cuenta FuelGo',authUser?'<div class="login-form"><h3>Mi cuenta</h3><p class="account-email"></p><button type="button" data-action="logout">Cerrar sesión</button></div>':'<div class="login-form"><div class="login-brand"><img src="'+A.logo+'" alt="FuelGo Colombia"></div><h3>Bienvenido a FuelGo</h3><p>Ingresa tu correo electrónico. Recibirás un código de verificación.</p><label for="login-email">Correo electrónico</label><input id="login-email" type="email" autocomplete="email" placeholder="nombre@ejemplo.com" required><div class="login-error" id="login-error" role="status"></div><button type="button" data-action="continue-login">Enviar código</button><p class="login-disclosure">Tu dirección de correo se usará para iniciar sesión. No se envían correos de marketing desde este formulario.</p></div>');
+ else if(type==='qr-empty')body=shell('Escanear QR','Mis códigos disponibles','<div class="fg-empty fg-qr-empty"><span class="fg-empty-icon">'+I('qr')+'</span><strong>Aún no tienes un QR disponible</strong><p>Cuando se confirme un cupón válido, su código aparecerá aquí.</p><button class="fg-primary-button" data-action="explore-coupons">Explorar cupones</button></div>');
  else if(type==='locked')body=gate('consultar tu código QR');
  app.innerHTML=wrap(body);app.querySelector('.sc').scrollTop=0;const emailNode=app.querySelector('.account-email');if(emailNode)emailNode.textContent=authUser?.email||'';
 }
@@ -548,7 +645,7 @@ function setupHero(){
 }
 function render(index){
  extra=null;current=index;
- if(index===2){showExtra('locked');return;}
+ if(index===2){if(authUser)showExtra('qr-empty');else showExtra('locked');return;}
  if(index===4){refreshAuth().then(()=>{if(current===4)showExtra('login');});showExtra('login');return;}
  app.innerHTML=wrap(pages[index]);
  app.querySelectorAll('.nv a').forEach((a,i)=>{a.href='#'+['inicio','cupones','qr','historial','mi-cuenta'][i];a.setAttribute('aria-current',i===index?'page':'false');});
@@ -574,6 +671,7 @@ app.addEventListener('click',async e=>{
   if(key==='filter-next'){const el=app.querySelector('#coupon-filter-scroll');if(el)el.scrollBy({left:Math.max(175,el.clientWidth*.7),behavior:'smooth'});return;}
   if(key==='open-menu'){openMenu();return;}
   if(key==='back'){render(0);return;}
+  if(key==='explore-coupons'){selected='Todos';render(1);return;}
   if(key==='invite'){showExtra('invite');return;}
   if(key==='invite-share'){openShare();return;}
   if(key==='login'){showExtra('login');return;}
