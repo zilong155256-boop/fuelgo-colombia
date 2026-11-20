@@ -374,7 +374,7 @@ const hdCompact=(l='',r='')=>hd('','',l,r).replace('class="hd"','class="hd compa
 const ph=(c,d='')=>`<div class="ph"><div class="sc">${sb}${c}<i class="hi" style="${d}"></i></div></div>`;
 const brands=['terpel','primax','biomax','texaco','shell','petromil','zeuss','puma','petrobras','esso'],nm={terpel:'Terpel',primax:'Primax',biomax:'Biomax',texaco:'Texaco',shell:'Shell',petromil:'Petromil',zeuss:'Zeuss',puma:'Puma',petrobras:'Petrobras',esso:'Esso'};
 /* Robust self-contained brand identifiers when external assets are unavailable. */
-const brandIcon=b=>`<img class="fg-brand-image fg-brand-art" src="./assets/brand-logos/${b}.svg" alt="${nm[b]}" width="300" height="180" loading="lazy" decoding="async">`;
+const brandIcon=b=>`<img class="fg-brand-image fg-brand-art" src="./assets/brand-logos/${b}.svg?v=20261120-rebuilt" alt="${nm[b]}" width="300" height="180" loading="lazy" decoding="async">`;
 
 const dist=[],ord=['terpel','shell','primax','biomax','texaco','petromil','zeuss','puma','petrobras','esso'];
 const home=hd('','',`<button type="button" class="header-menu" data-action="open-menu" aria-label="Abrir menú" aria-expanded="false">${I('menu')}</button>`,`<button type="button" class="header-notification" data-action="invite" aria-label="Invitar amigos y compartir FuelGo" title="Invitar amigos">${I('bell')}<span class="notification-count" aria-hidden="true">99+</span></button>`)+`<div class="bd"><div class="hero-slider" tabindex="0" aria-label="Actividades FuelGo"><div class="hero-viewport"><div class="hero-track">
