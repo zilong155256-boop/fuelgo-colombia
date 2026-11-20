@@ -1,0 +1,302 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>FuelGo Colombia | App Demo</title>
+<style>
+:root{--g:#003F2E;--g2:#00A91C;--lg:#E4FFAD;--y:#FFE500;--r:#F20D2F;--t:#111;--a:#666}
+*{box-sizing:border-box;margin:0;font-family:Inter,system-ui,sans-serif;color:var(--t)}
+body{background:transparent;padding:32px}
+.row{display:flex;gap:32px;flex-wrap:wrap;justify-content:center}
+.ph{width:414px;height:868px;padding:12px;border-radius:62px;background:linear-gradient(145deg,#f6f6f6,#9a9a9a 45%,#ececec);box-shadow:0 20px 50px #0003;flex:none}
+.sc{width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;background:#fff;box-shadow:0 0 0 5px #0c0c0c}
+.sb{position:absolute;top:14px;left:34px;right:30px;display:flex;justify-content:space-between;align-items:center;font:600 15px Inter;z-index:5}.sb *{color:#fff}
+.hi{position:absolute;bottom:8px;left:50%;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:#111;z-index:6}
+.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.hd{background:linear-gradient(#003F2E,#0a5a37);padding:46px 16px 10px;position:relative;text-align:center;border-radius:0 0 24px 24px}
+.hd .lg{height:36px}.hd h1{font:700 24px/30px Inter;color:#fff}.hd p{font:400 14px/18px Inter;color:#fff}
+.hd .l,.hd .r{position:absolute;top:50px;color:#fff;display:flex;gap:12px;align-items:center}.hd .l{left:16px}.hd .r{right:16px}.hd .l *,.hd .r *{color:#fff}.hd .r img{height:30px}
+.bd{padding:8px 16px;display:flex;flex-direction:column;gap:8px}
+.nv{position:absolute;left:0;right:0;bottom:0;height:86px;background:#fff;border-radius:20px 20px 0 0;box-shadow:0 -4px 14px #0001;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:8px 8px 24px;z-index:4}
+.nv a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font:500 11px Inter;border-radius:16px}.nv img{width:24px;height:24px}
+.nv a.on{background:linear-gradient(#E4FFAD,#d3f78a);color:#00700f}.nv a.on *{color:#00700f}
+.cd{background:#fff;border-radius:16px;box-shadow:0 2px 8px #0002;padding:10px 16px}
+.h2{font:600 18px/22px Inter;display:flex;align-items:center;gap:8px}.h2 .i{color:var(--g2)}
+.bt{height:44px;border-radius:22px;background:linear-gradient(#1fc836,#00A91C 50%,#008a17);font:600 15px Inter;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 3px 8px #00a91c55}
+.bt,.bt *{color:#fff}.bt.s{height:36px;border-radius:18px}.bt.o{background:#fff;box-shadow:inset 0 0 0 1px #ddd}.bt.o,.bt.o *{color:#111}
+.pill{border-radius:12px;padding:3px 10px;font:600 12px Inter;background:var(--lg);color:#0a6b17;text-align:center;white-space:nowrap}
+.pill.u{background:#eee;color:#444}.pill.v{background:#ffe3e7;color:var(--r)}
+.aux{font:400 12px/16px Inter;color:var(--a)}.aux *{color:var(--a)}
+.tl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.tl div{height:64px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:600 12px/14px Inter;text-align:center;box-shadow:0 3px 8px #0003}.tl *{color:#fff}
+.br{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.br div{height:56px;border-radius:16px;background:#fff;box-shadow:0 2px 8px #0002;display:flex;align-items:center;justify-content:center}.br img{width:82%;height:80%;object-fit:contain}
+.pr{background:#f1fddf;box-shadow:inset 0 0 0 1px #cdeaa0;border-radius:16px;padding:8px 16px}
+.pr b{font:700 14px Inter;background:var(--lg);border-radius:10px;padding:3px 8px;display:inline-block;margin-top:2px}
+.st{display:grid;grid-template-columns:72px 82px 1fr 16px;align-items:center;height:28px;font:600 14px Inter}.st img{height:20px;width:64px;object-fit:contain}.st span{display:flex;gap:4px;align-items:center}.st .i{width:16px;height:16px;color:#1d6fe0}
+.ch{display:flex;gap:8px}.ch span{flex:1;height:34px;border-radius:17px;background:#fff;box-shadow:0 2px 6px #0002;display:flex;align-items:center;justify-content:center;gap:4px;font:600 12px Inter;white-space:nowrap}.ch span.on{background:linear-gradient(#1fc836,#008a17);color:#fff}.ch img{height:20px}
+.cp{display:grid;grid-template-columns:48px minmax(0,1fr) 84px;gap:8px;align-items:center;border-left:5px solid var(--c,#00A91C);padding:8px 12px 8px 10px}
+.cp{padding:6px 12px 6px 10px}.cp .t{font:600 15px/20px Inter;white-space:nowrap}.cp .d{font:700 28px/28px Inter;color:var(--r);letter-spacing:-.02em}.cp .d small{font:600 14px Inter;color:var(--r)}.cp>img{width:48px;height:48px;object-fit:contain}
+.cp .ml{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:6px;white-space:nowrap;font:400 11px Inter;color:var(--a);border-top:1px solid #eee;padding-top:5px}.ml span{display:flex;gap:4px;align-items:center;color:var(--a)}.ml .i{width:14px;height:14px}
+.hc{grid-template-columns:48px minmax(0,1fr) 84px}.hc .rt{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.ql{width:52px;height:52px;object-fit:contain}.qi{width:100%;height:100%;display:block}.h2{white-space:nowrap}
+.mn{display:grid;grid-template-columns:28px 1fr 20px;align-items:center;gap:14px;height:46px;padding:0 16px;font:600 16px Inter}.mn .i{color:var(--g2)}.mn .i:last-child{color:#111}
+
+/* Responsive in-browser app preview: HTML/CSS, native touch swipe, mouse drag. */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+body{background:transparent;padding:0}
+.row{display:flex!important;flex-wrap:nowrap!important;justify-content:flex-start!important;gap:12px!important;padding:0 0 8px 12px;width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain;cursor:grab}
+.row::-webkit-scrollbar{display:none}
+.row.is-dragging{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
+.row:focus-visible{outline:2px solid #0a8654;outline-offset:-2px}
+.preview-slide{position:relative;flex:none;scroll-snap-align:start;scroll-snap-stop:always}
+.preview-slide>.ph{position:absolute;left:0;top:0;pointer-events:none}
+.nv a{cursor:default;text-decoration:none}
+/* Coupon-card overflow cleanup. Keep all text readable without spilling into the next card. */
+.cp{grid-template-columns:44px minmax(0,1fr) 78px;column-gap:7px;row-gap:5px;padding:8px 10px 8px 9px;min-width:0}
+.cp>img{width:44px;height:44px}
+.cp>div:not(.ml){min-width:0}
+.cp .t{font:600 13px/17px Inter,system-ui,sans-serif;white-space:normal;overflow-wrap:break-word}
+.cp .d{font:700 25px/27px Inter,system-ui,sans-serif;white-space:normal;max-width:100%;letter-spacing:-.035em}
+.cp .d small{display:block;font:600 11px/13px Inter,system-ui,sans-serif;letter-spacing:0}
+.cp .aux{font-size:11px;line-height:14px;overflow-wrap:break-word}
+.cp .bt{min-width:0;padding:0 4px;font-size:13px;white-space:nowrap}
+.cp .ml{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.22fr) 14px;gap:7px;min-width:0;align-items:start;justify-content:stretch;white-space:normal;font:400 10px/13px Inter,system-ui,sans-serif;padding-top:7px}
+.cp .ml span{display:flex;align-items:flex-start;min-width:0;gap:3px;overflow-wrap:anywhere;white-space:normal}
+.cp .ml .i{width:13px;height:13px;flex:0 0 13px}
+.cp .ml>.i{width:14px;height:14px}
+.cp.hc .d{font-size:24px}
+.cp.hc .rt{min-width:0}
+.cp.hc .rt .pill{white-space:normal;line-height:1.15}
+.br{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.br div{min-width:0;overflow:hidden;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.10)}
+.br img{max-width:90%;max-height:78%;object-fit:contain}
+/* Avoid text collisions in the reference-price panel. */
+.pr{min-width:0}
+.pr b{font-size:12px;line-height:1.3;overflow-wrap:anywhere}
+.pr *{min-width:0}
+
+/* Lightweight locally cached images, no embedded megabyte-sized base64 data. */
+.br div{background:rgba(255,255,255,.98)}
+.br img{max-width:92%;max-height:76%;object-fit:contain}
+.preview-slide{content-visibility:visible;contain:layout style}
+.row{scroll-behavior:smooth}
+.row.is-dragging{scroll-behavior:auto}
+@media(prefers-reduced-motion:reduce){.row{scroll-behavior:auto}}
+/* Final 390px reference: 10–20% smaller phones, no stretched UI. */
+.row{gap:10px!important;padding-left:14px;padding-right:14px;scroll-padding-left:14px}
+.preview-slide{min-width:0}
+.preview-slide>.ph{will-change:auto;backface-visibility:hidden}
+@media(prefers-reduced-motion:reduce){.row{scroll-behavior:auto}}
+
+/* Activity history: distinct chronological list, never a duplicate coupon gallery. */
+.history-page{padding:12px 14px 0;gap:12px}
+.history-summary{display:flex;align-items:center;justify-content:space-around;padding:14px 10px;background:linear-gradient(145deg,#ecfbd7,#f5ffeb);border-radius:18px;border:1px solid #e0f1c7}
+.history-stat{display:flex;align-items:center;gap:10px;min-width:0;color:var(--g)}
+.history-stat>.i{width:28px;height:28px;stroke:var(--g2)}
+.history-stat>div{display:flex;flex-direction:column;gap:1px}
+.history-stat span{font:500 12px/15px Inter,system-ui,sans-serif;color:#46614f}
+.history-stat strong{font:750 25px/29px Inter,system-ui,sans-serif;color:var(--g)}
+.history-sep{height:35px;width:1px;background:#cfe7ba}
+.history-heading{display:flex;justify-content:space-between;align-items:center;margin:2px 2px 0}
+.history-heading>span{font:700 17px/22px Inter,system-ui,sans-serif;color:#103d2b}
+.history-heading small{font:500 12px Inter,system-ui,sans-serif;color:#6d8174}
+.history-list{display:flex;flex-direction:column;gap:7px}
+.history-entry{min-height:78px;display:grid;grid-template-columns:4px 38px minmax(0,1fr) auto;gap:9px;align-items:center;padding:9px 10px 9px 0;background:#fff;border:1px solid #eff0ee;border-radius:14px;box-shadow:0 2px 7px rgba(13,53,35,.055);min-width:0}
+.history-rail{align-self:stretch;border-radius:0 4px 4px 0;background:#11b539}
+.history-rail.u{background:#a9adb0}.history-rail.v{background:#ed3955}
+.history-logo{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#fafdf9}
+.history-logo img{width:35px;height:35px;object-fit:contain;max-width:100%}
+.history-info{min-width:0;display:flex;flex-direction:column;gap:3px}
+.history-info strong{font:700 13px/16px Inter,system-ui,sans-serif;white-space:normal;color:#183b2a}
+.history-info>span{font:500 12px/15px Inter,system-ui,sans-serif;color:#536057;white-space:normal}
+.history-info small{display:flex;align-items:center;gap:4px;font:400 11px/14px Inter,system-ui,sans-serif;color:#8a948c}
+.history-info small .i{width:13px;height:13px;stroke:#78867b}
+.history-status{align-self:start;margin-top:4px;padding:5px 7px;border-radius:999px;font:650 10px/12px Inter,system-ui,sans-serif;white-space:nowrap;color:#087839;background:#ddf8cc}
+.history-status.u{background:#f0f1f1;color:#737b78}.history-status.v{background:#ffe7eb;color:#d9304b}
+.history-caption{display:flex;align-items:center;gap:8px;padding:10px 8px;font:400 11px/16px Inter,system-ui,sans-serif;color:#69766e}
+.history-caption .i{width:15px;height:15px;stroke:#6a967d}
+
+/* Phone showcase: eliminate repeated large headings; retain FuelGo brand bar. */
+.hd.compact{padding-top:44px;padding-bottom:11px;min-height:96px}
+.hd.compact .lg{height:34px;max-width:160px;object-fit:contain}
+.hd.compact .l,.hd.compact .r{top:52px}
+
+/* Native mobile-sized interactive FuelGo demo */
+html,body{height:100%;margin:0;overflow:hidden;background:#fff}
+body{padding:0!important}
+.row#app{display:block!important;position:fixed;inset:0;width:100%;height:100dvh!important;padding:0!important;overflow:hidden!important;cursor:auto}
+.preview-slide{width:100%;height:100%;position:relative}
+.ph{width:100%;height:100%;padding:0;border-radius:0;background:#fff;box-shadow:none}
+.sc{width:100%;height:100%;border-radius:0;box-shadow:none;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(90px + env(safe-area-inset-bottom,0px));}
+.sb,.hi{display:none!important}
+.hd,.hd.compact{padding-top:calc(18px + env(safe-area-inset-top,0px));min-height:75px}
+.hd .l,.hd .r,.hd.compact .l,.hd.compact .r{top:calc(24px + env(safe-area-inset-top,0px))}
+.nv{position:fixed;bottom:0;left:0;right:0;height:calc(72px + env(safe-area-inset-bottom,0px));padding:7px 5px calc(7px + env(safe-area-inset-bottom,0px));border-radius:18px 18px 0 0;z-index:10}
+.nv a{cursor:pointer;min-width:0;font-size:clamp(9px,2.7vw,11px);text-align:center}
+.nv a .i,.nv a img{width:22px;height:22px}
+.bd{padding-bottom:20px}
+.bd>img{max-width:100%;height:auto;object-fit:contain}
+.pr{padding:10px}
+.pr b{font-size:12px}
+.pr>div:first-child{gap:4px;flex-wrap:wrap}
+.st{grid-template-columns:64px 73px 1fr 13px;gap:4px;font-size:12px}
+.st img{width:60px}
+.st .pill{font-size:9px;padding:3px 4px;margin-right:0!important}
+.ch{overflow-x:auto;scrollbar-width:none;padding:2px 0 7px}
+.ch span{flex:none;min-width:56px;padding:0 8px;cursor:pointer}
+.cp .bt,.bt{cursor:pointer}
+.cp .ml{font-size:10px}
+.tl div{font-size:clamp(10px,2.8vw,12px);padding:2px}
+.sc>.cd{max-width:calc(100% - 28px)}
+.history-page{padding-bottom:30px}
+#app .nav-link:focus-visible,#app .bt:focus-visible{outline:2px solid #007d45}
+#app .coupon-filter-active{background:#d7ffb4;box-shadow:inset 0 0 0 2px #0ba32c}
+#app .cp[hidden]{display:none}
+#app .app-toast{position:fixed;bottom:calc(85px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#163f2d;color:white;border-radius:12px;padding:12px 16px;font-size:13px;z-index:30;max-width:90vw;text-align:center;box-shadow:0 6px 18px #0003}
+@media(max-width:350px){.cp{grid-template-columns:40px minmax(0,1fr) 72px}.cp .d{font-size:22px}.h2{font-size:15px}.pr>div:nth-child(2){gap:5px!important}}
+</style></head><body><div class="row" id="app" tabindex="0" role="region" aria-label="Pantallas de FuelGo, desliza a izquierda o derecha"></div>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
+<symbol id="i-tkt" viewBox="0 0 24 24"><path d="M3 8a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 000-4zM10 9l4 6"/></symbol>
+<symbol id="i-clip" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3h6v3H9zM9 12h6M9 16h6"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol><symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19"/></symbol><symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 00-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM9 12h6M9 16h6"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 9c0 6-8 11-8 11z"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17v-6a6 6 0 0112 0v6l2 2H4zM10 21h4"/></symbol>
+<symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 .5c0 1.5-2.5 2-2.5 3.5M12 17h.01"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM8.5 12l2.5 2.5 4.5-5"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/></symbol>
+<symbol id="i-ok" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></symbol>
+<symbol id="i-car" viewBox="0 0 24 24"><path d="M4 16l2-7h12l2 7v4h-3v-2H7v2H4zM4 16h16M7.5 13h.01M16.5 13h.01"/></symbol>
+<symbol id="i-pump" viewBox="0 0 24 24"><path d="M5 21V4h9v17M3 21h13M5 9h9M14 8l3 2v8a1.5 1.5 0 003 0v-7l-2-2"/></symbol>
+<symbol id="i-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><path d="M14 14h3v3h-3zM20 14v6h-3"/></symbol>
+</defs></svg>
+<script>
+const A={"terpel":"./assets/app-html/terpel.png","primax":"./assets/app-html/primax.png","biomax":"./assets/app-html/biomax.png","texaco":"./assets/app-html/texaco.png","shell":"./assets/app-html/shell.png","petromil":"./assets/app-html/petromil.png","logo":"./assets/app-html/logo.png","gift":"./assets/app-html/gift.png","giftc":"./assets/app-html/giftc.png","banner":"./assets/app-html/banner.png","promo":"./assets/app-html/promo.png","city":"./assets/app-html/city.png","qr":"./assets/app-html/qr.png","scan":"./assets/app-html/scan.png"};
+const I=n=>`<svg class="i"><use href="#i-${n}"/></svg>`,L=(n,c='')=>`<img class="${c}" src="${A[n]}" alt="${n}">`;
+const sb=`<div class="sb"><span>10:24</span><svg width="66" height="14" viewBox="0 0 66 14" fill="#fff"><rect y="9" width="3" height="5" rx="1"/><rect x="5" y="6" width="3" height="8" rx="1"/><rect x="10" y="3" width="3" height="11" rx="1"/><rect x="15" width="3" height="14" rx="1"/><path d="M27 4a9 9 0 0112 0M29.5 7a5.5 5.5 0 017 0" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="33" cy="11" r="1.6"/><rect x="45" y="1" width="19" height="11" rx="3" fill="none" stroke="#fff"/><rect x="47" y="3" width="15" height="7" rx="1.5"/></svg></div>`;
+const nav=a=>`<nav class="nv">`+[['Inicio','home'],['Cupones','tkt'],['Escanear QR','scan'],['Historial','clip'],['Mi cuenta','user']].map(([t,i],k)=>`<a class="${k==a?'on':''}">${i=='scan'?L('scan'):I(i)}${t}</a>`).join('')+`</nav>`;
+const hd=(t='',s='',l='',r='')=>`<header class="hd"><div class="l">${l}</div><div class="r">${r}</div>${L('logo','lg')}${t?`<h1>${t}</h1>`:''}${s?`<p>${s}</p>`:''}</header>`;
+const hdCompact=(l='',r='')=>hd('','',l,r).replace('class="hd"','class="hd compact"');
+const ph=(c,d='')=>`<div class="ph"><div class="sc">${sb}${c}<i class="hi" style="${d}"></i></div></div>`;
+const brands=['terpel','primax','biomax','texaco','shell','petromil'],nm={terpel:'Terpel',primax:'Primax',biomax:'Biomax',texaco:'Texaco',shell:'Shell',petromil:'Petromil'};
+const dist=['350 m','1,2 km','2,5 km','3,1 km','4,0 km','5,2 km'],ord=['terpel','shell','primax','biomax','texaco','petromil'];
+const home=hd('','',I('menu'),L('gift')+I('bell'))+`<div class="bd">${L('banner','')}
+<div class="tl"><div style="background:linear-gradient(#0aa622,#066b18)">${I('tkt')}Cupones de combustible</div><div style="background:linear-gradient(#1b7cf0,#0a3fd0)">${I('bolt')}Recarga</div><div style="background:linear-gradient(#8a3ff0,#5a1ad0)">${I('car')}Servicios para tu auto</div></div>
+<div class="h2">${I('pump')}Principales marcas de estaciones</div><div class="br">${brands.map(b=>`<div>${L(b)}</div>`).join('')}</div>
+<div class="pr"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 14px Inter;white-space:nowrap">Precios de referencia · <u>Medellín</u></span><span class="aux" style="font-size:11px;white-space:nowrap">Actualizado: Nov 2026</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0"><div><div class="aux" style="color:#111">Gasolina corriente</div><b>COP $16.251/gal</b></div><div><div class="aux" style="color:#111">ACPM (Diésel)</div><b>COP $11.641/gal</b></div></div>
+<div class="aux" style="display:flex;gap:4px">${I('info').replace('class="i"','class="i" style="width:14px;height:14px"')}Precios de referencia de la ciudad. El precio real puede variar en cada estación.</div></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><span class="h2">${I('pin')}Estaciones cercanas <span class="pill" style="background:var(--y);color:#111">DEMO</span></span><span class="pill" style="background:#fff;box-shadow:inset 0 0 0 1px #ccc;color:#111;padding:4px 10px">Medellín ⌄</span></div>
+<div class="aux" style="margin-top:-4px">Distancias simuladas con fines de demostración.</div>
+<div class="cd" style="padding:2px 16px">${ord.map((b,k)=>`<div class="st">${L(b)}<span>${I('pin')}${dist[k]}</span><span class="pill" style="justify-self:end;margin-right:8px">Precio por confirmar</span>${I('chev').replace('class="i"','class="i" style="width:16px;height:16px"')}</div>`).join('')}</div></div>`+nav(0);
+const cup=[['terpel','30% DTO.','','En gasolina corriente y diésel','Terpel'],['shell','50% DTO.','Hasta ','En gasolina seleccionada','Shell'],['primax','30% DTO.','','En gasolina y diésel','Primax'],['biomax','40% DTO.','','En gasolina seleccionada','Biomax']];
+const cupones=hdCompact(I('back'),L('giftc'))+`<div class="bd" style="gap:6px"><div class="ch"><span class="on">▦ Todos</span>${['terpel','shell','primax','biomax'].map(b=>`<span>${L(b)}</span>`).join('')}<span>Más ⌄</span></div>${L('promo')}
+${cup.map(([b,d,h,s,n])=>`<div class="cd cp"><img src="${A[b]}" alt="${n}"><div><div class="t">Cupón de combustible</div><div class="d">${h?`<small>${h}</small>`:''}${d}</div><div class="aux">${s}</div></div><div class="bt s">Obtener</div><div class="ml"><span>${I('cal')}Válido: 15 – 30 nov 2026</span><span>${I('pin')}En estaciones ${n} participantes</span>${I('chev')}</div></div>`).join('')}
+<div class="cd" style="background:#f1fddf;display:flex;align-items:center;gap:12px;padding:6px 16px"><span style="color:var(--g2)">${I('info')}</span><div style="flex:1"><div style="font:600 16px Inter">Reglas de uso</div><div class="aux" style="color:#111">Cada cupón tiene condiciones, vigencia y estaciones participantes.</div></div>${I('chev')}</div></div>`+nav(1);
+const rec=[['terpel','30% Dto.',['Recibido: 15 nov 2026','Válido hasta: 30 nov 2026'],'a'],['shell','50% Dto.',['Recibido: 12 nov 2026','Válido hasta: 27 nov 2026'],'a'],['primax','30% Dto.',['Usado: 10 nov 2026'],'u'],['biomax','40% Dto.',['Usado: 08 nov 2026'],'u'],['terpel','30% Dto.',['Vencido: 05 nov 2026'],'v']];
+const hist=hdCompact(I('back'))+`<div class="bd history-page">
+ <div class="history-summary">
+  <div class="history-stat">${I('tkt')}<div><span>Recibidos</span><strong>8</strong></div></div>
+  <div class="history-sep"></div>
+  <div class="history-stat">${I('ok')}<div><span>Usados</span><strong>3</strong></div></div>
+ </div>
+ <div class="history-heading"><span>Movimientos recientes</span><small>Nov 2026</small></div>
+ <div class="history-list">
+ ${rec.map(([brand,discount,dates,state],index)=>{
+   const isReceived=state==='a',isUsed=state==='u';
+   const action=isReceived?'Cupón recibido':isUsed?'Cupón utilizado':'Cupón vencido';
+   const detail=(dates[0]||'').replace(/^(Recibido|Usado|Vencido): /,'');
+   return `<div class="history-entry"><span class="history-rail ${state}"></span>
+     <span class="history-logo"><img src="${A[brand]}" alt="${brand}"></span>
+     <div class="history-info">
+       <strong>${action}</strong>
+       <span>${brand.charAt(0).toUpperCase()+brand.slice(1)} · ${discount}</span>
+       <small>${I('cal')}${detail}</small>
+     </div>
+     <span class="history-status ${state}">${isReceived?'Disponible':isUsed?'Usado':'Vencido'}</span>
+   </div>`;
+ }).join('')}
+ </div>
+ <div class="history-caption">${I('info')}<span>Consulta aquí los movimientos de tus cupones.</span></div>
+</div>`+nav(3);
+const qr=`<div style="position:absolute;inset:0;background:linear-gradient(#003F2E,#06432f 40%,#1b1b1b)"></div>`+hd('','',' ',I('x')).replace('border-radius:0 0 24px 24px','')+`<div class="cd" style="margin:6px 14px 0;padding:14px 16px 14px;position:relative;border-radius:24px;height:690px;display:flex;flex-direction:column;gap:10px;box-shadow:none">
+<div style="display:grid;grid-template-columns:52px 1fr auto;gap:8px;align-items:center">${L('terpel','ql')}<div><div class="t" style="font:600 15px Inter;white-space:nowrap">Cupón de combustible</div><div style="font:700 28px/32px Inter;color:var(--r)">30% Dto.</div></div><div class="pill" style="display:flex;gap:6px;align-items:center;padding:8px 8px;white-space:normal;width:88px;text-align:left"><span style="color:var(--g2)">${I('ok')}</span>¡Cupón obtenido!</div></div>
+<div style="width:238px;height:238px;margin:0 auto;padding:22px;position:relative">${L('qr','qi')}${['top:0;left:0;border-width:5px 0 0 5px;border-radius:22px 0 0 0','top:0;right:0;border-width:5px 5px 0 0;border-radius:0 22px 0 0','bottom:0;left:0;border-width:0 0 5px 5px;border-radius:0 0 0 22px','bottom:0;right:0;border-width:0 5px 5px 0;border-radius:0 0 22px 0'].map(s=>`<i style="position:absolute;width:48px;height:48px;border:solid var(--g2);${s}"></i>`).join('')}</div>
+<div style="background:var(--lg);border-radius:16px;height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 16px"><b style="font:700 18px Inter">Código: TERPEL30</b><span class="bt s o" style="padding:0 12px;box-shadow:inset 0 0 0 1.5px var(--g2);font-size:14px;color:var(--g2)">${I('copy')}<span style="color:var(--g2)">Copiar</span></span></div>
+<div class="h2">¿Cómo usarlo?</div><div style="display:grid;grid-template-columns:1fr 14px 1fr 14px 1fr;align-items:start;text-align:center;font:400 14px/18px Inter;color:var(--g2)">${[['qr','1. Muestra el QR'],['pump','2. Aplica el descuento'],['ok','3. Paga y listo']].map(([i,t],k)=>(k?`<span style="color:#111;margin-top:6px">${I('chev').replace('class="i"','class="i" style="width:14px;height:14px"')}</span>`:'')+`<div>${I(i)}<div style="color:#111;margin-top:4px">${t}</div></div>`).join('')}</div>
+<div style="border-top:1px dashed #ccc;padding-top:4px;flex:1;display:flex;flex-direction:column">${[['cal','Válido hasta: 30 nov 2026',0],['pin','Participa en: Estaciones Terpel de Colombia',0],['doc','Reglas de uso',1]].map(([i,t,c])=>`<div style="display:grid;grid-template-columns:24px 1fr ${c?'20px':''};gap:12px;align-items:center;height:38px;font:${c?600:400} 14px Inter;border-bottom:1px solid #eee">${I(i)}<span>${t}</span>${c?I('chev'):''}</div>`).join('')}</div>
+<div class="bt" style="height:48px">Ver mis cupones</div></div>`;
+const acc=hdCompact()+`<div class="bd"><div class="cd" style="background:#f1fddf;display:grid;grid-template-columns:56px 1fr 20px;gap:14px;align-items:center;padding:12px 16px"><div style="width:56px;height:56px;border-radius:50%;background:var(--g2);display:flex;align-items:center;justify-content:center">${I('user').replace('class="i"','class="i" style="width:32px;height:32px;stroke:#fff;fill:#fff"')}</div><div><div style="font:600 18px/22px Inter">Inicia sesión</div><div class="aux" style="color:#111;font-size:13px">Accede a tus cupones, pedidos y más</div></div>${I('chev')}</div>
+${[['tkt','Mis cupones'],['doc','Mis pedidos'],['heart','Mis estaciones favoritas'],['bell','Notificaciones'],['help','Ayuda y soporte'],['shield','Términos y privacidad'],['info','Acerca de FuelGo']].map(([i,t])=>`<div class="cd mn">${I(i)}<span>${t}</span>${I('chev')}</div>`).join('')}</div>${L('city').replace('<img','<img style="position:absolute;left:0;bottom:86px;width:100%"')}`+nav(4);
+
+/* Interactive single-screen mobile web app; coupon/QR are demonstrations only. */
+const pages=[home,cupones,qr,hist,acc];
+let current=0,selected='Todos',toastTimer;
+function render(index){
+ current=index;
+ const screen=ph(pages[index],index===2?'background:#fff':'');
+ app.innerHTML='<section class="preview-slide" aria-label="FuelGo Colombia"><div class="demo-note" style="position:absolute;top:0;right:0;z-index:15;font-size:9px;color:#fff;background:#126343;padding:2px 5px;border-radius:0 0 0 7px">DEMO</div>'+screen+'</section>';
+ app.querySelectorAll('.nv a').forEach((a,i)=>{
+  a.classList.add('nav-link');
+  a.setAttribute('href','#'+['inicio','cupones','qr','historial','mi-cuenta'][i]);
+  a.setAttribute('aria-label',['Inicio','Cupones','Escanear QR','Historial','Mi cuenta'][i]);
+  a.setAttribute('aria-current',i===index?'page':'false');
+ });
+ app.querySelector('.sc').scrollTop=0;
+ if(index===1) applyFilter();
+}
+function showToast(message){
+ const old=document.querySelector('.app-toast');if(old)old.remove();
+ const el=document.createElement('div');el.className='app-toast';el.role='status';el.textContent=message;document.body.appendChild(el);
+ clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.remove(),2600);
+}
+function applyFilter(){
+ const chips=Array.from(app.querySelectorAll('.ch span'));
+ chips.forEach((chip,i)=>{
+   chip.classList.toggle('coupon-filter-active',selected===['Todos','terpel','shell','primax','biomax','Más'][i]);
+   chip.classList.toggle('on',selected===['Todos','terpel','shell','primax','biomax','Más'][i]);
+ });
+ app.querySelectorAll('.cp').forEach((card,i)=>{
+   card.hidden=selected!=='Todos'&&selected!=='Más'&&cup[i][0]!==selected;
+ });
+ if(selected==='Más')showToast('Otras marcas: próximamente (demostración)');
+}
+app.addEventListener('click',async event=>{
+ const target=event.target.closest('a,.bt,.ch span,.mn,.hd .l,.hd .r,.tl>div,.history-entry,.cd');
+ if(!target)return;
+ const navLink=target.closest('.nv a');
+ if(navLink){
+  event.preventDefault();
+  render(Array.from(navLink.parentElement.children).indexOf(navLink));return;
+ }
+ if(current===1&&target.closest('.ch')){
+  const all=Array.from(app.querySelectorAll('.ch span'));
+  const chip=event.target.closest('.ch span');
+  if(chip){selected=['Todos','terpel','shell','primax','biomax','Más'][all.indexOf(chip)]||'Todos';applyFilter();}
+  return;
+ }
+ if(current===1&&target.closest('.cp .bt')){render(2);showToast('Vista previa de cupón — sin emisión real');return;}
+ if(current===2&&target.closest('.bt.o')){
+  try{await navigator.clipboard.writeText('TERPEL30');showToast('Código de demostración copiado');}
+  catch(e){showToast('Código de ejemplo: TERPEL30');}return;
+ }
+ if(current===2&&target.closest('.bt:not(.o)')){render(3);return;}
+ if(target.closest('.hd .l')){render(0);return;}
+ if(target.closest('.hd .r')&&current===2){render(1);return;}
+ if(current===0&&target.closest('.tl>div')){
+  const index=Array.from(app.querySelectorAll('.tl>div')).indexOf(target.closest('.tl>div'));
+  if(index===0){render(1)}else{showToast('Función ilustrativa en esta demostración');}return;
+ }
+ if(current===4&&target.closest('.mn')){
+  const title=target.closest('.mn').textContent;
+  if(title.includes('cupones'))render(3);
+  else showToast('Función disponible próximamente — demostración');
+  return;
+ }
+ if(current===3&&target.closest('.history-entry')){render(2);return;}
+ if(target.closest('.cd'))showToast('Contenido ilustrativo, no es un cupón válido');
+});
+render(0);
+</script></body></html>
