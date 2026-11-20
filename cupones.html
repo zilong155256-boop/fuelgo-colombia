@@ -659,6 +659,7 @@ function showExtra(type,brand,couponIndex){
 const demoCouponQrSvg=()=>'<svg class="fg-demo-coupon-qr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" role="img" aria-label="Código QR de demostración, no válido para canjear" shape-rendering="crispEdges"><rect width="33" height="33" fill="#fff"/>'+DEMO_COUPON_QR_ROWS.split('|').map((row,y)=>{const bits=BigInt('0x'+row).toString(2).padStart(33,'0').slice(-33);return Array.from(bits).map((v,x)=>v==='1'?'<rect x="'+x+'" y="'+y+'" width="1" height="1" fill="#101b15"/>':'').join('')}).join('')+'</svg>';
  else if(type==='coupon-scan')body=shell('Escanear QR','Escanea el código QR del cupón del cliente','<div class="fg-coupon-qr-panel"><div class="fg-qr-header"><span class="fg-qr-icon">'+I('scan')+'</span><div><strong>Escáner de cupones</strong><p>Apunta la cámara al QR del cliente</p></div></div><div class="fg-scan-screen"><video id="fg-scan-video" autoplay playsinline muted></video><div class="fg-scan-guides" aria-hidden="true"></div></div><p id="fg-scan-result" class="fg-scan-status" role="status">Pulsa el botón para activar la cámara.</p><button type="button" class="fg-primary-button" data-action="start-qr-scan">Activar cámara</button><button type="button" class="fg-scan-stop" data-action="stop-qr-scan">Detener cámara</button></div>');
  else if(type==='locked')body=gate();
+ if(!body)body=gate();
  app.innerHTML=wrap(body);app.querySelector('.sc').scrollTop=0;const emailNode=app.querySelector('.account-email');if(emailNode)emailNode.textContent=authUser?.email||'';
 }
 function closeMenu(){const node=document.getElementById('fuelgo-side-menu');if(node)node.remove();}
@@ -728,7 +729,7 @@ function setupHero(){
 function render(index){
  stopFuelGoScanner();
  extra=null;current=index;
- if(index===2){showExtra(authUser?'coupon-scan':'locked');if(authClient)refreshAuth().then(()=>{if(current===2)showExtra(authUser?'coupon-qr':'locked');});return;}
+ if(index===2){showExtra(authUser?'coupon-scan':'locked');if(authClient)refreshAuth().then(()=>{if(current===2&&extra&&(extra.type==='locked'||extra.type==='coupon-scan'))showExtra(authUser?'coupon-scan':'locked');}).catch(()=>{if(current===2)showExtra('locked');});return;}
  if(index===4){refreshAuth().then(()=>{if(current===4)showExtra('login');});showExtra('login');return;}
  app.innerHTML=wrap(pages[index]);
  app.querySelectorAll('.nv a').forEach((a,i)=>{a.href='#'+['inicio','cupones','qr','historial','mi-cuenta'][i];a.setAttribute('aria-current',i===index?'page':'false');});
