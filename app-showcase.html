@@ -104,7 +104,7 @@ window.addEventListener('resize',fitPreview);
  const step=()=>Math.max(1,app.children[1].offsetLeft-app.children[0].offsetLeft);
  const current=()=>Math.max(0,Math.min(4,Math.round(app.scrollLeft/step())));
  function go(i,automatic=false){if(automatic)autoUntil=Date.now()+1000;app.scrollTo({left:((i+5)%5)*step(),behavior:reduced.matches?'auto':'smooth'});}
- function schedule(delay=6000){clearTimeout(idleTimer);if(!visible||held||hover||focus||document.hidden||reduced.matches)return;idleTimer=setTimeout(()=>{if(visible&&!held&&!hover&&!focus&&!document.hidden&&!reduced.matches){go(current()+1,true);schedule(4000);}},delay);}
+ function schedule(delay=4000){clearTimeout(idleTimer);if(!visible||held||hover||focus||document.hidden||reduced.matches)return;idleTimer=setTimeout(()=>{if(visible&&!held&&!hover&&!focus&&!document.hidden&&!reduced.matches){go(current()+1,true);schedule(2500);}},delay);}
  controls.addEventListener('click',e=>{const b=e.target.closest('[data-step]');if(!b)return;go(current()+Number(b.dataset.step));schedule();});
  dots.addEventListener('click',()=>schedule());
  app.addEventListener('pointerdown',()=>{held=true;clearTimeout(idleTimer);},{passive:true});
@@ -117,8 +117,8 @@ window.addEventListener('resize',fitPreview);
  app.addEventListener('pointerleave',()=>{hover=false;schedule();});
  controls.addEventListener('focusin',()=>{focus=true;clearTimeout(idleTimer);});controls.addEventListener('focusout',()=>{focus=false;schedule();});
  document.addEventListener('visibilitychange',()=>schedule());
- if('IntersectionObserver' in window){new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;schedule(4000);},{threshold:.25}).observe(app);}else{visible=true;schedule(4000);}
+ if('IntersectionObserver' in window){new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;schedule(2500);},{threshold:.25}).observe(app);}else{visible=true;schedule(2500);}
  // Parent page reports whether the embedded gallery is visible.
- window.addEventListener('message',e=>{if(e.origin!==location.origin||e.source!==parent||e.data?.type!=='fuelgo-preview-visible')return;visible=!!e.data.visible;schedule(4000);});
+ window.addEventListener('message',e=>{if(e.origin!==location.origin||e.source!==parent||e.data?.type!=='fuelgo-preview-visible')return;visible=!!e.data.visible;schedule(2500);});
 })();
 </script></body></html>
