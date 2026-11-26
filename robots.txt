@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mexico.fuelgo-colombia1.pages.dev/sitemap.xml
