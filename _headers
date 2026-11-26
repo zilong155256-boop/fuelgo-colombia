@@ -1,0 +1,10 @@
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+/app-showcase.html
+  Cache-Control: public, max-age=0, must-revalidate
+/assets/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/fuelgo-logo.svg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
