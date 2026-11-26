@@ -8,3 +8,31 @@
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 /fuelgo-logo.svg
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/cupones.html
+  Cache-Control: public, max-age=0, must-revalidate
+/bbva.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/banorte.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/banamex.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/santander.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/mercado-pago.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/spin.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/banco-azteca.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/nu.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/mobil.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/g500.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/oxxo-gas.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/repsol.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/pemex-station.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
