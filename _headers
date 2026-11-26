@@ -36,3 +36,5 @@
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 /pemex-station.webp
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/IMAGEN%20PEMEX%20__%20gruposicm.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
